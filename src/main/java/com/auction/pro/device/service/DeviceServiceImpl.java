@@ -168,4 +168,9 @@ public class DeviceServiceImpl extends AbstractServiceImpl<DeviceDto, Device>
 		return getDTOForEntity(deviceDao.findByDeviceIp(ip));
 	}
 
+	public void deleteById(Serializable id) {
+		// TODO Auto-generated method stub
+	
+	}
+
 }

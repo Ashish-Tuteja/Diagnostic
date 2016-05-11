@@ -1,6 +1,6 @@
 package com.auction.pro.common.exception;
 
-public class CimbleExceptionCodes {
+public class NavResearchExceptionCodes {
 	public enum User {
 		SAVE {
 			@Override
@@ -165,7 +165,7 @@ public class CimbleExceptionCodes {
 
 	}
 
-	public CimbleExceptionCodes() {
+	public NavResearchExceptionCodes() {
 		// TODO Auto-generated constructor stub
 	}
 }

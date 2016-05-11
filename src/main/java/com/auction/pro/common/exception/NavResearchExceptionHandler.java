@@ -3,7 +3,7 @@ package com.auction.pro.common.exception;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-public class CimbleExceptionHandler {
+public class NavResearchExceptionHandler {
 	@ResponseStatus(value = HttpStatus.NOT_FOUND)
 	public static class DataNotFound extends BaseExceptionHandler {
 		private static final long serialVersionUID = 4235225697094262603L;

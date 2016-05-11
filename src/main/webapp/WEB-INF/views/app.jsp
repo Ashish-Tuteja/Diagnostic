@@ -3,7 +3,7 @@
 <html lang="en-us" id="extr-page" ng-app="app">
 <head>
 <meta charset="utf-8">
-<title>Cimble's AuctionPro</title>
+<title>NavResearch's AuctionPro</title>
 <meta name="description" content="">
 <meta name="author" content="">
 <meta name="viewport"
@@ -190,7 +190,7 @@
 <script src="<c:url value='/resources/js/jquery-loader.js'></c:url>"></script>
 <link rel="stylesheet"
 	href="<c:url value='/resources/css/pnotify.custom.min.css'></c:url>">
-<script src="<c:url value='/resources/js/cimble.js'></c:url>"></script>
+<script src="<c:url value='/resources/js/NavResearch.js'></c:url>"></script>
 </head>
 
 <body>

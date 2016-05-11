@@ -41,6 +41,10 @@ public abstract class AbstractServiceImpl<T extends BaseDTO, E extends BaseModel
 	public void delete(E entity) {
 		getDAO().delete(entity);
 	}
+	
+	public void deleteById(Serializable id) {
+		getDAO().deleteById(id);
+	}
 
 	public T findById(Serializable id) {
 		E e = getDAO().findById(id);

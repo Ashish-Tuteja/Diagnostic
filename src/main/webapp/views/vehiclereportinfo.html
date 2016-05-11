@@ -54,7 +54,7 @@
 						<tbody ng-if="vehicles!=0">
 							<tr ng-repeat="report in reportinfo">
 								<td>{{report.reportgroupId}}</td>
-								<td>{{report.timeStamp | date:'MM-dd-yyyy HH:MM:ss'}}</td>
+								<td>{{report.timeStamp | date:'MM-dd-yyyy HH:mm:ss'}}</td>
 								<td><a href="javascript:void(0)"
 									ng-click="getreport(report)">{{report.reportCount}}</a></td>
 

@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.codec.binary.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -161,6 +162,7 @@ public class VehicleController extends AbstractController {
 	private @ResponseBody List<VehicleReportDto> getReportsInfobyVIN(
 			@PathVariable String vin) {
 		try {
+			System.out.println("size of reports" +reportService.findReportsById(vin).size());
 			return reportService.findReportsById(vin);
 		} catch (Exception e) {
 			LOGGER.error("", e.getMessage());
@@ -194,6 +196,53 @@ public class VehicleController extends AbstractController {
 
 	}
 
+	
+	//Adding global parameters 1 file combi for 3 files
+	@RequestMapping(value = "/upload/globalparameters", method = RequestMethod.POST)
+	private @ResponseBody int uploadGlobalParameters(
+			@RequestParam(value = "data") String uploadoption,
+			@RequestParam(value = "file", required = true) MultipartFile file) {
+		// TODO Auto-generated method stub
+		
+		try {
+			String fileName = file.getOriginalFilename();
+			if (!file.isEmpty()) {
+				try {
+					
+					byte[] bytes = file.getBytes();
+					// Creating the directory to store file
+					String rootPath = System.getProperty("user.home");
+					File tempfile = new File(rootPath + File.separator
+							+ fileName);
+					tempfile.deleteOnExit();
+					// Files.deleteIfExists(tempfile.toPath());
+					return vehicleService.uploadGlobalParameters(tempfile, bytes,
+							uploadoption);
+				} catch (Exception e) {
+					e.printStackTrace();
+					LOGGER.info("You failed to upload " + fileName + " => "
+							+ e.getMessage());
+					return 1;
+				}
+			} else {
+				System.out.println("You failed to upload ");
+				LOGGER.info("You failed to upload " + fileName
+						+ " because the file was empty.");
+				return 1;
+			}
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("in controller");
+			e.printStackTrace();
+			LOGGER.error("Global Parameter error " + e.getMessage());
+			return 1;
+		}
+
+	}
+	//End for global parameters
+	
+	
 	@RequestMapping(value = "/upload/globaldata", method = RequestMethod.POST)
 	private @ResponseBody int globalDataUpload(
 			@RequestParam(value = "data") String uploadoption,
@@ -204,6 +253,7 @@ public class VehicleController extends AbstractController {
 			String fileName = file.getOriginalFilename();
 			if (!file.isEmpty()) {
 				try {
+					
 					byte[] bytes = file.getBytes();
 					// Creating the directory to store file
 					String rootPath = System.getProperty("user.home");

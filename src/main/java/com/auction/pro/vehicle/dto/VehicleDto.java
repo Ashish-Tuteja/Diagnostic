@@ -6,11 +6,13 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.BooleanUtils;
+import org.apache.commons.lang.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.auction.pro.common.dto.BaseDTO;
+import com.auction.pro.common.utils.CommonUtils;
 import com.auction.pro.vehicle.model.Vehicle;
 
 public class VehicleDto extends BaseDTO {
@@ -44,12 +46,15 @@ public class VehicleDto extends BaseDTO {
 	}
 
 	public VehicleDto(Vehicle vehicle) {
+
 		// TODO Auto-generated constructor stub
-		setId(vehicle.getId());
+		// this.setId(vehicle.getId());
+
 		this.vin = vehicle.getVin();
+		this.setVehicleId(vehicle.getId());
 		this.setYear(vehicle.getYear());
 		this.model = vehicle.getModel();
-		this.driverline = vehicle.getDriverline();
+		this.setDriverline(vehicle.getDriverline());
 		this.status = vehicle.isStatus();
 		this.make = vehicle.getMake();
 		this.body = vehicle.getBody();
@@ -69,24 +74,31 @@ public class VehicleDto extends BaseDTO {
 		JSONObject vehicleJSON = null;
 		if (json.get("vehicle") instanceof JSONArray) {
 			vehicleJSON = ((JSONArray) json.get("vehicle")).getJSONObject(0);
-
 		} else {
 			vehicleJSON = json.getJSONObject("vehicle");
 		}
 		if (vehicleJSON == null) {
 			System.out.println("Response JSON not parse");
 		} else {
-			this.vehicleId = vehicleJSON.get("id").toString();
-			this.model = vehicleJSON.get("model").toString();
-			this.vin = json.get("VIN").toString();
-			this.driverline = vehicleJSON.get("driveline").toString();
-			this.make = vehicleJSON.get("make").toString();
-			this.body = vehicleJSON.get("body").toString();
-			this.engine = vehicleJSON.get("engine").toString();
-			this.trim = vehicleJSON.get("trim").toString();
-			this.year = vehicleJSON.get("year").toString();
+			this.vehicleId = (vehicleJSON.has("id")) ? vehicleJSON.get(
+					"id").toString() : CommonUtils.generateUUID();
+			this.model = (vehicleJSON.has("model")) ? vehicleJSON.get("model")
+					.toString() : "";
+			this.vin = (json.has("VIN")) ? json
+							.get("VIN").toString() : "";
+			this.driverline = (vehicleJSON.has("driveline")) ? vehicleJSON
+					.get("driveline").toString() : "";
+			this.body = (vehicleJSON.has("body")) ? vehicleJSON.get("body")
+					.toString() : "";
+			this.engine = (vehicleJSON.has("engine")) ? vehicleJSON.get(
+					"engine").toString() : "";
+			this.trim = (vehicleJSON.has("trim")) ? vehicleJSON.get("trim")
+					.toString() : "";
+			this.year = (vehicleJSON.has("year")) ? vehicleJSON.get("year")
+					.toString() : "";
+			this.make = (vehicleJSON.has("make")) ? vehicleJSON.get("make")
+					.toString() : "";
 			this.status = BooleanUtils.toBoolean(json.get("Valid").toString());
-
 		}
 
 	}

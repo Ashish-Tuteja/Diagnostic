@@ -30,6 +30,16 @@ public interface AbstractService<T extends BaseDTO> {
 	 * @return
 	 */
 	public T findById(Serializable id);
+	
+	
+	/**
+	 * Remove the entity from database
+	 * 
+	 * @param id
+	 *            entity to remove
+	 */
+	public void deleteById(Serializable id);
+	
 
 	/**
 	 * @param pageable

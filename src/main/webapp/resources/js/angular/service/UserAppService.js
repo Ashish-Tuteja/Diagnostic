@@ -2,7 +2,7 @@
 app.factory('userservice', [ '$resource', function($resource) {
 	return $resource(':url', {}, {
 		save : {
-			url : '/cimble/user/add/',
+			url : '/NavResearch/user/add/',
 			method : 'POST',
 			isArray : false
 		}
@@ -11,7 +11,7 @@ app.factory('userservice', [ '$resource', function($resource) {
 dashboard.factory('userservice', [ '$resource', function($resource) {
 	return $resource(':url', {}, {
 		save : {
-			url : '/cimble/user/add/',
+			url : '/NavResearch/user/add/',
 			method : 'POST',
 			isArray : false
 		}
@@ -21,7 +21,7 @@ dashboard.factory('userservice', [ '$resource', function($resource) {
 dashboard.factory('useraccountservice', [ '$resource', function($resource) {
 	return $resource(':url', {}, {
 		getUserAccount : {
-			url : '/cimble/user/getuseraccount/',
+			url : '/NavResearch/user/getuseraccount/',
 			method : 'GET',
 			isArray : false
 		}
@@ -31,7 +31,7 @@ dashboard.factory('sendlinktochangecredential', [ '$resource',
 		function($resource) {
 			return $resource(':url', {}, {
 				sendCode : {
-					url : '/cimble/user/accountsetting',
+					url : '/NavResearch/user/accountsetting',
 					method : 'GET',
 					isArray : false
 				}
@@ -41,7 +41,7 @@ dashboard.factory('sendlinktochangecredential', [ '$resource',
 dashboard.factory('changepassword', [ '$resource', function($resource) {
 	return $resource(':url', {}, {
 		changepassword : {
-			url : '/cimble/user/changepassword',
+			url : '/NavResearch/user/changepassword',
 			method : 'POST',
 			isArray : false
 		}
@@ -53,7 +53,7 @@ dashboard.factory('getUserService', [ '$resource', function($resource) {
 		user : "@user"
 	}, {
 		getUserForEdit : {
-			url : '/cimble/user/get/:user',
+			url : '/NavResearch/user/get/:user',
 			method : 'GET',
 			isArray : false
 		}
@@ -64,7 +64,7 @@ dashboard.factory('findaccountname', [ '$resource', function($resource) {
 		user : "@user"
 	}, {
 		getAccountName : {
-			url : '/cimble/account/find/',
+			url : '/NavResearch/account/find/',
 			method : 'GET',
 			isArray : true
 		}
@@ -76,7 +76,7 @@ dashboard.factory('userListService', [ '$resource', function($resource) {
 		page : "@page"
 	}, {
 		getList : {
-			url : '/cimble/user/list/?page=:page&size=20',
+			url : '/NavResearch/user/list/?page=:page&size=20',
 			method : 'GET',
 			isArray : false
 		}
@@ -85,7 +85,7 @@ dashboard.factory('userListService', [ '$resource', function($resource) {
 dashboard.factory('userRoleService', [ '$resource', function($resource) {
 	return $resource(':url', {}, {
 		getList : {
-			url : '/cimble/user/roles/list',
+			url : '/NavResearch/user/roles/list',
 			method : 'GET',
 			isArray : true
 		}
@@ -96,7 +96,7 @@ dashboard.factory('getUsersBySerach', [ '$resource', function($resource) {
 		searchterm : "@searchterm"
 	}, {
 		getList : {
-			url : '/cimble/user/search/:searchterm',
+			url : '/NavResearch/user/search/:searchterm',
 			method : 'GET',
 			isArray : true
 		}

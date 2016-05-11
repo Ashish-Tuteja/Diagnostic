@@ -30,7 +30,7 @@
 	<bean id="messageListenerExample" class="com.auction.pro.queue.Listener">
 	</bean>
 	<jms:listener-container connection-factory="connectionFactory">
-		<jms:listener destination="cimble" ref="messageListenerExample"
+		<jms:listener destination="NavResearch" ref="messageListenerExample"
 			method="onMessage" />
 	</jms:listener-container>
 </beans>

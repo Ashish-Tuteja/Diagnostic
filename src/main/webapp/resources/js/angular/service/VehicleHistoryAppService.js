@@ -3,7 +3,7 @@ dashboard.factory('vehiclesHistoryListService', [ '$resource', function($resourc
 		page : "@page"
 	}, {
 		getList : {
-			url : '/cimble/vehicleHistory/list?page=:1&size=2',
+			url : '/NavResearch/vehicleHistory/list?page=:1&size=2',
 			method : 'GET',
 			isArray : true
 		}
@@ -15,7 +15,7 @@ dashboard.factory('getVehiclesHistoryBySerach', [ '$resource', function($resourc
 		searchterm : "@searchterm"
 	}, {
 		getList : {
-			url : '/cimble/vehicleHistory/search/:searchterm',
+			url : '/NavResearch/vehicleHistory/search/:searchterm',
 			method : 'GET',
 			isArray : true
 		}

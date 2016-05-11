@@ -56,6 +56,7 @@ dashboard
 							getReportsbyID.get({
 								vin : $cookieStore.get('vin')
 							}, function(response) {
+								console.log(response);
 								$rootScope.reportinfo = response;
 								$scope.spinnerToggle = false;
 							});

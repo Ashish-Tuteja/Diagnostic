@@ -1,5 +1,6 @@
 package com.auction.pro.interceptor;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -41,7 +42,7 @@ public class UserHandler implements HandlerInterceptor {
 					.getAuthentication();
 			UserIdentity currentUser = (UserIdentity) a.getPrincipal();
 			boolean userAuthorize = false;
-			List<String> permissions = currentUser.getRolePermission();
+			List<String> permissions = Arrays.asList("Device","Vehicle","Account","User","Import","EcuController");
 			for (String permission : permissions) {
 				if (requestURL.contains(permission.toLowerCase())
 						|| requestURL.contains("home")) {

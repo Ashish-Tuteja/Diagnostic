@@ -18,7 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class Server {
-
+	
 	public static final int PORT = 1721;
 	private static final Logger LOGGER = LoggerFactory.getLogger(Server.class
 			.getName());
@@ -33,6 +33,7 @@ public class Server {
 	public static final String DUMP = "Dump";
 
 	public static void main(String[] args) {
+		System.out.println();
 		new Server().startServer();
 	}
 
@@ -41,13 +42,16 @@ public class Server {
 				.newFixedThreadPool(10);
 
 		Runnable serverTask = new Runnable() {
+
 			public void run() {
 				try {
 					ServerSocket serverSocket = new ServerSocket(Server.PORT);
 					serverSocket.setSoTimeout(0);
+					System.out.println("client not connected yet");
 					LOGGER.debug("Waiting for a device to connect...");
 					while (true) {
 						Socket clientSocket = serverSocket.accept();
+						System.out.println("connect to client    1");
 						LOGGER.debug("received data");
 						clientProcessingPool.execute(new ClientTask(
 								clientSocket));
@@ -74,6 +78,8 @@ public class Server {
 
 		public void run() {
 			long start = System.currentTimeMillis();
+			System.out.println("Got a client connection:  2"
+					+ new Date(System.currentTimeMillis()).toString());
 			LOGGER.debug("Got a client connection: "
 					+ new Date(System.currentTimeMillis()).toString());
 
@@ -85,6 +91,7 @@ public class Server {
 				// Get IP Address
 				String ip = clientSocket.getInetAddress().getHostAddress()
 						.toString();
+				System.out.println("Connection IP: " + ip);
 				LOGGER.debug("Connection IP: " + ip);
 
 				// Store Payload
@@ -95,9 +102,11 @@ public class Server {
 						new InputStreamReader(clientSocket.getInputStream(),
 								"UTF-8"));
 				try {
+					
+					System.out.println("reading each string");
 					while ((line = reader.readLine()) != null) {
-						System.out.println(input);
 						input = input + line;
+						System.out.println(input);
 					}
 				} catch (Exception se) {
 					// Unable to read send error message.
@@ -110,11 +119,15 @@ public class Server {
 					clientSocket.close();
 				}
 
+				
+				System.out.println(" New packet recieved: " + time.toString());
+				System.out.println("============================="+ "Packet Size: " + input.length());
 				LOGGER.debug(" New packet recieved: " + time.toString());
 				LOGGER.debug("Packet Size: " + input.length());
 
 				payload = new String(input).trim(); // All other packets will
 				// use this format.
+				System.out.println("Payload: " + payload);
 				LOGGER.debug("Payload: " + payload);
 
 				/**
@@ -128,8 +141,9 @@ public class Server {
 				int packetType = Integer.parseInt(packetList[0]);
 				if ("1".equals(packetList[0])) {
 					String vin = packetList[1].toString();
+					System.out.println("New VIN: " + vin);
 					LOGGER.debug("New VIN: " + vin);
-					String url = "http://54.165.27.164:8080/autoficio/vehicle/savevehicle";
+					String url = "http://localhost:8080/NavResearch/vehicle/savevehicle";
 					String postjson = "{\"vin\":\"" + vin
 							+ "\",\"serverIP\":\"" + ip + "\"}";
 					sendPost(url, postjson);
@@ -147,8 +161,7 @@ public class Server {
 					sendReport(packetList, STATIC_REPORT, ip, packetType);
 				} else if ("6".equals(packetList[0])) {
 					LOGGER.debug("Dynamic Test Result response from test packet");
-					sendReport(packetList, DYNAMIC_REPORT, ip,
-							packetType);
+					sendReport(packetList, DYNAMIC_REPORT, ip, packetType);
 				} else if ("7".equals(packetList[0])) {
 					LOGGER.debug("Odometer response");
 					sendReport(packetList, ODOMETER_REPORT, ip, packetType);
@@ -211,21 +224,26 @@ public class Server {
 
 		}
 
-        private void sendReport(String[] packetList, String reportname, String ip, int packetType)
-                throws UnsupportedEncodingException, IOException, ClientProtocolException {
-            if (((Long) Long.parseLong(packetList[2])).compareTo(0l) <= 0) {
-                LOGGER.debug("Not saving to DB, sample size is 0");
-                return;
-            }
-            LOGGER.debug("Send data " + packetList[0]);
+		private void sendReport(String[] packetList, String reportname,
+				String ip, int packetType) throws UnsupportedEncodingException,
+				IOException, ClientProtocolException {
+			if (((Long) Long.parseLong(packetList[2])).compareTo(0l) <= 0) {
+				LOGGER.debug("Not saving to DB, sample size is 0");
+				return;
+			}
+			System.out.println("Packet list -=======>"+ packetList);
+			LOGGER.debug("Send data " + packetList[0]);
 
-            if (packetList.length >= 4) {
-                String url = "http://54.165.27.164:8080/autoficio/vehicle/setreport";
-                String postjson = "{\"reportname\":\"" + reportname + "\",\"serverIP\":\"" + ip + ""
-                        + "\",\"reportgroupId\":\"" + packetList[1].toString() + "\",\"report\":\"" + packetList[3]
-                        + "\",\"packetType\":" + packetType + "}";
-                sendPost(url, postjson);
-            }
-        }
+			if (packetList.length >= 4) {
+				String url = "http://localhost:8080/NavResearch/vehicle/setreport";
+				String postjson = "{\"reportname\":\"" + reportname
+						+ "\",\"serverIP\":\"" + ip + ""
+						+ "\",\"reportgroupId\":\"" + packetList[1].toString()
+						+ "\",\"report\":\"" + packetList[3]
+						+ "\",\"packetType\":" + packetType + "}";
+				System.out.println("Sending report to get saved in mongodb");
+				sendPost(url, postjson);
+			}
+		}
 	}
 }

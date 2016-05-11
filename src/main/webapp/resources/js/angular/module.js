@@ -14,14 +14,17 @@ var dashboard = angular.module('dashboard',
         ['ngRoute', 'ngResource', 'ngMaterial', 'ng-breadcrumbs', 'ngCookies'])
         .constant("IMPORT_OPTION", [{
           'value': '0',
-          'option': 'Global Parameter'
-        }, {
+          'option': 'Global Parameters'
+        }/*, {
           'value': '1',
           'option': 'Vehicle ECU'
         }, {
           'value': '2',
           'option': 'Global ECU'
-        }
+        }, {
+            'value': '3',
+            'option': 'Global Parameters'
+          }*/
 
         ]);
 dashboard.config(function($routeProvider, $locationProvider) {
@@ -73,7 +76,29 @@ dashboard.config(function($routeProvider, $locationProvider) {
         };
       }
     }
-  }).when('/vehicle', {
+  }).when('/controller', {
+	    controller: 'EcuControllerCtrl',
+	    templateUrl: 'views/ecuController.html',
+	    label: 'EcuController',
+	    resolve: {
+	      ctrlOptions: function() {
+	        return {
+	          showcontrollers: true,
+	        };
+	      }
+	    }
+	  }).when('/controller/add', {
+	    controller: 'EcuControllerCtrl',
+	    templateUrl: 'views/addEcuController.html',
+	    label: 'Add',
+	    resolve: {
+	      ctrlOptions: function() {
+	        return {
+	        	showcontrollers: false,
+	        };
+	      }
+	    }
+	  }).when('/vehicle', {
     controller: 'VehicleCtrl',
     templateUrl: 'views/vehicle.html',
     label: 'Vehicle',

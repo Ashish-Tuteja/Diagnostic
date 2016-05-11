@@ -29,6 +29,14 @@ public interface AbstractDAO<T extends BaseModel> {
 	 *            entity to remove
 	 */
 	public void delete(T entity);
+	
+	/**
+	 * Remove the entity from database
+	 * 
+	 * @param entity
+	 *            entity to remove
+	 */
+	public void deleteById(Serializable id);
 
 	/**
 	 * @param id

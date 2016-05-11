@@ -1,7 +1,7 @@
 package com.auction.pro.common.dao;
 
 /**
- * Maintain auditing of Cimble
+ * Maintain auditing of NavResearch
  */
 import java.util.Calendar;
 

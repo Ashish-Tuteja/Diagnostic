@@ -4,7 +4,7 @@
 dashboard.factory('vehicleservice', [ '$resource', function($resource) {
 	return $resource(':url', {}, {
 		save : {
-			url : '/cimble/vehicle/add',
+			url : '/NavResearch/vehicle/add',
 			method : 'POST',
 			isArray : false
 		}
@@ -16,7 +16,7 @@ dashboard.factory('vehicleListService', [ '$resource', function($resource) {
 		page : "@page"
 	}, {
 		getList : {
-			url : '/cimble/vehicle/list?page=:page&size=20',
+			url : '/NavResearch/vehicle/list?page=:page&size=20',
 			method : 'GET',
 			isArray : false
 		}
@@ -28,7 +28,7 @@ dashboard.factory('getVehicleService', [ '$resource', function($resource) {
 		vehicle : "@vehicle"
 	}, {
 		getVehicleForEdit : {
-			url : '/cimble/vehicle/get/:vehicle',
+			url : '/NavResearch/vehicle/get/:vehicle',
 			method : 'GET',
 			isArray : false
 		}
@@ -39,7 +39,7 @@ dashboard.factory('vehicleDeviceListService', [ '$resource',
 		function($resource) {
 			return $resource(':url', {}, {
 				getList : {
-					url : '/cimble/vehicle/device/list',
+					url : '/NavResearch/vehicle/device/list',
 					method : 'GET',
 					isArray : true
 				}
@@ -62,7 +62,7 @@ dashboard.factory('getReportByGroupId', [ '$resource', function($resource) {
 		groupid : "@groupid"
 	}, {
 		get : {
-			url : '/cimble/vehicle/findreportbygroupid/:groupid',
+			url : '/NavResearch/vehicle/findreportbygroupid/:groupid',
 			method : 'GET',
 			isArray : false
 		}
@@ -73,7 +73,7 @@ dashboard.factory('getReportsbyID', [ '$resource', function($resource) {
 		vin : "@vin"
 	}, {
 		get : {
-			url : '/cimble/vehicle/findreportsbyvin/:vin',
+			url : '/NavResearch/vehicle/findreportsbyvin/:vin',
 			method : 'GET',
 			isArray : true
 		}
@@ -84,7 +84,7 @@ dashboard.factory('getReportsbyIP', [ '$resource', function($resource) {
 		ip : "@ip"
 	}, {
 		get : {
-			url : '/cimble/vehicle/findreportsbyip/:ip',
+			url : '/NavResearch/vehicle/findreportsbyip/:ip',
 			method : 'GET',
 			isArray : true
 		}
@@ -160,8 +160,33 @@ dashboard.factory('vehicleupload', function($http, $location) {
 					}).error(function(error) {
 				showmessage("Error!", "File not upload !! Try again", "error");
 			});
-		}
+		},
+		
+		//Uploading Global parameters List for 1 file
+		uploadGlobalParameters : function(uploadUrl, formData) {
+			$http.post(uploadUrl, formData, {
+				headers : {
+					'Content-Type' : undefined
+				},
+				transformRequest : angular.identity
+			}).success(
+					function(data) {
+						if (data == "0") {
+							showmessage("Sucsses!", "Upload file successfully",
+									"success");
+							$location.path("/import");
+						} else {
+							showmessage("Error!",
+									"File not upload please check file format",
+									"error");
+							$location.path("/import");
+						}
 
+					}).error(function(error) {
+				showmessage("Error!", "File not upload !! Try again", "error");
+			});
+		}
+//end for uploading global parameters
 	}
 });
 dashboard
@@ -169,12 +194,12 @@ dashboard
 				'translationServiceDynamicStaticTest',
 				function($http) {
 					return $http
-							.get('/cimble/resources/js/angular/i18n/parameter_description.json');
+							.get('/NavResearch/resources/js/angular/i18n/parameter_description.json');
 				});
 dashboard
 		.factory(
 				'translationServiceDynamicStatic',
 				function($http) {
 					return $http
-							.get('/cimble/resources/js/angular/i18n/parameter_description_d_s.json');
+							.get('/NavResearch/resources/js/angular/i18n/parameter_description_d_s.json');
 				});

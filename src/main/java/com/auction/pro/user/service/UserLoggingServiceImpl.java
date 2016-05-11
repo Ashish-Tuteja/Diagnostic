@@ -76,4 +76,8 @@ public class UserLoggingServiceImpl extends
 		}
 		return userLogDTOs;
 	}
+
+	public void deleteById(Serializable id) {
+		// TODO Auto-generated method stub
+	}
 }

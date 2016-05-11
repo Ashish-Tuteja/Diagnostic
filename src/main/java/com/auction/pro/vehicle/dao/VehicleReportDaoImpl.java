@@ -121,6 +121,7 @@ public class VehicleReportDaoImpl extends AbstractDAOImpl<VehicleReport>
 			}
 
 		}
+		System.out.println("fetching reports");
 		for (VehicleReport report : reports) {
 			report.setReportCount(groupIds.get(report.getReportgroupId()));
 		}

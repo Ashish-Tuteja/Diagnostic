@@ -9,7 +9,7 @@ import com.auction.pro.common.model.BaseModel;
 
 // global ecu 
 @Document(collection = "ecu_controller")
-public class EcuController extends BaseModel {
+public class EcuController_backup extends BaseModel {
 	private static final long serialVersionUID = 1L;
 	private String controllerId;
 	private String rx;
@@ -19,7 +19,7 @@ public class EcuController extends BaseModel {
 	private String broadCastId01;
 	private String broadCastId02;
 
-	public EcuController() {
+	public EcuController_backup() {
 		// TODO Auto-generated constructor stub
 	}
 
@@ -79,8 +79,8 @@ public class EcuController extends BaseModel {
 		this.broadCastId02 = broadCastId02;
 	}
 
-	public static EcuController setGlobalECU(List<String> excelData) {
-		EcuController globalecu = new EcuController();
+	public static EcuController_backup setGlobalECU(List<String> excelData) {
+		EcuController_backup globalecu = new EcuController_backup();
 		String controllerId = excelData.get(0);
 		globalecu
 				.setControllerId(!StringUtils.isEmpty(controllerId) ? controllerId

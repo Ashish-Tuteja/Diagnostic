@@ -1,5 +1,6 @@
 package com.auction.pro.user.service;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +61,10 @@ public class UserAccountMapServiceImpl extends
 	public Object getEntityFromDTO(AccountUserMapDto entity, Class classType) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public void deleteById(Serializable id) {
+		// TODO Auto-generated method stub
 	}
 
 }

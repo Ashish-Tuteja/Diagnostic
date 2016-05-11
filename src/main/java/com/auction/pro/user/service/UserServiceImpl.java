@@ -100,9 +100,11 @@ public class UserServiceImpl extends AbstractServiceImpl<UserDto, User>
 			if (!chekIfExists) {
 				if (entity.getRoleId() == null) {
 					entity.setRoleId("role1");
-					entity.setRolePermission(Arrays.asList("Account","Vechile","Device","User","Inbox"));
+					entity.setRolePermission(roleDao.findPermissionsByRoleId(
+							"role1").getPermissionId());
 				} else {
-					entity.setRolePermission(Arrays.asList("Account","Vechile","Device","User","Inbox"));
+					entity.setRolePermission(roleDao.findPermissionsByRoleId(
+							entity.getRoleId()).getPermissionId());
 				}
 
 				return saveEntity(entity);
@@ -271,5 +273,9 @@ public class UserServiceImpl extends AbstractServiceImpl<UserDto, User>
 		}
 		return new PageImpl<UserDto>(usersDTOs, pageable,
 				page.getTotalElements());
+	}
+
+	public void deleteById(Serializable id) {
+		// TODO Auto-generated method stub
 	}
 }

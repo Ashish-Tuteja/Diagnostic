@@ -2,7 +2,7 @@
 
 	<div id="logo-group">
 		<span id="logo"> <a href="#/"><img
-				src="/cimble/resources/img/NavResearch.png" alt="NavResearch"></a>
+				src="/NavResearch/resources/img/NavResearch.png" alt="NavResearch"></a>
 		</span>
 	</div>
 	<span id="extr-page-header-space"> <span
@@ -32,8 +32,8 @@
 						</div>
 					</div>
 
-					<img src="/autoficio/resources/img/demo/iphoneview.png"
-						class="pull-right display-image" alt="" style="width: 210px">
+					<!-- <img src="/autoficio/resources/img/demo/iphoneview.png"
+						class="pull-right display-image" alt="" style="width: 210px"> -->
 
 				</div>
 
@@ -65,7 +65,7 @@
 							<header> Registration</header>
 
 							<fieldset>
-								<section>
+								<section class="col col-6">
 									<label class="input"> <i class="icon-append fa fa-user"></i>
 										<input type="text" name="username" placeholder="Username"
 										ng-model="user.username" class="form.control" required>
@@ -74,7 +74,7 @@
 									</label>
 								</section>
 
-								<section>
+								<section class="col col-6"> 
 									<label class="input"> <i
 										class="icon-append fa fa-envelope"></i> <input type="email"
 										name="email" placeholder="Email address"
@@ -86,7 +86,7 @@
 									</label>
 								</section>
 
-								<section>
+								<section class="col col-6">
 									<label class="input"> <i class="icon-append fa fa-lock"></i>
 										<input type="password" name="password" placeholder="Password"
 										id="password" ng-model="user.password" class="form.control"
@@ -95,7 +95,7 @@
 									</label>
 								</section>
 
-								<section>
+								<section class="col col-6">
 									<label class="txt-color-red " style="font-size: 13px;"
 										ng-hide="!passwordmatch"> Password not match</label></b> <label
 										class="input"> <i class="icon-append fa fa-lock"></i>

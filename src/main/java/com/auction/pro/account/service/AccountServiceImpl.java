@@ -187,4 +187,8 @@ public class AccountServiceImpl extends
 		return new PageImpl<AccountDto>(accounts, pageable,
 				page.getTotalElements());
 	}
+
+	public void deleteById(Serializable id) {
+		// TODO Auto-generated method stub
+	}
 }

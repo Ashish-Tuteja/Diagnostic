@@ -12,7 +12,7 @@
 	<mvc:annotation-driven />
 	<!-- properties file -->
 	<context:property-placeholder
-		location="file:/home/infoobjects/properties/*.properties"
+		location="file:${user.home}/properties/*.properties"
 		ignore-unresolvable="true" />
 	<!-- xml files -->
 	

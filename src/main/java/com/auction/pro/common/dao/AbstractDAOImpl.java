@@ -67,7 +67,9 @@ public abstract class AbstractDAOImpl<T extends BaseModel> implements
 	}
 
 	public T findById(Serializable id) {
-		return findById(id, null);
+		Query query = new Query(Criteria.where("_id").is(id));
+		T entity = getMongoTemplate().findOne(query, entityClass);
+		return entity;
 	}
 
 	public T findById(Serializable id, List<String> fields) {
@@ -89,6 +91,15 @@ public abstract class AbstractDAOImpl<T extends BaseModel> implements
 		// TODO Auto-generated method stub
 		Query query = new Query(Criteria.where("_id").is(entity.getId()));
 		getMongoTemplate().remove(query, entityClass);
+	}
+	
+	public void deleteById(Serializable id) {
+		// TODO Auto-generated method stub
+		Query query = new Query(Criteria.where("_id").is(id));
+		System.out.println("query is" + query);
+		getMongoTemplate().remove(query, entityClass);
+		System.out.println("executed");
+		
 	}
 
 	public int count(String collectionName) {

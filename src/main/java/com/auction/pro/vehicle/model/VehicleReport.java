@@ -43,6 +43,7 @@ public class VehicleReport extends BaseModel implements
 				.getReportType() : "";
 		this.report = getReport.size() != 0 ? getReport : null;
 		this.timeStamp = Calendar.getInstance().getTimeInMillis();
+		System.out.println("timestamp in dto 0000000000000000000000000000000000000000000000000000000000"+this.timeStamp);
 		this.reportType = dto.getReportname();
 		this.reportgroupId = !StringUtils.isEmpty(dto.getReportgroupId()) ? dto
 				.getReportgroupId() : UUID.randomUUID().toString();

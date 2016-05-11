@@ -12,6 +12,7 @@ dashboard.controller('AccountCtrl', function($scope, $location, $rootScope,
   } else {
     $scope.buttonName = "Add";
   }
+  
   if (ctrlOptions.showaccounts) {
     loading("Fetching Accounts...");
     $scope.buttonName = "Save";

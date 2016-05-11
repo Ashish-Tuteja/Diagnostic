@@ -6,7 +6,7 @@
 <html lang="en-us" id="extr-page" ng-app="dashboard">
 <head>
 <meta charset="utf-8">
-<title>Cimble's AuctionPro</title>
+<title>NavResearch's AuctionPro</title>
 <meta name="description" content="">
 <meta name="author" content="">
 <meta name="viewport"
@@ -26,7 +26,7 @@
 	src="<c:url value='/resources/js/bootstrap/bootstrap.min.js'></c:url>"></script>
 <!-- Spinner-->
 <script
-	src="<c:url value='/resources/js/cimble.js'></c:url>"></script>
+	src="<c:url value='/resources/js/NavResearch.js'></c:url>"></script>
 <!-- AngulR Libraries -->
 <script
 	src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular.min.js"></script>
@@ -81,6 +81,12 @@
 	src="<c:url value='/resources/js/angular/controller/DeviceCtrl.js'></c:url>"></script>
 <script
 	src="<c:url value='/resources/js/angular/service/DeviceAppService.js'></c:url>"></script>
+
+<!-- Ecu Controller -->
+<script
+	src="<c:url value='/resources/js/angular/controller/EcuControllerCtrl.js'></c:url>"></script>
+<script
+	src="<c:url value='/resources/js/angular/service/EcuControllerAppService.js'></c:url>"></script>
 
 <!-- Vehicle -->
 <script
@@ -201,7 +207,7 @@
 						class="icon-bar"></span>
 				</button>
 				<a class="navbar-brand" href="#/"> <img class="defaultlogo"
-					alt="cimble"></a>
+					alt="NavResearch"></a>
 			</div>
 			<div id="navbar" class="navbar-collapse collapse">
 
@@ -221,7 +227,7 @@
 					<li><a href="#useraccount" title="User Account" class="user">${principal.emailId}
 					</a></li>
 
-					<li><a href="/cimble/logout" title="Sign Out"><span
+					<li><a href="/NavResearch/logout" title="Sign Out"><span
 							class="glyphicon glyphicon-log-out"></span></a></li>
 
 				</ul>

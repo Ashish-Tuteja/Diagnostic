@@ -5,18 +5,18 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.auction.pro.common.constants.CimbleConstants;
+import com.auction.pro.common.constants.NavResearchConstants;
 import com.auction.pro.common.model.BaseModel;
 
 // vehicle ecu list
 @Document(collection = "ecu")
-public class Ecu extends BaseModel implements CimbleConstants {
+public class Ecu extends BaseModel implements NavResearchConstants {
 
 	private static final long serialVersionUID = 1L;
 	private String make;
 	private String model;
 	private String year;
-	private List<EcuController> controllers;
+	private List<EcuController_backup> controllers;
 
 	public String getMake() {
 		return make;
@@ -46,16 +46,16 @@ public class Ecu extends BaseModel implements CimbleConstants {
 		return serialVersionUID;
 	}
 
-	public List<EcuController> getControllers() {
+	public List<EcuController_backup> getControllers() {
 		return controllers;
 	}
 
-	public void setControllers(List<EcuController> controllers) {
+	public void setControllers(List<EcuController_backup> controllers) {
 		this.controllers = controllers;
 	}
 
 	public static Ecu setVehicleECU(List<String> excelData,
-			List<EcuController> ecuControllers) {
+			List<EcuController_backup> ecuControllers) {
 		String startYear;
 		Ecu vehicleecu = new Ecu();
 		vehicleecu.setMake(!StringUtils.isEmpty(excelData.get(0)) ? excelData

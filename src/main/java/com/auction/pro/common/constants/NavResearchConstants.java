@@ -1,9 +1,11 @@
 package com.auction.pro.common.constants;
 
-public interface CimbleConstants {
+public interface NavResearchConstants {
 	int VEHICLE_ECU_CONTROLLERS_FROM = 3;
 	String GLOBAL_PARAMETER_TABLE_NAME = "Global Parameter";
+	String GLOBAL_PARAMETERS_TABLE_NAME = "Global Parameters";
 	int GLOBAL_PARAMETER_TABLE_SIZE = 14;
+	int GLOBAL_PARAMETERS_TABLE_SIZE = 19;
 	String VEHICLEECU_TABLE_NAME = "Vehicle ECU";
 	int VEHICLEECU_TABLE_SIZE = 22;
 	String GLOBALECU_TABLE_NAME = "Global ECU";
@@ -16,6 +18,13 @@ public interface CimbleConstants {
 			"Bit_Width", "Endieness", "Service_ID", "Parameter_ID",
 			"Encoding_Type", "Is_Unique_to_ECU", "Trust_Factor",
 			"Supported_By_ECU" };
+	String[] GLOBAL_PARAMETERS_TABLE = { "Parameter_Index", "Parameter_Description",
+			"Units", "Controller_ID","Message_Type","extended_id",
+			 "worstCaseLatency", "IsEnhanced",
+			"Byte_Offset","Bit_Possition","Bit_Width","Endieness",
+			"Service_ID","Parameter_ID","0x00 Value","0xFF Value",
+			"Encoding_Type", "Is_Unique_to_ECU", "Supported_By_ECU", "WasError",
+			"Error_Description" };
 	String[] GLOBAL_ECU_TABLE = { "KEY", "ECU_Description", "ECU RX ID",
 			"ECU_TX_ID", "ECU_Extended_ID", "ECU_Worst_Case_Response_Latency",
 			"ECU_Broadcast_ID_01", "ECU_Broadcast_ID_02" };

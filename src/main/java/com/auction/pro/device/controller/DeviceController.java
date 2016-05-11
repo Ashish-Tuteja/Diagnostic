@@ -25,7 +25,7 @@ import com.auction.pro.device.dto.DeviceTypeDto;
 import com.auction.pro.device.service.base.DeviceService;
 
 @Controller
-@RequestMapping("/device")
+@RequestMapping("/device") 
 public class DeviceController extends AbstractController {
 	@Autowired
 	DeviceService deviceService;
@@ -40,11 +40,13 @@ public class DeviceController extends AbstractController {
 		// TODO: handle exception
 		try {
 			if (deviceDto.getId() == null) {
+				System.out.println("Device Dtos id::::::"+deviceDto.getId());
 				if (request.getSession(false).getAttribute("accountId") != null) {
 
 					List<String> accountIDs = accountService.findById(
 							request.getSession(false).getAttribute("accountId")
 									.toString()).getParentAccountIds();
+					System.out.println("Account Ids :::::::"+accountIDs);
 					accountIDs.add(request.getSession(false)
 							.getAttribute("accountId").toString());
 					deviceDto.setParentAccountId(accountIDs);
@@ -52,11 +54,15 @@ public class DeviceController extends AbstractController {
 					AccountDto accountDto = accountService
 							.findByUserId(currentUserNameByPrincipal().getId());
 					List<String> accountIds = accountDto.getParentAccountIds();
+					System.out.println("Account Ids in else part"+ accountIds);
 					accountIds.add(accountDto.getId());
 					deviceDto.setParentAccountId(accountIds);
 				}
 			}
 
+			
+			System.out.println("For update" + deviceDto.getId());
+			System.out.println("before save");
 			return deviceService.save(deviceDto);
 		} catch (Exception e) {
 			// TODO: handle exception

@@ -2,10 +2,10 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.auction.pro</groupId>
-	<artifactId>cimble</artifactId>
+	<artifactId>NavResearch</artifactId>
 	<packaging>war</packaging>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Cimble Diagnostic WebApp</name>
+	<name>NavResearch Diagnostic WebApp</name>
 	<url>http://maven.apache.org</url>
 
 	<properties>
@@ -251,8 +251,8 @@
 								<configuration>
 									<tasks>
 										<echo>Copy developement properties file</echo>
-										<copy file="src/main/resources/properties/cimble-dev.properties"
-											tofile="${user.home}/properties/cimble-dev.properties" />
+										<copy file="src/main/resources/properties/NavResearch-dev.properties"
+											tofile="${user.home}/properties/NavResearch-dev.properties" />
 										<copy file="src/main/resources/properties/log4j.properties"
 											tofile="${user.home}/properties/log4j.properties" />
 									</tasks>
@@ -281,8 +281,8 @@
 								<configuration>
 									<tasks>
 										<echo>Copy production properties file</echo>
-										<copy file="src/main/resources/properties/cimble-prod.properties"
-											tofile="${user.home}/properties/cimble-prod.properties" />
+										<copy file="src/main/resources/properties/NavResearch-prod.properties"
+											tofile="${user.home}/properties/NavResearch-prod.properties" />
 										<copy file="src/main/resources/properties/log4j.properties"
 											tofile="${user.home}/properties/log4j.properties" />
 									</tasks>
@@ -303,7 +303,7 @@
 		</repository>
 	</repositories>
 	<build>
-		<finalName>cimble</finalName>
+		<finalName>NavResearch</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

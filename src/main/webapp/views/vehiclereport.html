@@ -72,7 +72,7 @@
 							<tbody>
 								<tr
 									ng-Repeat="timestamp in systemReportsTimestamp track by $index">
-									<td>{{timestamp | date:'MM-dd-yyyy HH:MM:ss'}}</td>
+									<td>{{timestamp | date:'MM-dd-yyyy HH:mm:ss'}}</td>
 									<td style="padding: 0px;" colspan="5">
 										<table cellpadding="0" cellspacing="0" width="100%"
 											style="table-layout: fixed" border="1" style="padding : 0px;">
@@ -107,7 +107,7 @@
 							<tbody>
 								<tr
 									ng-Repeat="timestamp in troubleReportsTimestamp track by $index">
-									<td>{{timestamp | date:'MM-dd-yyyy HH:MM:ss'}}</td>
+									<td>{{timestamp | date:'MM-dd-yyyy HH:mm:ss'}}</td>
 									<td style="padding: 0px;" colspan="5">
 										<table cellpadding="0" cellspacing="0" width="100%"
 											style="table-layout: fixed" border="1" style="padding : 0px;">
@@ -141,7 +141,7 @@
 								</tr>
 								<tr
 									ng-Repeat="timestamp in staticReportsTimestamp track by $index">
-									<td>{{timestamp | date:'MM-dd-yyyy HH:MM:ss'}}
+									<td>{{timestamp | date:'MM-dd-yyyy HH:mm:ss'}}
 										({{staticReportpacketType[$index]}})</td>
 									<td style="padding: 0px;" colspan="3">
 										<table cellpadding="0" cellspacing="0" width="100%"
@@ -177,7 +177,7 @@
 							<tbody>
 								<tr
 									ng-Repeat="timestamp in dynamicReportsTimestamp track by $index">
-									<td>{{timestamp | date:'MM-dd-yyyy HH:MM:ss'}}
+									<td>{{timestamp | date:'MM-dd-yyyy HH:mm:ss'}}
 										({{dynamicReportpacketType[$index]}})</td>
 									<td style="padding: 0px;" colspan="5">
 										<table cellpadding="0" cellspacing="0" width="100%"
