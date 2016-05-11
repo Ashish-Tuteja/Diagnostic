@@ -1,0 +1,185 @@
+<div>
+  <ol class="ab-nav breadcrumb">
+    <li ng-repeat="breadcrumb in breadcrumbs.get() track by breadcrumb.path" ng-class="{ active: $last }">
+      <a ng-if="!$last" ng-href="#{{ breadcrumb.path }}" ng-bind="breadcrumb.label" class="margin-right-xs"></a>
+      <span ng-if="$last" ng-bind="buttonName"></span>
+    </li>
+  </ol>
+</div>
+<article class="col-xs-12 col-md-12 col-lg-12">
+	<div>
+		<div class="widget-body no-padding">
+			<div class="table-responsive">
+				<form name="form" novalidate ng-submit="register()">
+					<div class="form-group" ng-readonly="check" show-errors
+						style="background-color: #fbfbfb; border: 1px solid #ddd; padding: 15px;">
+						<fieldset ng-hide="useraccount">
+							<section>
+								<input type="text" name="username" placeholder="Username"
+									ng-model="save.user.username" class="form-control" required>
+
+
+							</section>
+							<br>
+							<section>
+
+								<input type="text" name="f_name" placeholder="Firstname"
+									ng-model="save.user.firstName" class="form-control" required>
+
+
+							</section>
+							<br>
+							<section>
+
+								<input type="text" name="lastName" placeholder="Lastname"
+									ng-model="save.user.lastName" class="form-control">
+							</section>
+							<br>
+
+							<section>
+
+								<input type="password" name="password" placeholder="Password"
+									ng-model="save.user.password" ng-minlength=8
+									class="form-control" required>
+							</section>
+							<br>
+							<section>
+
+								<input type="password" name="cnfpassword"
+									placeholder="Confirm password" ng-model="save.user.cnfPassword"
+									ng-valid class="form-control" required>
+							</section>
+							<br>
+							<section>
+
+								<input type="email" name="emailid" placeholder="Email"
+									ng-model="save.user.emailId" class="form-control" required>
+
+							</section>
+							<br>
+
+							<section>
+								<select ng-model="save.user.roleId" accesskey="0"
+									class="form-control">
+									<option value="">--Select a Role--</option>
+									<option ng-repeat="role in roles" value={{role.id}}>{{role.name}}</option>
+								</select>
+							</section>
+							<br>
+							<!--section>
+				<select
+					ng-model="save.user.parentAccountId" accesskey="0" class="form-control">
+						<option value="">--Select an Account--</option>
+						<option ng-repeat="account in accounts" value={{account.id}}>{{account.accountName
+							}}</option>
+				</select> 
+				
+			</section-->
+						</fieldset>
+						<fieldset>
+
+
+							<section>
+
+								<input type="text" name="city" placeholder="City"
+									ng-model="save.user.address.city" class="form-control">
+
+							</section>
+							<br>
+
+							<section>
+								<input type="text" name="state" placeholder="State"
+									ng-model="save.user.address.state" class="form-control">
+
+							</section>
+							
+							<br>
+							<section>
+								<input type="text" name="country" placeholder="Country"
+									ng-model="save.user.address.country" class="form-control">
+
+							</section>
+							<br>
+							<section>
+								<input type="text" name="zip" placeholder="Zip"
+									ng-model="save.user.address.zip" class="form-control">
+
+							</section>
+							<br>
+
+							<section class="col col-6">
+								<input type="text" name="offcno" placeholder="Office number"
+									ng-model="save.user.address.officeNo" class="form-control">
+
+							</section>
+							<br>
+							<section class="col col-6">
+
+								<input type="text" name="offcnoactive"
+									placeholder="Request activation on" data-dateformat='dd/mm/yy'
+									ng-model="save.user.address.officeActivation"
+									class="form-control ">
+
+							</section>
+							<br>
+							<section class="col col-6">
+								<input type="text" name="mobno" placeholder="Mobile No."
+									ng-model="save.user.address.mobileNo" class="form-control"
+									ng-pattern=" /^[(]{0,1}[0-9]{3}[)\.\- ]{0,1}[0-9]{3}[\.\- ]{0,1}[0-9]{4}$/">
+
+							</section>
+							<br>
+							<section class="col col-6">
+
+								<input type="text" name="mobilenoactive"
+									placeholder="Request activation on" data-dateformat='dd/mm/yy'
+									ng-model="save.user.address.mobileActivation"
+									class="form-control">
+
+							</section>
+							<br>
+
+
+
+							<section>
+								<input type="text" name="home_phone" placeholder="Home Phone"
+									ng-model="save.user.address.homePhone" class="form-control">
+
+							</section>
+							<br>
+							<section ng-hide="!useraccount" style="width: 100%">
+								<label>User Permission</label>
+								<ul class="list-inline form-group">
+									<li ng-repeat="(key,value) in save.user.permissionsMap">
+
+										<div class="inset">
+											<ng-switch on="selectedIndex" class="tabpanel-container">
+											<div role="tabpanel" id="tab1-content">
+												<div>
+													<md-switch aria-label="toggle"
+														ng-model="save.user.permissionsMap[key]"
+														class="md-primary">{{key}}</md-switch>
+												</div>
+											</div>
+											</ng-switch>
+										</div>
+									</li>
+								</ul>
+
+							</section>
+							<button class="btn btn-primary pull-right" >Save</button>
+							<button ng-click="close()" class="btn btn-secondary pull-right">Cancel</button>
+						</fieldset>
+
+
+					</div>
+				</form>
+
+			</div>
+			<!-- end widget content -->
+
+		</div>
+		<!-- end widget div -->
+
+	</div>
+</article>

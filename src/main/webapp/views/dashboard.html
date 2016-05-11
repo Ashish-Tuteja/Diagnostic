@@ -1,0 +1,217 @@
+
+<script type="text/javascript">
+	/*  $(document).ready(function() {
+
+	 $('#calendar').fullCalendar({
+		
+	 });
+
+	 var $fcButtons = $('[class*="fc-button"]').addClass('btn'),
+	     $oldTable = $('.fc-header-right > table');
+
+	 $('<div>')
+	     .addClass('btn-group')
+	     .appendTo('.fc-header-right')
+	     .append($fcButtons);
+
+	 $oldTable.remove();
+	 
+
+	 
+	}); */
+
+	/*
+	jQuery document ready
+	 */
+
+	$(document).ready(function() {
+		/*
+			date store today date.
+			d store today date.
+			m store current month.
+			y store current year.
+		 */
+		var date = new Date();
+		var d = date.getDate();
+		var m = date.getMonth();
+		var y = date.getFullYear();
+
+		/*
+			Initialize fullCalendar and store into variable.
+			Why in variable?
+			Because doing so we can use it inside other function.
+			In order to modify its option later.
+		 */
+
+		var calendar = $('#calendar').fullCalendar({
+			/*
+				header option will define our calendar header.
+				left define what will be at left position in calendar
+				center define what will be at center position in calendar
+				right define what will be at right position in calendar
+			 */
+			header : {
+				left : 'prev,next today',
+				center : 'title',
+				right : 'month,agendaWeek,agendaDay'
+			},
+			/*
+				defaultView option used to define which view to show by default,
+				for example we have used agendaWeek.
+			 */
+			defaultView : 'agendaWeek',
+			/*
+				selectable:true will enable user to select datetime slot
+				selectHelper will add helpers for selectable.
+			 */
+			selectable : true,
+			selectHelper : true,
+			/*
+				when user select timeslot this option code will execute.
+				It has three arguments. Start,end and allDay.
+				Start means starting time of event.
+				End means ending time of event.
+				allDay means if events is for entire day or not.
+			 */
+			select : function(start, end, allDay) {
+				/*
+					after selection user will be promted for enter title for event.
+				 */
+				var title = prompt('Event Title:');
+				/*
+					if title is enterd calendar will add title and event into fullCalendar.
+				 */
+				if (title) {
+					calendar.fullCalendar('renderEvent', {
+						title : title,
+						start : start,
+						end : end,
+						allDay : allDay
+					}, true // make the event "stick"
+					);
+				}
+				calendar.fullCalendar('unselect');
+			},
+			/*
+				editable: true allow user to edit events.
+			 */
+			editable : true,
+			/*
+				events is the main option for calendar.
+				for demo we have added predefined events in json object.
+			 */
+			events : [ {
+				title : 'All Day Event',
+				start : new Date(y, m, 1)
+			}, {
+				title : 'Long Event',
+				start : new Date(y, m, d - 5),
+				end : new Date(y, m, d - 2)
+			}, {
+				id : 999,
+				title : 'Repeating Event',
+				start : new Date(y, m, d - 3, 16, 0),
+				allDay : false
+			}, {
+				id : 999,
+				title : 'Repeating Event',
+				start : new Date(y, m, d + 4, 16, 0),
+				allDay : false
+			}, {
+				title : 'Meeting',
+				start : new Date(y, m, d, 10, 30),
+				allDay : false
+			}, {
+				title : 'Lunch',
+				start : new Date(y, m, d, 12, 0),
+				end : new Date(y, m, d, 14, 0),
+				allDay : false
+			}, {
+				title : 'Birthday Party',
+				start : new Date(y, m, d + 1, 19, 0),
+				end : new Date(y, m, d + 1, 22, 30),
+				allDay : false
+			}, {
+				title : 'Click for Google',
+				start : new Date(y, m, 28),
+				end : new Date(y, m, 29),
+				url : 'http://google.com/'
+			} ]
+		});
+
+	});
+</script>
+<style type="text/css">
+div#screen {
+	height: 120px;
+	display: table;
+}
+
+#screen .row {
+	display: table-row;
+}
+
+.group {
+	width: 200px;
+	height: 100px;
+	color: #ddd;
+	border-color: #333;
+	display: table-cell;
+}
+</style>
+
+<div class="row">
+	<div ng-show="spinnerToggle"
+		class="loader col-sm-6 col-md-6 col-lg-6"></div>
+	<div ng-show="!spinnerToggle"
+		class="table-responsive col-sm-6 col-md-6 col-lg-6">
+		<table id="dt_basic"
+			class="table table-striped table-bordered table-hover font default-fontsize"
+			width="100%" style="border-color: #c8c8c8">
+			<thead>
+				<tr style="background-color: #ddd">
+					<!-- <th data-class="expand"><i
+														class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i>
+														UserName</th> -->
+					<th><i class="text-muted hidden-md hidden-sm hidden-xs"></i>
+						Username</th>
+					<th>Activity</th>
+					<th><i class="txt-color-blue hidden-md hidden-sm hidden-xs"></i>
+						Time</th>
+					<th>Location</th>
+
+
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="userlog in userlogs">
+
+					<!-- <td>{{ user.username }}</td> -->
+					<td>{{userlog.userName}}</td>
+					<td>{{userlog.activity}}</td>
+					<td>{{userlog.date | date:'medium'}}</td>
+					<td>{{userlog.location}}</td>
+				</tr>
+
+			</tbody>
+		</table>
+		<ul class="pagination pagination-sm pull-right">
+			<li><a href="javascript:void(0)" ng-click="getUserLogINRange(1)">First</a></li>
+			<li><a href="javascript:void(0)" ng-click="previous()">Previous</a></li>
+			<li ng-repeat="a in range(pages) track by $index" ng-if="$index+1<5"
+				ng-class="{active: pageNumber==$index+1}"><a
+				href="javascript:void(0)" ng-click="getUserLogINRange($index+1)">{{$index+1}}</a></li>
+			<li><a href="javascript:void(0)" ng-click="next()">Next</a></li>
+			<li><a href="javascript:void(0)"
+				ng-click="getUserLogINRange(pages)">Last</a></li>
+		</ul>
+
+	</div>
+
+
+
+
+	<div class="col-sm-6 col-md-6 col-lg-6">
+		<div id="calendar"></div>
+	</div>
+</div>

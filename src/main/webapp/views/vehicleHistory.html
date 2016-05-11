@@ -1,0 +1,190 @@
+<div>
+	<ol class="ab-nav breadcrumb">
+		<li
+			ng-repeat="breadcrumb in breadcrumbs.get() track by breadcrumb.path"
+			ng-class="{ active: $last }"><a ng-if="!$last"
+			ng-href="#{{ breadcrumb.path }}" ng-bind="breadcrumb.label"
+			class="margin-right-xs"></a> <span ng-if="$last"
+			ng-bind="breadcrumb.label"></span></li>
+	</ol>
+</div>
+
+<!-- NEW WIDGET START -->
+<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+	<div class="input-group margin-bottom-10">
+		<input type="text" class="  search-query form-control"
+			placeholder="Search VIN" ng-model="searchVehicleHistory"> <span
+			class="input-group-addon"> <i class="fa fa-search"></i>
+		</span>
+		<!-- <div class="jarviswidget-ctrls" role="menu">
+			<button class="btn btn-primary pull-right" ng-click="addVehicle()">Add
+				Vehicle</button>
+		</div> -->
+
+	</div>
+	<!-- Widget ID (each widget will need unique ID)-->
+	<div class="jarviswidget jarviswidget-color-darken" id="wid-id-0"
+		data-widget-editbutton="false">
+
+
+		<!-- widget div-->
+		<div>
+
+			<!-- widget edit box -->
+			<div class="jarviswidget-editbox">
+				<!-- This area used as dropdown edit box -->
+
+			</div>
+			<!-- end widget edit box -->
+
+			<!-- widget content -->
+			<div class="widget-body no-padding">
+				<div class="table-responsive">
+					<table id="dt_basic"
+						class="table table-striped table-bordered table-hover font default-fontsize"
+						width="100%" style="border-color: #c8c8c8">
+						<thead>
+							<tr style="background-color: #ddd">
+								<th data-hide="phone,tablet">Vehicle Identification
+									number(VIN)</th>
+								<th data-hide="phone,tablet">Year</th>
+								<th data-hide="phone,tablet">Model</th>
+								<th data-hide="phone,tablet">DriverLine</th>
+								<th data-hide="phone,tablet">TimeStamp</th>
+								<th data-hide="phone,tablet">Status</th>
+								<th data-hide="phone,tablet">Make</th>
+								<th data-hide="phone,tablet">Body</th>
+								<th data-hide="phone,tablet">Engine</th>
+								<th data-hide="phone,tablet">Trim</th>
+								<!-- <th>Actions</th> -->
+
+							</tr>
+						</thead>
+						<tbody ng-if="vehicleshistories!=0">
+							
+							<tr ng-repeat="vehiclehistory in vehicleshistories">
+							
+								<td>{{ vehiclehistory.vin}}</td>
+								<td>{{vehiclehistory.year}}</td>
+								<td>{{vehiclehistory.model}}</td>
+								<td>{{vehiclehistory.driverline}}</td>
+								<td>{{vehiclehistory.timestamp}}</td>
+								<td>{{vehiclehistory.status}}</td>
+								<td>{{vehiclehistory.make}}</td>
+								<td>{{vehiclehistory.body}}</td>
+								<td>{{vehiclehistory.engine}}</td>
+								<td>{{vehiclehistory.trim}}</td>
+								
+								<!-- <td><a href="javascript:void(0)"
+									ng-click="editvehicle(vehicle)"><i class="fa fa-edit"></i></a></td> -->
+							</tr>
+						</tbody>
+					</table>
+					
+					
+					<ul class="pagination pagination-sm pull-right">
+						<li><a href="javascript:void(0)" ng-click="getVehicleHistoryINRange(1)">First</a></li>
+						<li><a href="javascript:void(0)" ng-click="previous()">Previous</a></li>
+						<li ng-repeat="a in range(pages) track by $index" ng-if="$index+1<5" ng-class="{active: pageNumber==$index+1}"><a
+							href="javascript:void(0)" ng-click="getVehicleHistoryINRange($index+1)">{{$index+1}}</a></li>
+						<li><a href="javascript:void(0)" ng-click="next()">Next</a></li>
+						<li><a href="javascript:void(0)" ng-click="getVehicleHistoryINRange(pages)">Last</a></li>
+					</ul>
+
+				</div>
+				<!-- end widget content -->
+			</div>
+		</div>
+		<!-- end widget div -->
+
+
+	</div>
+	<span ng-if="vehicleshistories==0">No Data Found</span>
+</article>
+
+
+
+<!-- widget grid -->
+<!-- end widget grid -->
+<!-- END MAIN CONTENT -->
+<!-- <modal visible="showModal">
+
+<form role="form">
+	<div class="form-group">
+		<fieldset>
+			<section>
+
+				<input type="text" name="vin"
+					placeholder="Vehicle Identification Number"
+					ng-model="save.vehicle.vin" class="form-control"
+					ng-readonly="!vinstats" required>
+			</section>
+			<br>
+			<section>
+
+				<input type="text" name="year" placeholder="Year"
+					ng-model="save.vehicle.year" class="form-control">
+			</section>
+			<br>
+			<section>
+
+				<input type="text" name="model" placeholder="Model"
+					ng-model="save.vehicle.model" class="form-control">
+			</section>
+			<br>
+			<section>
+
+				<input type="text" name="driverline" placeholder="Driverline"
+					ng-model="save.vehicle.driverline" class="form-control">
+			</section>
+			<br>
+
+			<section>
+
+				<input type="text" name="make" placeholder="Make"
+					ng-model="save.vehicle.make" class="form-control">
+			</section>
+			<br>
+
+			<section>
+
+				<input type="text" name="body" placeholder="Body"
+					ng-model="save.vehicle.body" class="form-control">
+			</section>
+
+			<br>
+			<section>
+
+				<input type="text" name="engine" placeholder="Engine"
+					ng-model="save.vehicle.engine" class="form-control">
+			</section>
+			<br>
+
+
+
+			<section>
+
+				<input type="text" name="trim" placeholder="Trim"
+					ng-model="save.vehicle.trim" class="form-control">
+			</section>
+			<br>
+			<section>
+
+				<select ng-model="save.vehicle.deviceId" accesskey="0"
+					class="form-control">
+					<option value="">--Select a Device--</option>
+					<option ng-repeat="device in devices" value={{device.id}}>{{device.deviceName}}</option>
+				</select>
+			</section>
+			<br>
+			<button type="submit" class="btn btn-primary pull-right"
+				ng-click="register()">Save</button>
+
+		</fieldset>
+
+	</div>
+
+
+</form>
+
+</modal> -->

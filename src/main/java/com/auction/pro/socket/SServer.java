@@ -1,0 +1,83 @@
+package com.auction.pro.socket;
+
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.Date;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import org.apache.log4j.Logger;
+
+public class SServer {
+
+	public static final int PORT = 1722;
+	protected Logger log = Logger.getLogger(SServer.class);
+	byte[] buf = new byte[2048];
+
+	public static void main(String[] args) {
+		new SServer().startSServer();
+	}
+
+	public void startSServer() {
+		final ExecutorService clientProcessingPool = Executors
+				.newFixedThreadPool(1);
+
+		Runnable SServerTask = new Runnable() {
+			public void run() {
+				try {
+					@SuppressWarnings("resource")
+					ServerSocket serverSocket = new ServerSocket(SServer.PORT);
+
+					log.debug("Waiting for a device to connect...");
+					while (true) {
+						Socket clientSocket = serverSocket.accept();
+						log.debug("received data");
+						clientProcessingPool.submit(new ClientTask2(
+								clientSocket));
+					}
+
+				} catch (IOException e) {
+					log.error("Unable to process client request. "
+							+ e.getMessage());
+				}
+			}
+		};
+		Thread SServerThread = new Thread(SServerTask);
+		SServerThread.start();
+
+	}
+
+	private class ClientTask2 implements Runnable {
+		private Socket clientSocket;
+
+		private ClientTask2(Socket clientSocket) {
+			this.clientSocket = clientSocket;
+		}
+
+		public void run() {
+			log.debug("Got a client connection: "
+					+ new Date(System.currentTimeMillis()).toString());
+			try {
+				// Get IP Address
+				String ip = clientSocket.getInetAddress().getHostAddress()
+						.toString();
+				log.debug("Connection IP: " + ip + " "
+						+ clientSocket.getInputStream().available());
+				clientSocket = new Socket(InetAddress.getLocalHost().toString().split("/")[1], 1721);
+				OutputStream outToServer = clientSocket.getOutputStream();
+				DataOutputStream out = new DataOutputStream(outToServer);
+				out.write("4,5TFEM5F12AX002638,10,94:2147483647:0:0:0;98:2147483647:0:0:0;99:2147483647:0:0:0;100:2147483647:0:0:0;102:2147483647:0:0:0;104:2147483647:0:0:0;107:2147483647:0:0:0;109:2147483647:0:0:0;110:2147483647:0:0:0;111:2147483647:0:0:0".getBytes());
+				System.out.println("Send Data.... ");
+				//out.flush();
+				clientSocket.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+	}
+}

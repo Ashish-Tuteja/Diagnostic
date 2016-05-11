@@ -1,0 +1,172 @@
+/*
+ * It is advised not to edit the smartadmin_production.css
+ * as this will override any changes you make in the 
+ * later versions of this theme. 
+ * 
+ * We advise that you use use this CSS to override 
+ * SmartAdmin styles. 
+ * 
+ * Rename the stylesheet to whatever your liking so it will stay
+ * unique to you with each update of SmartAdmin.
+ */
+
+/*
+ * INDEX
+ * 
+ * - HTML
+ * - BODY
+ * - CUSTOM STYLES
+ */
+body {
+	font-family:"Helvetica Neue",Helvetica,Arial,sans-serif !important;
+}
+.defaultlogo {
+	content: url("/cimble/resources/img/NavResearch.png");
+	width: 150px;
+	no-repeat
+	!important;
+}
+
+.auctionsidebar {
+	background: black;
+}
+
+.defaultheader {
+	margin: 0;
+	height: 71px;
+	border-bottom: 1px solid #eee !important;
+	overflow: hidden;
+	padding: 0 30px;
+	border-width: 0;
+	min-height: 28px;
+	background: #F64F4F !important;
+	position: relative;
+}
+
+.defaultheader #logo {
+	margin-top: 22px;
+	margin-left: 0;
+}
+
+#left-panel {
+	left: 0;
+	margin-top: 70px;
+	padding-top: 49px;
+	position: absolute;
+	top: 0;
+	z-index: 904;
+}
+
+.default-fontsize {
+	font-size: 15px;
+}
+
+article {
+	padding: 15px;
+	box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+	border: 1px solid #ddd
+;	background : #fff;
+}
+.row {
+  margin-left : 10px;
+  margin-right : 10px;
+}
+
+.breadcrumb {
+	border-bottom: #ddd solid 1px;
+	background-color : #fff;
+}
+.margin-bottom-10 {
+	margin-bottom: 10px;
+}
+
+.table {
+	margin-bottom: 0px;
+}
+
+/*
+   start spinner*
+*/
+.spinner {
+    margin: 5%;
+    position: relative; /* [1] */
+    display: inline-block;
+    width:  1em; /* [2] */
+    height: 1em; /* [2] */
+    font-size: 32px; /* [3] */
+    border-bottom: 1px solid; /* [4] */
+    vertical-align: middle;
+    overflow: hidden;  /* [5] */
+    text-indent: 100%; /* [5] */
+    border-radius: 50%;
+    -webkit-animation: 0.75s spinner linear infinite;
+       -moz-animation: 0.75s spinner linear infinite;
+            animation: 0.75s spinner linear infinite;
+
+    /**
+     * 1. Make the spinner a circle.
+     */
+    &,
+    &:after {
+        border-radius: 50%; /* [1] */
+    }
+
+    &:after {
+        content: "";
+        position: absolute;
+        top:    0;
+        right:  0;
+        bottom: 0;
+        left:   0;
+        border: 1px solid;
+        border-radius: 50% ;/* [1] */
+        opacity: 0.5; /* [2] */
+    }
+
+}
+
+
+.spinner--small { font-size: 16px; }
+.spinner--large { font-size: 64px; }
+
+.spinner--light { color: #3276b1; }
+.spinner--dark  { color: #3276b1; }
+
+@-webkit-keyframes spinner {
+
+    to {
+        -webkit-transform: rotate(360deg);
+    }
+
+}
+
+@-moz-keyframes spinner {
+
+    to {
+        -moz-transform: rotate(360deg);
+    }
+
+}
+
+@keyframes spinner {
+
+    to {
+        transform: rotate(360deg);
+    }
+
+}
+.box {
+    margin:  1em 0;
+    padding: 2em;
+    color: darken(#e3e3e3, 30%);
+    background-color: #e3e3e3;
+    border-radius: 3px;
+    text-align: center;
+}
+
+.box--foo {
+    background-color: white;
+    color: #3276b1;
+
+}
+/*end of spinner*/

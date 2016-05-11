@@ -1,2 +1,0 @@
-# Diagnostic
-DIA - tickets changes 

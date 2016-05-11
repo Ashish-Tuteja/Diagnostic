@@ -1,0 +1,65 @@
+<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+	<div class="panel panel-info">
+		<div class="panel-heading"
+			style="background-color: #ddd; color: #333; text-align: center">
+			<h3 class="panel-title">{{user.firstName}}</h3>
+		</div>
+		<div class="panel-body">
+			<div class="col-lg-2 col-md-2">
+				<img alt="User Pic"
+					src="/autoficio/resources/img/avatars/male.png"
+					class="img-circle">
+			</div>
+
+			<div class="table-responsive">
+				<table class="table table-user-information ">
+					<tbody>
+						<tr>
+							<td>Username:</td>
+							<td>{{user.username}}</td>
+						</tr>
+						<tr>
+							<td>EmailId:</td>
+							<td>{{user.emailId}}</td>
+						</tr>
+						<tr>
+							<td>Name</td>
+							<td>{{user.firstName}} {{user.lastName}}</td>
+						</tr>
+						<!-- <tr>
+							<td>Status</td>
+							<td>{{user.status}}</td>
+						</tr> -->
+						<tr>
+							<td>Home Address</td>
+							<td>{{user.address.city}}(City) <br>
+								{{user.address.state}}(State) <br>
+								{{user.address.country}}(Country)
+							</td>
+						</tr>
+						<tr>
+							<td>Phone Number</td>
+							<td>{{user.address.mobileNo}}(Mobile)<br> <br>{{user.address.officeNo}}(Office)
+							</td>
+						</tr>
+						<tr>
+							<td>Company Name</td>
+							<td>{{user.address.companyName}}</td>
+						</tr>
+						<tr>
+							<td>Website</td>
+							<td>{{user.address.website}}</td>
+						</tr>
+					</tbody>
+				</table>
+
+				<a href="javascript:void(0)" class="btn btn-primary pull-right"
+					ng-click="sendCode()">Change password</a>
+				<!-- <a
+											href="javascript:void(0)" class="btn btn-primary"
+											ng-click="changeUserName(user.emailId)">Change Username</a> -->
+			</div>
+
+		</div>
+</article>

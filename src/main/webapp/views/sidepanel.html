@@ -1,0 +1,81 @@
+
+<script type="text/javascript">
+	(function() {
+		$(function() {
+			var collapseMyMenu, expandMyMenu, hideMenuTexts, showMenuTexts;
+			expandMyMenu = function() {
+				return $("nav.sidebar").removeClass("sidebar-menu-collapsed")
+						.addClass("sidebar-menu-expanded");
+			};
+			collapseMyMenu = function() {
+				return $("nav.sidebar").removeClass("sidebar-menu-expanded")
+						.addClass("sidebar-menu-collapsed");
+			};
+			showMenuTexts = function() {
+				return $("nav.sidebar ul a span.expanded-element").show();
+			};
+			hideMenuTexts = function() {
+				return $("nav.sidebar ul a span.expanded-element").hide();
+			};
+			$('.sidebar').mouseover(function() {
+				expandMyMenu();
+				showMenuTexts();
+				$(this).css({
+					color : "#FFF"
+				});
+			});
+			$('.sidebar').mouseout(function() {
+				collapseMyMenu();
+				hideMenuTexts();
+				$(this).css({
+					color : "#FFF"
+				});
+			});
+
+		});
+
+	}).call(this);
+</script>
+<nav class='sidebar sidebar-menu-collapsed'>
+
+	<ul>
+		<li class="active"><a class='expandable' href='#/'
+			title='Dashboard'> <span
+				class='glyphicon glyphicon-home collapsed-element'></span><br>
+				<span class='expanded-element'>Dashboard</span>
+		</a></li>
+		<li ng-if="checkPermission('User')!=-1?true:false"><a
+			class='expandable' href='#user' title='Users'> <span
+				class='glyphicon glyphicon-user collapsed-element'></span><br>
+				<span class='expanded-element'>Users</span>
+		</a></li>
+		<li ng-if="checkPermission('Account')!=-1?true:false"><a
+			class='expandable' href='#account' title='Accounts'> <span
+				class='glyphicon glyphicon-file collapsed-element'></span><br>
+				<span class='expanded-element'>Accounts</span>
+		</a></li>
+		<li ng-if="checkPermission('Device')!=-1?true:false"><a
+			class='expandable' href='#device' title='Devices'> <i
+				class="fa fa fa-mobile fa-2x"></i> <br> <span
+				class='expanded-element'>Devices</span>
+		</a></li>
+		<li ng-if="checkPermission('Vehicle')!=-1?true:false"><a
+			class='expandable' href='#vehicle' title='Vehicles'> <i
+				class="fa fa-car"></i><br> <span class='expanded-element'>Vehicle</span>
+		</a></li>
+		<li><a class='expandable' href='#import' title='Import'> <i
+				class="glyphicon glyphicon-import"></i><br> <span
+				class='expanded-element'>Import</span>
+		</a></li>
+
+		<li ng-if="checkPermission('Inbox')!=-1?true:false"><a
+			class='expandable' href='#' title='Inbox'> <span
+				class='glyphicon glyphicon-inbox collapsed-element'></span> <br>
+				<span class='expanded-element'>Inbox</span>
+		</a></li>
+
+
+	</ul>
+
+</nav>
+
