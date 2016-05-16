@@ -196,18 +196,18 @@ public class VehicleDaoImpl extends AbstractDAOImpl<Vehicle> implements
 					.getCollection(GLOBAL_PARAMETERS);
 
 			List<GlobalParameters> globalParameters = new ArrayList<GlobalParameters>();
-			List<BasicDBObject> andObjs = new ArrayList<BasicDBObject>();
 			
 			for (String controllerId : controllerIds) {
-			/*andObjs.add(new BasicDBObject().append("wasError",
-					new BasicDBObject().append("$ne", "")));*/
+				List<BasicDBObject> andObjs = new ArrayList<BasicDBObject>();
+				System.out.println("id in for loop "+ controllerId);
 			andObjs.add(new BasicDBObject().append("controllerId", controllerId));
 			BasicDBObject findOBJ = new BasicDBObject();
 			findOBJ.append("$and", andObjs);
 				DBCursor cursor = collection.find(findOBJ);
-//				System.out.println(cursor.length());	
+				
 			while (cursor.hasNext()) {
 				try {
+					System.out.println("addidng");
 					globalParameters.add(GlobalParameters
 							.convertGlobalParameters(new JSONObject(
 									((BasicDBObject) cursor.next()).toString())));
@@ -217,6 +217,7 @@ public class VehicleDaoImpl extends AbstractDAOImpl<Vehicle> implements
 					LOGGER.error("convert json to pojo error");
 				}
 			}
+			
 			
 			}
 			return globalParameters;
