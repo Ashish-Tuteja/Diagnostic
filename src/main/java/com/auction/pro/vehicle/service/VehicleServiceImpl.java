@@ -201,11 +201,15 @@ public class VehicleServiceImpl extends
 
 	// Global Parameters Implementation
 		@SuppressWarnings("unused")
-		public int uploadGlobalParameters(File tempfile, byte[] bytestream,
+		public int uploadGlobalParameters(String[] controllerIds,File tempfile, byte[] bytestream,
 				String uploadoption) {
-			String vehicleControllerID = "";
+//			String vehicleControllerID = "";
 			List<GlobalParameters> gbList = new ArrayList<GlobalParameters>();
-			
+			List<GlobalParameters> finalgbList = new ArrayList<GlobalParameters>();
+			List<GlobalParameters> ecugbList = new ArrayList<GlobalParameters>();
+			gbList.clear();
+			ecugbList.clear();
+			finalgbList.clear();
 				Map<Integer, List<String>> map = uploadData(tempfile, bytestream,
 						uploadoption);
 
@@ -214,7 +218,7 @@ public class VehicleServiceImpl extends
 					return 1;
 				}
 			
-				int counter = 0;
+				/*int counter = 0;
 				// Check Name of file imported
 				filename = tempfile.getName();
 				String filename = tempfile.getName();
@@ -227,8 +231,136 @@ public class VehicleServiceImpl extends
 						+ filenames[2] + "-" + filenames[3];
 				System.out.println("Vehicles--Controllers--ID to be appended in Global Parameters List -->> "+ vehicleControllerID);
 				gbList = vehicleDao
-						.getDataListParameters(vehicleControllerID);
+						.getDataListParameters(vehicleControllerID);*/
+//			System.out.println("controllers================>>>"+(controllerIds[0]));
+//			System.out.println("controllers size================>>>"+(controllerIds.length));
+			
 				try{
+				if(controllerIds.length != 0){
+					LOGGER.info("Importing parameter file for selected controllers ");
+					ecugbList = vehicleDao
+							.getECUController(controllerIds);
+					System.out.println("Size returned "+ecugbList.size());
+					
+					List<String> updateList = new ArrayList<String>();
+					List<String> addList = new ArrayList<String>();
+					
+					
+					if(!ecugbList.isEmpty()){
+					for(GlobalParameters parameter :ecugbList){
+						System.out.println("parameter id "+parameter.getControllerId());
+						for(String id : controllerIds){
+							System.out.println("id in inner "+id);
+							if(parameter.getControllerId().equals(id)){
+								
+								if(!updateList.contains(id)){
+									System.out.println("in update list");
+									updateList.add(id);
+								}
+								
+							}else {
+								if(!addList.contains(id)){
+									addList.add(id);
+								}
+							}
+							
+						}
+					}
+					}
+					System.out.println("update list "+updateList);
+					System.out.println("add list "+addList);
+					
+					if(!updateList.isEmpty()){
+						LOGGER.info("Deleting parameters for selected controllers");
+////						gbList.clear(); //clearing before importing already imported file
+////						ecugbList.clear();
+////						finalgbList.clear();
+//						
+//						for (Entry<Integer, List<String>> data : map.entrySet()) {
+//							gbList.add(GlobalParameters
+//									.setGlobalparameters(data.getValue()));
+//						}
+//						GlobalParameters.clearSequence();//clearing sequence when importing new file
+//						
+//						
+//						for(GlobalParameters parameters : gbList){
+//							for(String controllerId : controllerIds){
+//								LOGGER.info("controllerid :: " + controllerId+ "   for each controller");
+//								GlobalParameters obj = new GlobalParameters(parameters);
+//								obj.setControllerId(controllerId);
+//								finalgbList.add(obj);	
+//							}
+//						}
+						
+						vehicleDao.deleteGlobalParameters(updateList);
+					}
+					
+					
+						LOGGER.info("Saving parameters for selected controllers");
+						LOGGER.info("Importing new file");
+						for (Entry<Integer, List<String>> data : map.entrySet()) {
+							gbList.add(GlobalParameters
+									.setGlobalparameters(data.getValue()));
+						}
+						GlobalParameters.clearSequence();//clearing sequence when importing new file
+
+						for(GlobalParameters parameters : gbList){
+							for(String controllerId : controllerIds){
+								LOGGER.info("controllerid :: " + controllerId+ "   for each controller");
+								GlobalParameters obj = new GlobalParameters(parameters);
+								obj.setControllerId(controllerId);
+								finalgbList.add(obj);	
+							}
+						}
+						
+						vehicleDao.setGlobalParameters(finalgbList);
+						
+						LOGGER.info("Each document in Parameter_tests updated with controller_ids for each selected Controller");
+						
+						
+					
+					/*else{
+						LOGGER.info("Updating parameters for selected controllers");
+						gbList.clear(); //clearing before importing already imported file
+						ecugbList.clear();
+						finalgbList.clear();
+						for (Entry<Integer, List<String>> data : map.entrySet()) {
+							gbList.add(GlobalParameters
+									.setGlobalparameters(data.getValue()));
+						}
+						GlobalParameters.clearSequence();//clearing sequence when importing new file
+						
+						
+						for(GlobalParameters parameters : gbList){
+							for(String controllerId : controllerIds){
+								LOGGER.info("controllerid :: " + controllerId+ "   for each controller");
+								GlobalParameters obj = new GlobalParameters(parameters);
+								obj.setControllerId(controllerId);
+								finalgbList.add(obj);	
+							}
+						}
+						
+						vehicleDao.deleteGlobalParameters(finalgbList);
+					}*/
+					
+				}else{
+					LOGGER.info("No parameter_tests saved !! Please select controllers first");
+				}
+				
+		
+				tempfile.deleteOnExit();	
+				return 0;
+				
+				}catch (Exception e) {
+					e.printStackTrace();
+					LOGGER.error("CSV file not parsed properly ", e.getMessage());
+					return 1;
+				}
+		}
+		
+		// End tags for Global service Implementation for parameter Tests
+		
+				/*try{
 				if(gbList.size() == 0){
 					LOGGER.info("Importing new file");
 					for (Entry<Integer, List<String>> data : map.entrySet()) {
@@ -236,53 +368,48 @@ public class VehicleServiceImpl extends
 								.setGlobalparameters(data.getValue(),
 										vehicleControllerID));
 					}
-					GlobalParameters.clearSequence();
+					GlobalParameters.clearSequence();//clearing sequence when importing new file
 
-					LOGGER.info("Ecu empty !!! Getting Controller_id(auto generated) , controller_name ,make , model , year from file ");
-					EcuControllers controllerParameters = new EcuControllers();
-					controllerParameters.setControllerName(filenames[3]);
-					controllerParameters
-							.setControllerId(CommonUtils.generateUUID());
-					controllerParameters.setMake(filenames[0]);
-					controllerParameters.setModel(filenames[1]);
-					controllerParameters.setYear(filenames[2]);
-					vehicleDao.setControllerEcuParameters(controllerParameters);
-
-					for (GlobalParameters gb : gbList) {
-						gb.setControllerId(controllerParameters.getControllerId());
+					for(GlobalParameters parameters : gbList){
+						for(String controllerId : controllerIds){
+							LOGGER.info("controllerid :: " + controllerId+ "   for each controller");
+							GlobalParameters obj = new GlobalParameters(parameters);
+							obj.setControllerId(controllerId);
+							finalList.add(obj);	
+						}
 					}
-					vehicleDao.setGlobalParameters(gbList);
 					
-					LOGGER.info("Parameter_tests updated with Auto_generated_controller_id from Ecu_controller_table");
+					vehicleDao.setGlobalParameters(finalList);
+					
+					LOGGER.info("Each document in Parameter_tests updated with auto_generated_controller_ids for each Controller");
 				}else{
+					
 					LOGGER.error("FileName already exists !! Updating imported file");
-					gbList.clear();
+					gbList.clear(); //clearing the already uploaded parameters
 					for (Entry<Integer, List<String>> data : map.entrySet()) {
 						gbList.add(GlobalParameters
 								.setGlobalparameters(data.getValue(),
 										vehicleControllerID));
 					}
 					GlobalParameters.clearSequence();
-					List<EcuControllers> ecus = vehicleDao
-							.getEcuListParameters();
-					if (ecus != null) {
-						for (EcuControllers ecu : ecus) {
-							if (ecu.getMake()
-									.equalsIgnoreCase(filenames[0])
-									&& ecu.getModel().equalsIgnoreCase(
-											filenames[1])
-									&& ecu.getYear().equalsIgnoreCase(
-											filenames[2])) {
-								for (GlobalParameters gb : gbList) {
-									gb.setControllerId(ecu
-											.getControllerId());
-								}
-							}
-						}
-
-					} else {
-						LOGGER.error("No ecus exists!!");
-					}
+//					if (ecus != null) {
+//						for (EcuControllers ecu : ecus) {
+//							if (ecu.getMake()
+//									.equalsIgnoreCase(filenames[0])
+//									&& ecu.getModel().equalsIgnoreCase(
+//											filenames[1])
+//									&& ecu.getYear().equalsIgnoreCase(
+//											filenames[2])) {
+//								for (GlobalParameters gb : gbList) {
+//									gb.setControllerId(ecu
+//											.getControllerId());
+//								}
+//							}
+//						}
+//
+//					} else {
+//						LOGGER.error("No ecus exists!!");
+//					}
 					vehicleDao.updateGlobalParameters(gbList);
 					LOGGER.info("FileName updated with vehicleControllerID appended in parameter_tests");
 					
@@ -296,7 +423,7 @@ public class VehicleServiceImpl extends
 				LOGGER.error("CSV file not parsed properly ", e.getMessage());
 				return 1;
 			}
-		}
+		}*/
 
 		// End tags for Global service Implementation
 
@@ -326,8 +453,8 @@ public class VehicleServiceImpl extends
 					continue;
 				}
 				controllerIds.removeAll(Arrays.asList("", null));
-				List<EcuController_backup> ecuControllers = vehicleDao
-						.getECUController(controllerIds);
+				List<EcuControllers> ecuControllers = vehicleDao
+						.getECUControllers(controllerIds);
 				System.out.println(ecuControllers);
 				ecuControllers.removeAll(Arrays.asList("", null));
 				if (ecuControllers != null && ecuControllers.size() > 0) {
@@ -405,9 +532,6 @@ public class VehicleServiceImpl extends
 		return vehicleDao.getDataListParameters(vehicleControllerId);
 	}
 
-	public List<EcuControllers> getEcuListParameters() {
-		return vehicleDao.getEcuListParameters();
-	}
 
 	public Ecu getvehicleECU(VehicleFilter searchterm) {
 		// TODO Auto-generated method stub
@@ -429,6 +553,13 @@ public class VehicleServiceImpl extends
 
 	public void deleteById(Serializable id) {
 		// TODO Auto-generated method stub
+	}
+
+	
+
+	public List<EcuControllers> getEcuListParameters() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

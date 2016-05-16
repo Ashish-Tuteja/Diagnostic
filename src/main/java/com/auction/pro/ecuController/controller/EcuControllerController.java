@@ -51,7 +51,6 @@ public class EcuControllerController extends AbstractController {
 							.getAttribute("accountId").toString());
 					ecuControllerDto.setParentAccountId(accountIDs);
 				} else {
-					System.out.println("Seconf");
 					AccountDto accountDto = accountService
 							.findByUserId(currentUserNameByPrincipal().getId());
 					List<String> accountIds = accountDto.getParentAccountIds();
@@ -59,7 +58,6 @@ public class EcuControllerController extends AbstractController {
 					ecuControllerDto.setParentAccountId(accountIds);
 				}
 			}
-			System.out.println("in post  method yeeahhah");
 			return ecuControllerService.save(ecuControllerDto);
 		} catch (Exception e) {
 			// TODO: handle exception

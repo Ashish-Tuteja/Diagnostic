@@ -41,7 +41,7 @@ public class GlobalParameters extends BaseModel {
 	private int parameterDescId; //Unique for each parameter
 	private static int parameterSequence=1;
 	// Add VehicleControllerID
-	private String vehicleControllerId;
+	//private String vehicleControllerId;
 
 	public void setParameterDescId(int parameterDescId) {
 		this.parameterDescId = parameterDescId;
@@ -77,14 +77,6 @@ public class GlobalParameters extends BaseModel {
 
 	public void setWorstCaseLatency(String worstCaseLatency) {
 		this.worstCaseLatency = worstCaseLatency;
-	}
-
-	public String getVehicleControllerId() {
-		return vehicleControllerId;
-	}
-
-	public void setVehicleControllerId(String vehicleControllerId) {
-		this.vehicleControllerId = vehicleControllerId;
 	}
 
 	public String getUnits() {
@@ -145,6 +137,36 @@ public class GlobalParameters extends BaseModel {
 
 	public GlobalParameters() {
 		// TODO Auto-generated constructor stub
+	}
+	
+	public GlobalParameters(GlobalParameters obj) {
+		
+
+		setParameterIndex(obj.getParameterIndex());
+		setParameterDesc(obj.getParameterDesc());
+		setUnits(obj.getUnits());
+		setControllerId(obj.getControllerId());
+		setMessageType(obj.getMessageType());
+		setRxId(obj.getRxId());
+		setTxId(obj.getTxId());
+		setExtendedId(getExtendedId());
+		setWorstCaseLatency(getWorstCaseLatency());
+		setIsEnhanced(getIsEnhanced());
+		setOffset(obj.getOffset());
+		setBitpostion(obj.getBitpostion());
+		setBitwidth(obj.getBitwidth());
+		setEndness(obj.getEndness());
+		setServiceId(obj.getServiceId());
+		setParameterId(obj.getParameterId());
+		setValueOOx(obj.getValueOFF());
+		setValueOFF(obj.getValueOFF());
+		setEncodingType(obj.getEncodingType());
+		setIsUniqueToECU(obj.getIsUniqueToECU());
+		setSupportedByECU(obj.getSupportedByECU());
+		setWasError(obj.getWasError());
+		setErrorDesc(obj.getErrorDesc());
+		setLength(obj.getLength());
+		setParameterDescId(obj.getParameterDescId()); //Unique for each parameter
 	}
 
 	public String getParameterDesc() {
@@ -257,96 +279,95 @@ public class GlobalParameters extends BaseModel {
 
 	
 
-	public static GlobalParameters setGlobalparameters(List<String> excelData,
-			String vehicleControllerID) {
+	public static GlobalParameters setGlobalparameters(List<String> csvData) {
 		// TODO Auto-generated method stub
 		GlobalParameters globalParameters = new GlobalParameters();
 		//globalParameters.setId(CommonUtils.generateUUID());
 
-		globalParameters.setParameterIndex(!StringUtils.isEmpty(excelData
-				.get(0)) ? excelData.get(0) : "");
+		globalParameters.setParameterIndex(!StringUtils.isEmpty(csvData
+				.get(0)) ? csvData.get(0) : "");
 		globalParameters
-				.setParameterDesc(!StringUtils.isEmpty(excelData.get(1)) ? excelData
+				.setParameterDesc(!StringUtils.isEmpty(csvData.get(1)) ? csvData
 						.get(1) : "");
 		globalParameters
-				.setUnits(!StringUtils.isEmpty(excelData.get(2)) ? excelData
+				.setUnits(!StringUtils.isEmpty(csvData.get(2)) ? csvData
 						.get(2) : "");
 		globalParameters
-				.setControllerId(!StringUtils.isEmpty(excelData.get(3)) ? excelData
+				.setControllerId(!StringUtils.isEmpty(csvData.get(3)) ? csvData
 						.get(3) : "");
 		globalParameters
-				.setMessageType(!StringUtils.isEmpty(excelData.get(4)) ? excelData
+				.setMessageType(!StringUtils.isEmpty(csvData.get(4)) ? csvData
 						.get(4) : "");
 		globalParameters
-				.setRxId(!StringUtils.isEmpty(excelData.get(5)) ? excelData
+				.setRxId(!StringUtils.isEmpty(csvData.get(5)) ? csvData
 						.get(5) : "0x7E8");
 		globalParameters
-				.setTxId(!StringUtils.isEmpty(excelData.get(6)) ? excelData
+				.setTxId(!StringUtils.isEmpty(csvData.get(6)) ? csvData
 						.get(6) : "0x7E0");
 		globalParameters
-				.setExtendedId(!StringUtils.isEmpty(excelData.get(7)) ? excelData
+				.setExtendedId(!StringUtils.isEmpty(csvData.get(7)) ? csvData
 						.get(7) : "");
-		globalParameters.setWorstCaseLatency(!StringUtils.isEmpty(excelData
-				.get(8)) ? excelData.get(8) : "");
+		globalParameters.setWorstCaseLatency(!StringUtils.isEmpty(csvData
+				.get(8)) ? csvData.get(8) : "");
 		globalParameters
-				.setIsEnhanced(!StringUtils.isEmpty(excelData.get(9)) ? excelData
+				.setIsEnhanced(!StringUtils.isEmpty(csvData.get(9)) ? csvData
 						.get(9) : "");
 		globalParameters
-				.setOffset(!StringUtils.isEmpty(excelData.get(10)) ? excelData
+				.setOffset(!StringUtils.isEmpty(csvData.get(10)) ? csvData
 						.get(10) : "");
 		globalParameters
-				.setBitpostion(!StringUtils.isEmpty(excelData.get(11)) ? excelData
+				.setBitpostion(!StringUtils.isEmpty(csvData.get(11)) ? csvData
 						.get(11) : "");
 		globalParameters
-				.setBitwidth(!StringUtils.isEmpty(excelData.get(12)) ? excelData
+				.setBitwidth(!StringUtils.isEmpty(csvData.get(12)) ? csvData
 						.get(12) : "");
 
-		if (excelData.get(13).contains("Big")) {
+		if (csvData.get(13).contains("Big")) {
 			globalParameters.setEndness("0");
 		} else {
 			globalParameters.setEndness("1");
 		}
 
 //		globalParameters
-//				.setEndness(!StringUtils.isEmpty(excelData.get(13)) ? excelData
+//				.setEndness(!StringUtils.isEmpty(csvData.get(13)) ? csvData
 //						.get(13) : "");
 		globalParameters
-				.setServiceId(!StringUtils.isEmpty(excelData.get(14)) ? excelData
+				.setServiceId(!StringUtils.isEmpty(csvData.get(14)) ? csvData
 						.get(14) : "");
 		globalParameters
-				.setParameterId(!StringUtils.isEmpty(excelData.get(15)) ? excelData
+				.setParameterId(!StringUtils.isEmpty(csvData.get(15)) ? csvData
 						.get(15) : "");
 		globalParameters
-				.setValueOOx(!StringUtils.isEmpty(excelData.get(16)) ? excelData
+				.setValueOOx(!StringUtils.isEmpty(csvData.get(16)) ? csvData
 						.get(16) : "");
 		globalParameters
-				.setValueOFF(!StringUtils.isEmpty(excelData.get(17)) ? excelData
+				.setValueOFF(!StringUtils.isEmpty(csvData.get(17)) ? csvData
 						.get(17) : "");
 		globalParameters
-				.setEncodingType(!StringUtils.isEmpty(excelData.get(18)) ? excelData
+				.setEncodingType(!StringUtils.isEmpty(csvData.get(18)) ? csvData
 						.get(18) : "");
 
-		globalParameters.setIsUniqueToECU((excelData.size() > 19 && !StringUtils.isEmpty(excelData
-				.get(19))) ? excelData.get(19) : "");
+		globalParameters.setIsUniqueToECU((csvData.size() > 19 && !StringUtils.isEmpty(csvData
+				.get(19))) ? csvData.get(19) : "");
 
-		globalParameters.setSupportedByECU(excelData.size() > 20 && !StringUtils.isEmpty(excelData
-				.get(20)) ? excelData.get(20) : "");
+		globalParameters.setSupportedByECU(csvData.size() > 20 && !StringUtils.isEmpty(csvData
+				.get(20)) ? csvData.get(20) : "");
 
 		globalParameters
-				.setWasError(excelData.size() > 21 && !StringUtils.isEmpty(excelData.get(21)) ? excelData
+				.setWasError(csvData.size() > 21 && !StringUtils.isEmpty(csvData.get(21)) ? csvData
 						.get(21) : "");
 
 		globalParameters
-				.setErrorDesc(excelData.size() > 22 && !StringUtils.isEmpty(excelData.get(22)) ? excelData
+				.setErrorDesc(csvData.size() > 22 && !StringUtils.isEmpty(csvData.get(22)) ? csvData
 						.get(22) : "");
 
-		globalParameters.setVehicleControllerId(vehicleControllerID);
+//		globalParameters.setVehicleControllerId(vehicleControllerID);
 		globalParameters.setParameterDescId(parameterSequence);
 		parameterSequence ++;
 
-//		excelData.removeAll(Arrays.asList("", null));
-//		System.out.println(excelData.size());
-//		globalParameters.setLength(excelData.size() + 1);
+//		csvData.removeAll(Arrays.asList("", null));
+//		System.out.println(csvData.size());
+//		globalParameters.setLength(csvData.size() + 1);
 
 		return globalParameters;
 
@@ -454,10 +475,6 @@ public class GlobalParameters extends BaseModel {
 		globalParameters.setErrorDesc(!StringUtils.isEmpty(String
 				.valueOf(jsonObject.get("errorDesc"))) ? String
 				.valueOf(jsonObject.get("errorDesc")) : "");
-
-		globalParameters.setVehicleControllerId(!StringUtils.isEmpty(String
-				.valueOf(jsonObject.get("vehicleControllerId"))) ? String
-				.valueOf(jsonObject.get("vehicleControllerId")) : "");
 
 	    globalParameters.setParameterDescId(jsonObject
 				.getInt("parameterDescId"));

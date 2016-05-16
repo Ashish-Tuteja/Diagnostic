@@ -14,8 +14,6 @@ import org.springframework.stereotype.Service;
 
 import com.auction.pro.common.dao.AbstractDAO;
 import com.auction.pro.common.service.AbstractServiceImpl;
-import com.auction.pro.device.dto.DeviceDto;
-import com.auction.pro.device.model.Device;
 import com.auction.pro.ecuController.dao.base.EcuControllerAccountMapDao;
 import com.auction.pro.ecuController.dao.base.EcuControllerDao;
 import com.auction.pro.ecuController.dto.EcuControllerDto;

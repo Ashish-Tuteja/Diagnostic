@@ -38,7 +38,7 @@ public interface VehicleDao extends AbstractDAO<Vehicle> {
 	public void setControllerEcuParameters(EcuControllers controllerParameters) 
 			throws Exception;
 	
-	void updateGlobalParameters(List<GlobalParameters> parameters)
+	void deleteGlobalParameters(List<String> list)
 			throws Exception;
 
 	boolean setVehicleECU(List<Ecu> ecus) throws Exception;
@@ -47,10 +47,13 @@ public interface VehicleDao extends AbstractDAO<Vehicle> {
 
 	List<GlobalParameters> getDataList(String controllerId);
 	List<GlobalParameters> getDataListParameters( String vehicleControllerId);
-	List<EcuControllers> getEcuListParameters();
+	//public List<EcuControllers> getEcuListParameters(List<String> controllerIds);
 
 
-	List<EcuController_backup> getECUController(List<String> controllerIds);
+	List<GlobalParameters> getECUController(String[] controllerIds);
+	
+	List<EcuControllers> getECUControllers(List<String> controllerIds);
+	
 	Ecu getvehicleECU(VehicleFilter serachterm);
 
 	EcuControllers getvehicleECU(String make , String model , String year);

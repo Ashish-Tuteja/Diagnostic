@@ -1,3 +1,4 @@
+
 <div>
 	<ol class="ab-nav breadcrumb">
 		<li
@@ -12,7 +13,7 @@
 	<div>
 		<div class="widget-body no-padding">
 			<div class="table-responsive">
-				<form role="form" ng-submit="register()">
+<!-- 				<form role="form" > -->
 					<div class="form-group"
 						style="background-color: #fbfbfb; border: 1px solid #ddd; padding: 15px;">
 						<fieldset>
@@ -22,12 +23,12 @@
 
 							</section>
 							<br>
-							<section>
+							<!-- <section>
 							<input type="text" name="controllerid" placeholder="Controller ID"
 									ng-model="save.controller.controllerId" class="form-control" required>
 
 							</section>
-							<br>
+							<br> -->
 							<section>
 								<input type="text" name="make" placeholder="Make"
 									ng-model="save.controller.make" class="form-control">
@@ -46,15 +47,15 @@
 
 							</section>
 							<br>
-
-							<button class="btn btn-primary pull-right" >Save</button>
+							
+							<button class="btn btn-primary pull-right" ng-click="register()">Save</button>
 							<button ng-click="close()" class="btn btn-secondary pull-right">Cancel</button>
 
 						</fieldset>
 					</div>
 
 
-				</form>
+<!-- 				</form> -->
 
 			</div>
 			<!-- end widget content -->

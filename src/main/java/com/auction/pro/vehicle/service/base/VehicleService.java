@@ -41,7 +41,7 @@ public interface VehicleService extends AbstractService<VehicleDto> {
 	public int uploadGlobalEcu(File tempfile, byte[] bytestream,
 			String uploadoption);
 
-	public int uploadGlobalParameters(File tempfile, byte[] bytestream,
+	public int uploadGlobalParameters(String[] ids, File tempfile, byte[] bytestream,
 			String uploadoption);
 
 	

@@ -201,10 +201,13 @@ public class VehicleController extends AbstractController {
 	@RequestMapping(value = "/upload/globalparameters", method = RequestMethod.POST)
 	private @ResponseBody int uploadGlobalParameters(
 			@RequestParam(value = "data") String uploadoption,
-			@RequestParam(value = "file", required = true) MultipartFile file) {
+			@RequestParam(value = "file", required = true) MultipartFile file,
+			HttpServletRequest request) {
+//			@RequestBody String[] controllerIds) {
 		// TODO Auto-generated method stub
 		
 		try {
+			String[] controllerIds = request.getHeader("ids").split(",");
 			String fileName = file.getOriginalFilename();
 			if (!file.isEmpty()) {
 				try {
@@ -216,7 +219,7 @@ public class VehicleController extends AbstractController {
 							+ fileName);
 					tempfile.deleteOnExit();
 					// Files.deleteIfExists(tempfile.toPath());
-					return vehicleService.uploadGlobalParameters(tempfile, bytes,
+					return vehicleService.uploadGlobalParameters(controllerIds,tempfile, bytes,
 							uploadoption);
 				} catch (Exception e) {
 					e.printStackTrace();

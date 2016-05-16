@@ -163,23 +163,24 @@ dashboard.factory('vehicleupload', function($http, $location) {
 		},
 		
 		//Uploading Global parameters List for 1 file
-		uploadGlobalParameters : function(uploadUrl, formData) {
-			$http.post(uploadUrl, formData, {
+		uploadGlobalParameters : function(uploadUrl, formData,fileName,controllerIds) {
+			$http.post(uploadUrl, formData,  {
 				headers : {
-					'Content-Type' : undefined
+					'Content-Type' : undefined,
+					'ids' : controllerIds
 				},
 				transformRequest : angular.identity
 			}).success(
 					function(data) {
 						if (data == "0") {
-							showmessage("Sucsses!", "Upload file successfully",
+							showmessage("Sucsses!", fileName+" uploaded Successfully",
 									"success");
-							$location.path("/import");
+							$location.path("/controller");
 						} else {
 							showmessage("Error!",
 									"File not upload please check file format",
 									"error");
-							$location.path("/import");
+							$location.path("/controller");
 						}
 
 					}).error(function(error) {

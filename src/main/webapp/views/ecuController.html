@@ -1,3 +1,33 @@
+<style type="text/css">
+.btn-file {
+	position: absolute;
+	overflow: hidden;
+}
+
+.file-input {
+/* 	margin-left: 200px; */
+}
+
+.btn-file input[type=file] {
+	position: absolute;
+	top: 0;
+	right: 0;
+	min-width: 100%;
+	min-height: 100%;
+	font-size: 100px;
+	text-align: left;
+	filter: alpha(opacity = 0);
+	opacity: 0;
+	background: red;
+	cursor: inherit;
+	display: block;
+}
+
+input[readonly] {
+	background-color: white !important;
+	cursor: text !important;
+}
+</style>
 <div>
 	<ol class="ab-nav breadcrumb">
 		<li
@@ -46,8 +76,11 @@
 						width="100%" style="border-color: #c8c8c8">
 						<thead>
 							<tr style="background-color: #ddd">
-								<th data-hide="phone,tablet">Controller Id</th>
-								<th data-hide="phone,tablet">ControllerName</th>
+								<th data-hide="phone,tablet">CheckBox</th>
+								<th data-hide="phone,tablet">Make</th>
+								<th data-hide="phone,tablet">Model</th>
+								<th data-hide="phone,tablet">Year</th>
+								<th data-hide="phone,tablet">Controller Name</th>
 								<!-- <th data-hide="phone,tablet">Description</th>
 								<th data-hide="phone,tablet">Sim</th> -->
 								<th>Actions</th>
@@ -56,7 +89,11 @@
 						</thead>
 						<tbody ng-if="controllers!=0">
 							<tr ng-repeat="controller in controllers | filter : searchcontroller">
-								<td>{{ controller.controllerId}}</td>
+								<td>
+									<input type="checkbox" ng-click="clickCheck(controller.controllerId)"></td>
+								<td>{{ controller.make}}</td>
+								<td>{{ controller.model}}</td>
+								<td>{{ controller.year}}</td>
 								<td>{{ controller.controllerName}}</td>
 								<!-- <td>{{controller.description}}</td>
 								<td>{{controller.sim}}</td> -->
@@ -69,6 +106,9 @@
 
 						</tbody>
 					</table>
+					<span 	class="file-input btn btn-primary pull-left btn-file"> Browse 
+											<input	type="file"	onchange="angular.element(this).scope().uploadFile(this.files)">
+							</span>
 					<ul class="pagination pagination-sm pull-right">
 						<li><a href="javascript:void(0)"
 							ng-click="getcontrollerINRange(1)">First</a></li>

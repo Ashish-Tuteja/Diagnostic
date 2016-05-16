@@ -6,6 +6,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.auction.pro.common.model.BaseModel;
+import com.auction.pro.common.utils.CommonUtils;
 import com.auction.pro.ecuController.dto.EcuControllerDto;
 
 @Document(collection = "ecu_controllers")
@@ -48,7 +49,7 @@ public class EcuController extends BaseModel {
 		this.controllerName = !StringUtils.isEmpty(ecuControllerDto.getControllerName()) ? ecuControllerDto
 				.getControllerName() : "";
 		this.controllerId = !StringUtils.isEmpty(ecuControllerDto.getControllerId()) ? ecuControllerDto
-				.getControllerId() : "";
+				.getControllerId() : CommonUtils.generateUUID();
 	}
 
 	public String getMake() {

@@ -16,7 +16,7 @@ public class Ecu extends BaseModel implements NavResearchConstants {
 	private String make;
 	private String model;
 	private String year;
-	private List<EcuController_backup> controllers;
+	private List<EcuControllers> controllers;
 
 	public String getMake() {
 		return make;
@@ -46,16 +46,16 @@ public class Ecu extends BaseModel implements NavResearchConstants {
 		return serialVersionUID;
 	}
 
-	public List<EcuController_backup> getControllers() {
+	public List<EcuControllers> getControllers() {
 		return controllers;
 	}
 
-	public void setControllers(List<EcuController_backup> controllers) {
+	public void setControllers(List<EcuControllers> controllers) {
 		this.controllers = controllers;
 	}
 
 	public static Ecu setVehicleECU(List<String> excelData,
-			List<EcuController_backup> ecuControllers) {
+			List<EcuControllers> ecuControllers) {
 		String startYear;
 		Ecu vehicleecu = new Ecu();
 		vehicleecu.setMake(!StringUtils.isEmpty(excelData.get(0)) ? excelData
