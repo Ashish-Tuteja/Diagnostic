@@ -39,12 +39,7 @@ public class VehicleReportServiceImpl extends
 	public List<VehicleReportDto> findReportsById(String vin) throws Exception {
 		// TODO Auto-generated method stub
 		
-		System.out.println("vin received " + vin);
 		Vehicle vehicle = vehicleDao.findByVIN(vin);
-		System.out.println("vehicle returned for vin "+ vehicle);
-		System.out.println("fffffffffffffffffff"+reportDao.findReports(null,
-				vehicle.getReportgroupIds()).size());
-		System.out.println("grp ids from vehicle================="+vehicle.getReportgroupIds());
 		return getDTOsForEntities(reportDao.findReports(null,
 				vehicle.getReportgroupIds()));
 	}

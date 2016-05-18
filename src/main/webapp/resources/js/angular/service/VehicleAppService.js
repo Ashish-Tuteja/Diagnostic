@@ -173,7 +173,7 @@ dashboard.factory('vehicleupload', function($http, $location) {
 			}).success(
 					function(data) {
 						if (data == "0") {
-							showmessage("Sucsses!", fileName+" uploaded Successfully",
+							showmessage("Succsess!", fileName+" uploaded !!",
 									"success");
 							$location.path("/controller");
 						} else {

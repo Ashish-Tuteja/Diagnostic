@@ -107,7 +107,6 @@ public class EcuControllerController extends AbstractController {
 			PagedRequest pageRequest, HttpServletRequest request) {
 		try {
 			
-			System.out.println("printing controllers");
 			return ecuControllerService
 					.findAllPage(
 							pageRequest,

@@ -39,6 +39,10 @@ public class Listener implements NavResearchConstants {
 	private BufferedWriter out;
 	VehicleDto vehicleDTO = null;
 	List<GlobalParameters> globalParameterList = null;
+	int packetLength = 0;
+	int previouspacketLength = 0; 
+	private static int  count = 0;
+	boolean globalParameterMaxSize = false;
 
 	public void onMessage(String data) {
 		// TODO Auto-generated method stub
@@ -99,6 +103,7 @@ public class Listener implements NavResearchConstants {
 						+ ecus.getControllerId());
 			}
 
+			
 			try {
 
 				LOGGER.info("setting session id: " + sessionId);
@@ -113,7 +118,7 @@ public class Listener implements NavResearchConstants {
 
 				// wait before sending the next packet
 				Thread.sleep(1000);
-
+				
 				try {
 					// save session id before sending commands
 					vehicleService.insertVehicleReportGroupId(sessionId, vin);
@@ -127,8 +132,13 @@ public class Listener implements NavResearchConstants {
 						+ ecus.getControllerId());
 				globalParameterList = vehicleService.getDataList(ecus
 						.getControllerId());
+				
+				
+				LOGGER.info("Printing for next strings where count is " + count);
 				// loop over all the parameters for a given controller
 				for (GlobalParameters globalParameter : globalParameterList) {
+					if(count < globalParameterList.size() -1 && count!= globalParameterList.size()){
+						
 					LOGGER.info("Connecting....");
 					LOGGER.info("Client is Running");
 					// out = new DataOutputStream(client.getOutputStream());
@@ -162,9 +172,10 @@ public class Listener implements NavResearchConstants {
                     String testStr = null;
                     
 					 testStr = 
-					 	(String.valueOf(globalParameter.getIsEnhanced()).equals("1") ? "E" : "C") // SOURCE
-						+ ","
-					 	+ (String.valueOf(globalParameter.getIsEnhanced()).equals("1") ? "D" : "S") // PACKET TYPE
+//					 	(String.valueOf(globalParameter.getIsEnhanced()).equals("1") ? "E" : "C") // SOURCE
+//						+ ","
+//					 	+ (String.valueOf(globalParameter.getIsEnhanced()).equals("1") ? "D" : "S") // PACKET TYPE
+						"E,D"	 
 						+ ","
 					 	+ globalParameter.getParameterDescId()// UNIQUE ID FOR PARAMETER 
 						+ "," 
@@ -186,12 +197,32 @@ public class Listener implements NavResearchConstants {
 						+ ":"; // CLOSING DELIMITER
 						
 					LOGGER.info("Sending test string: " + testStr + " to device with ip " + serverName + ":" + port);
+					previouspacketLength = packetLength;
+					packetLength = testStr.getBytes().length;
+					count ++;
+					LOGGER.info("No of packets sent to device ::" + count);
+					packetLength = packetLength + previouspacketLength;
+					LOGGER.info(" Limiting Total size of packets sent to device to 1024 bytes !! Bytes sent is " + previouspacketLength);
+					if(packetLength >= 1024){
+						packetLength =0;
+						previouspacketLength=0;
+						
+						Thread.sleep(10000);
+						LOGGER.info("Wait before sending next 1024 bytes");
+					}
+					
 					out.write(testStr);
 					out.flush();
-					// pause before sending next command
-					// Thread.sleep(500);
-				}
-
+					// pause before sending next test String
+					 //Thread.sleep(500);
+					}else{
+//						globalParameterMaxSize = true;
+						count = 0;
+						LOGGER.error("No Strings returned for current VIN , Try for another vin");
+//						System.exit(1);
+					}
+					}
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 				LOGGER.error(serverName + " not Listen " + " on port " + port,
@@ -199,12 +230,14 @@ public class Listener implements NavResearchConstants {
 			} finally {
 				if (out != null) {
 					out.close();
+					LOGGER.info("Out closed");
 				}
 				if (client != null) {
 					client.close();
+					LOGGER.info("Client closed ");
 				}
 			}
-
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 			LOGGER.error("Url return null ", e.getMessage());
@@ -218,25 +251,23 @@ public class Listener implements NavResearchConstants {
 
 	}
 
+	
+	
 	@SuppressWarnings("unused")
 	private void onMessage(VehicleDto reportDto) {
 		try {
+			// wait before sending the next packet
+			Thread.sleep(3000);
+			LOGGER.info("After sending all test Strings , finally saving report !! ");
 			vehicleService.saveReport(reportDto);
 		} catch (Exception e) {
 			e.printStackTrace();
 			e.printStackTrace();
-			LOGGER.error("Report not save ", e.getMessage());
+			LOGGER.error("Report not saved ", e.getMessage());
 		}
 
 	}
-
-	/**
-	 * public static long generateRandom(int length) { Random random = new
-	 * Random(); char[] digits = new char[length]; digits[0] = (char)
-	 * (random.nextInt(9) + '1'); for (int i = 1; i < length; i++) { digits[i] =
-	 * (char) (random.nextInt(10) + '0'); } return Long.parseLong(new
-	 * String(digits)); }
-	 **/
+	
 
 	private DeviceDto saveDevice(String servername) throws Exception {
 		DeviceDto deviceDto = new DeviceDto();

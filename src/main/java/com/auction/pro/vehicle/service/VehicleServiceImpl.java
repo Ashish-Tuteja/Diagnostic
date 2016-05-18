@@ -240,7 +240,7 @@ public class VehicleServiceImpl extends
 					LOGGER.info("Importing parameter file for selected controllers ");
 					ecugbList = vehicleDao
 							.getECUController(controllerIds);
-					System.out.println("Size returned "+ecugbList.size());
+					System.out.println("Size returned for existing controllerIds ::"+ecugbList.size());
 					
 					List<String> updateList = new ArrayList<String>();
 					List<String> addList = new ArrayList<String>();
@@ -248,27 +248,25 @@ public class VehicleServiceImpl extends
 					
 					if(!ecugbList.isEmpty()){
 					for(GlobalParameters parameter :ecugbList){
-						System.out.println("parameter id "+parameter.getControllerId());
 						for(String id : controllerIds){
-							System.out.println("id in inner "+id);
 							if(parameter.getControllerId().equals(id)){
 								
 								if(!updateList.contains(id)){
-									System.out.println("in update list");
 									updateList.add(id);
+									LOGGER.info("Ids in update list :" + updateList);
 								}
 								
 							}else {
 								if(!addList.contains(id)){
 									addList.add(id);
+									LOGGER.info("Ids in add list :" + addList);
+									
 								}
 							}
 							
 						}
 					}
 					}
-					System.out.println("update list "+updateList);
-					System.out.println("add list "+addList);
 					
 					if(!updateList.isEmpty()){
 						LOGGER.info("Deleting parameters for selected controllers");
@@ -306,7 +304,7 @@ public class VehicleServiceImpl extends
 
 						for(GlobalParameters parameters : gbList){
 							for(String controllerId : controllerIds){
-								LOGGER.info("controllerid :: " + controllerId+ "   for each controller");
+//								LOGGER.info("controllerid :: " + controllerId+ "   for each controller");
 								GlobalParameters obj = new GlobalParameters(parameters);
 								obj.setControllerId(controllerId);
 								finalgbList.add(obj);	

@@ -199,7 +199,6 @@ public class VehicleDaoImpl extends AbstractDAOImpl<Vehicle> implements
 			
 			for (String controllerId : controllerIds) {
 				List<BasicDBObject> andObjs = new ArrayList<BasicDBObject>();
-				System.out.println("id in for loop "+ controllerId);
 			andObjs.add(new BasicDBObject().append("controllerId", controllerId));
 			BasicDBObject findOBJ = new BasicDBObject();
 			findOBJ.append("$and", andObjs);
@@ -207,7 +206,6 @@ public class VehicleDaoImpl extends AbstractDAOImpl<Vehicle> implements
 				
 			while (cursor.hasNext()) {
 				try {
-					System.out.println("addidng");
 					globalParameters.add(GlobalParameters
 							.convertGlobalParameters(new JSONObject(
 									((BasicDBObject) cursor.next()).toString())));
@@ -501,7 +499,7 @@ public class VehicleDaoImpl extends AbstractDAOImpl<Vehicle> implements
 				and.add(new BasicDBObject().append("wasError",
 						globalParameters.getWasError()));
 				count++;
-				LOGGER.info(String.valueOf("ParameterDescID " +globalParameters.getParameterDescId()));
+//				LOGGER.info(String.valueOf("ParameterDescID " +globalParameters.getParameterDescId()));
 				findObject.append("$and", and);
 
 				setObject = (DBObject) JSON.parse(CommonUtils
