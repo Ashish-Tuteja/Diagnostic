@@ -50,7 +50,7 @@ dashboard.factory('getVehiclesBySerach', [ '$resource', function($resource) {
 		searchterm : "@searchterm"
 	}, {
 		getList : {
-			url : '/autoficio/vehicle/search/:searchterm',
+			url : '/NavResearch/vehicle/search/:searchterm',
 			method : 'GET',
 			isArray : true
 		}

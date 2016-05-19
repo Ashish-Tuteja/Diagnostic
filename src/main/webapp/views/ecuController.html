@@ -45,7 +45,7 @@ input[readonly] {
 	<div ng-show="spinnerToggle" class="loader"></div>
 	<div ng-show="!spinnerToggle" class="input-group margin-bottom-10">
 		<input type="text" class="  search-query form-control"
-			placeholder="Search controllers" ng-model="searchcontroller"> <span
+			placeholder="Search controllers" ng-model="searchController"> <span
 			class="input-group-addon"> <i class="fa fa-search"></i>
 		</span>
 		<div class="jarviswidget-ctrls" role="menu">
@@ -89,7 +89,7 @@ input[readonly] {
 							</tr>
 						</thead>
 						<tbody ng-if="controllers!=0">
-							<tr ng-repeat="controller in controllers | filter : searchcontroller">
+							<tr ng-repeat="controller in controllers | filter : searchController">
 								<td>
 									<input type="checkbox" ng-click="clickCheck(controller.controllerId)"></td>
 								<td>{{ controller.make}}</td>

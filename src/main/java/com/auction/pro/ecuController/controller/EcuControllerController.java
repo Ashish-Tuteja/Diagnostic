@@ -127,33 +127,14 @@ public class EcuControllerController extends AbstractController {
 
 	}
 
-	/*
-	 * @RequestMapping(value = "/carrier/list", method = RequestMethod.GET)
-	 * public @ResponseBody List<CarrierDto> getListofCarriers() { try { return
-	 * deviceService.getCarriers(); } catch (Exception e) { // TODO: handle
-	 * exception LOGGER.error("Carriers list not get ", e.getMessage()); return
-	 * null;
-	 * 
-	 * } }
-	 */
-
-	/*
-	 * @RequestMapping(value = "/devicetype/list", method = RequestMethod.GET)
-	 * public @ResponseBody List<DeviceTypeDto> getListofDeviceType() { try {
-	 * return deviceService.getDeviceTypes(); } catch (Exception e) { // TODO:
-	 * handle exception LOGGER.error("DeviceType not get ", e.getMessage());
-	 * return null; }
-	 * 
-	 * }
-	 */
-
+	
+	
 	// Search on list of Controllers
 	@RequestMapping(value = "/search/{searchterm}", method = RequestMethod.GET)
 	public @ResponseBody List<EcuControllerDto> getEcuControllerBySearchTerm(
 			@PathVariable String searchterm, HttpServletRequest request) {
-		LOGGER.debug("Search term " + searchterm);
+		LOGGER.info("Search term " + searchterm);
 		try {
-			System.out.println("printing serach term");
 			return ecuControllerService
 					.findBySerachterm(
 							searchterm,
