@@ -50,7 +50,7 @@ dashboard
 
 					}
 					if (String($location.path()).indexOf("/vehicle/reportinfo") != -1) {
-						$rootScope.reportinfo = "";
+						$rootScope.reportinfo = ""; 
 						loading("Fetching Tests...");
 						if (angular.isUndefined($cookieStore.get("deviceip"))) {
 							getReportsbyID.get({
@@ -101,26 +101,39 @@ dashboard
 					$scope.setDynamicReports = function(system_array) {
 						var temp = new Array();
 						for (var i = 0; i < system_array.length; i++) {
+							var check = system_array[i].split(":");
+							if(check[1] != 0 || check[2] != 0 || check[3] != 0|| check[4] != 0 ){
 							temp.push(system_array[i].split(":"));
+							}
+							
 						}
 						$scope.dynamicReports.push(temp);
-						console.log($scope.dynamicReports);
+						console.log("dynamic reports "+$scope.dynamicReports);
 
 					}
 					// Generate Static Reports
 					$scope.setStaticReports = function(system_array) {
 						var temp = new Array();
 						for (var i = 0; i < system_array.length; i++) {
+							var check = system_array[i].split(":");
+							if(check[1] != 0 || check[2] != 0 ){
 							temp.push(system_array[i].split(":"));
+							}
+							
 						}
 						$scope.staticReports.push(temp);
+						console.log("static reports "+$scope.staticReports);
 					}
 
 					// Generate Trouble Reports
 					$scope.setTroubleReports = function(system_array) {
 						var temp = new Array();
 						for (var i = 0; i < system_array.length; i++) {
+							var check = system_array[i].split(":");
+							if(check[1] != 0 || check[2] != 0 || check[3] != 0|| check[4] != 0 ){
 							temp.push(system_array[i].split(":"));
+							}
+							
 						}
 						$scope.troubleReports.push(temp);
 					}
@@ -132,7 +145,11 @@ dashboard
 					$scope.setSystemReports = function(system_array) {
 						var temp = new Array();
 						for (var i = 0; i < system_array.length; i++) {
+							var check = system_array[i].split(":");
+							if(check[1] != 0 || check[2] != 0 || check[3] != 0|| check[4] != 0 ){
 							temp.push(system_array[i].split(":"));
+							}
+							
 						}
 						$scope.systemReports.push(temp);
 					}
