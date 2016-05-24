@@ -1,32 +1,31 @@
 /**
  * 
  */
-dashboard.controller('EcuControllerCtrl', function($scope, $location, $rootScope,
-		controllerservice, controllerListService, carrierListService,
-		controllertypeListService, getControllerService, getControllersBySerach,controllerdeleteservice,
+dashboard.controller('ParameterCtrl', function($scope, $location, $rootScope,
+		parameterService, parameterListService, getParameterService, getParametersBySerach,parameterDeleteService,
 		 ctrlOptions, $routeParams, $window, breadcrumbs, $route,
 		$cookieStore,vehicleupload) {
 	$scope.showModal = false;
 	$rootScope.pageNumber = 1;
 	$scope.breadcrumbs = breadcrumbs;
 	$scope.save = {};
-	$scope.controllertypes = {};
+	$scope.parametertypes = {};
 	$scope.carriers = {};
 	$scope.spinnerToggle=true;
 	var checkList = [];
-	if ($rootScope.controllerDetail != null) {
+	if ($rootScope.parameterDetail != null) {
 		$scope.buttonName = "Edit";
-		$scope.save.controller = $rootScope.controllerDetail;
+		$scope.save.parameter = $rootScope.parameterDetail;
 	} else {
 		$scope.buttonName = "Save";
 	}
-	if (ctrlOptions.showcontrollers) {
-		loading("Fetching Controllers...");
+	if (ctrlOptions.showparameters) {
+		loading("Fetching Parameters...");
 		$scope.buttonName = "Save";
-		controllerListService.getList({}, {
+		parameterListService.getList({}, {
 			page : 1
-		}, function(response) {
-			$scope.controllers = response.content;
+		}, function(response) {	
+			$scope.parameters = response.content;
 			$rootScope.responseList = response;
 			$rootScope.pages = response.totalPages;
 			$scope.spinnerToggle=false;
@@ -34,9 +33,9 @@ dashboard.controller('EcuControllerCtrl', function($scope, $location, $rootScope
 		});
 	}
 
-	// controllertypes
-	/*controllertypeListService.getList(function(response) {
-		$scope.controllertypes = response;
+	// parametertypes
+	/*parametertypeListService.getList(function(response) {
+		$scope.parametertypes = response;
 
 	});
 
@@ -45,47 +44,47 @@ dashboard.controller('EcuControllerCtrl', function($scope, $location, $rootScope
 		$scope.carriers = response;
 	});*/
 
-	$scope.addController = function() {
-		$rootScope.controllerDetail = null;
+	$scope.addParameter = function() {
+		$rootScope.parameterDetail = null;
 		// $scope.showModal = !$scope.showModal;
-		$location.path("/controller/add");
+		$location.path("/parameter/add");
 	};
 
-	$scope.editcontroller = function(obj) {
-		$rootScope.controllerDetail = obj;
-		$location.path("/controller/add");
+	$scope.editparameter = function(obj) {
+		$rootScope.parameterDetail = obj;
+		$location.path("/parameter/add");
 	}, $scope.getReports = function(obj) {
-		$cookieStore.put("controllerip", obj.ip);
+		$cookieStore.put("parameterip", obj.ip);
 		$location.path("/vehicle/reportinfo");
 	}
 
 	
-	//Display parameters for each controller
+	//Display parameters for each parameter
 	$scope.displayParameters = function(obj) {
 		$rootScope.parameterDetail = obj;
 		$location.path("/parameter");
 	};
 	
-	$scope.deleteController = function(id) {
+	$scope.deleteparameter = function(id) {
 
 		console.log(id);
-//		controllerdeleteservice.deleteEcu({},{id:id},function(
+//		parameterDeleteService.deleteEcu({},{id:id},function(
 //				response) {
 ////			if (response.id) {
-//					$location.path("/controller");
-//					showmessage("Success!", "Controller deleted successfully",
+//					$location.path("/parameter");
+//					showmessage("Success!", "parameter deleted successfully",
 //							"success");
 //
 ////			} else {
-////				showmessage("Error!", "Controller already exists", "error");
+////				showmessage("Error!", "parameter already exists", "error");
 ////			}
 //		});
 		
-		controllerdeleteservice.deleteEcu({id:id},function(response) {
+		parameterDeleteService.deleteEcu({id:id},function(response) {
 			console.log(response);
-//			$location.path("/controller");
+//			$location.path("/parameter");
 			$route.reload();
-			showmessage("Success!", "Controller deleted successfully",
+			showmessage("Success!", "parameter deleted successfully",
 					"success");
 
 		});
@@ -109,13 +108,13 @@ dashboard.controller('EcuControllerCtrl', function($scope, $location, $rootScope
 	 $scope.uploadFile = function(files) {
 		 $scope.generateObJ = "Global Parameters";
 		 /*
-		 var controllerIds = [];
-		 angular.forEach($scope.controllers, function(controller) {
-			 if($scope.check[controller.controllerId]){
-				 this.push(controller.controllerId);
+		 var parameterIds = [];
+		 angular.forEach($scope.parameters, function(parameter) {
+			 if($scope.check[parameter.parameterId]){
+				 this.push(parameter.parameterId);
 				 
 			 }
-		 }, controllerIds);*/
+		 }, parameterIds);*/
 		 
 		 
          var formData = new FormData();
@@ -156,76 +155,75 @@ dashboard.controller('EcuControllerCtrl', function($scope, $location, $rootScope
 
        }
 	$scope.register = function() {
-		delete $scope.save.controller.$$hashKey;
-		if(!$scope.save.controller.id){
-		//var newField = {"id": "","controllerId":""};
-			var newField = {"controllerId" :""};
-		  angular.extend($scope.save.controller, newField);
+		delete $scope.save.parameter.$$hashKey;
+		if(!$scope.save.parameter.id){
+		var newField = {"id": "","parameterId":""};
+		  angular.extend($scope.save.parameter, newField);
 		}
-		  console.log(JSON.stringify($scope.save.controller));
-			controllerservice.save(JSON.stringify($scope.save.controller), function(
+		  console.log(JSON.stringify($scope.save.parameter));
+		  parameterService.save(JSON.stringify($scope.save.parameter), function(
 					response) {
 				console.log(response);
 				if (response.id) {
-					if ($scope.save.controller.id !="") {
-						angular.forEach($scope.controllers, function(controller, key) {
-							if (controller.id == $scope.save.controller.id) {
-								$scope.controllers[key] = response;
+					if ($scope.save.parameter.id !="") {
+						angular.forEach($scope.parameters, function(parameter, key) {
+							if (parameter.id == $scope.save.parameter.id) {
+								$scope.parameters[key] = response;
 
 							}
 						});
-						$location.path("/controller");
-						showmessage("Success!", "Controller update successfully",
+						$location.path("/parameter");
+						showmessage("Success!", "parameter update successfully",
 								"success");
 					} else {
-						$location.path("/controller");
-						showmessage("Success!", "Controller create successfully",
+						$location.path("/parameter");
+						showmessage("Success!", "parameter create successfully",
 								"success");
 					}
 
 				} else {
-					showmessage("Error!", "Controller already exists", "error");
+					showmessage("Error!", "parameter already exists", "error");
 				}
 			});
 
 
 	}, $scope.range = function(n) {
 		return new Array(n);
-	}, $scope.getControllerINRange = function(range) {
+	}, $scope.getparameterINRange = function(range) {
 		$rootScope.pageNumber = range;
-		controllerListService.getList({}, {
+		parameterListService.getList({}, {
 			page : range
 		}, function(response) {
-			$scope.controllers = response.content;
+			$scope.parameters = response.content;
 			$rootScope.pages = response.totalPages;
 		});
-	}, $scope.$watch('searchController', function(newValue, oldValue) {
+	}, $scope.$watch('searchparameter', function(newValue, oldValue) {
 		if (String(newValue).length > 1 && newValue) {
-			getControllersBySerach.getList({}, {
+			getParametersBySerach.getList({}, {
 				searchterm : newValue
 			}, function(response) {
 				$rootScope.pages = response.length;
-				$scope.controllers = response;
+				$scope.parameters = response;
 			});
 		} else if (String(newValue).length <= 1 && newValue) {
-			$scope.controllers = $rootScope.responseList.content;
+			$scope.parameters = $rootScope.responseList.content;
 			$rootScope.pages = $rootScope.responseList.totalPages;
 		}
 	});
 
 	$scope.close = function() {
-		$location.path("/controller");
+		$location.path("/parameter");
 	}
 	$scope.previous = function() {
 		if ($rootScope.pageNumber > 1) {
 			$rootScope.pageNumber = $rootScope.pageNumber - 1;
-			$scope.getControllerINRange($rootScope.pageNumber);
+			$scope.getparameterINRange($rootScope.pageNumber);
 		}
 	}
 	$scope.next = function() {
 		if ($rootScope.pages > $rootScope.pageNumber) {
 			$rootScope.pageNumber = $rootScope.pageNumber + 1;
-			$scope.getControllerINRange($rootScope.pageNumber);
+			$scope.getparameterINRange($rootScope.pageNumber);
 		}
 	}
 });

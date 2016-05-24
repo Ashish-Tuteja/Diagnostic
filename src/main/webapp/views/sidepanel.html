@@ -59,17 +59,22 @@
 				class="fa fa fa-mobile fa-2x"></i> <br> <span
 				class='expanded-element'>Devices</span>
 		</a></li>
+		<li ng-if="checkPermission('Parameter')!=-1?true:false"><a
+			class='expandable' href='#parameter' title='Parameters'> <i
+				class="fa fa fa-mobile fa-2x"></i> <br> <span
+				class='expanded-element'>Parameters</span>
+		</a></li> 
 		<li ng-if="checkPermission('Vehicle')!=-1?true:false"><a
 			class='expandable' href='#vehicle' title='Vehicles'> <i
 				class="fa fa-car"></i><br> <span class='expanded-element'>Vehicle</span>
 		</a></li>
 		
-			<li ng-if="checkPermission('Controller')!=-1?true:false"><a
-			class='expandable' href='#controller' title='Controllers'>
-			 <i class="fa fa fa-mobile fa-2x"></i> <br> 
-			 <span class='expanded-element'>EcuControllers</span>
+			<li><a class='expandable' href='#controller' title='Controllers'>
+			 <i class="glyphicon glyphicon-import"></i> <br> 
+			 <span class='expanded-element'>Controllers</span>
 		</a></li>
-		<li><a class='expandable' href='#import' title='Import'> <i
+		<li ng-if="checkPermission('Vehicle')!=-1?true:false"><a 
+			class='expandable' href='#import' title='Import'> <i
 				class="glyphicon glyphicon-import"></i><br> <span
 				class='expanded-element'>Import</span>
 		</a></li>

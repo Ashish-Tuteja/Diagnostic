@@ -47,6 +47,8 @@ public class Listener implements NavResearchConstants {
 	public void onMessage(String data) {
 		// TODO Auto-generated method stub
 		StringBuffer uuid = new StringBuffer();
+		BufferedWriter out = null;
+		
 		uuid.append(Calendar.getInstance().getTimeInMillis());
 		String sessionId = Integer
 				.toString((int) Math.round(Math.random() * 999999));
@@ -64,6 +66,30 @@ public class Listener implements NavResearchConstants {
 				LOGGER.info("Device save");
 			}
 
+			LOGGER.info("setting session id: " + sessionId);
+			client = new Socket(serverName, port);
+			System.out.println("Client --->>>>" + client);
+			// out = new DataOutputStream(client.getOutputStream());
+			// create buffered writer to send data to device.
+			out = new BufferedWriter(new OutputStreamWriter(client.getOutputStream()));
+			out.write("I" + "," + sessionId + ":");
+			out.flush();
+
+			String info = "I" + "," + sessionId + ":";
+			packetLength = info.getBytes().length;
+			
+			// wait before sending the next packet
+			Thread.sleep(1000);
+			
+			try {
+				// save session id before sending commands
+				vehicleService.insertVehicleReportGroupId(sessionId, vin);
+				LOGGER.info("vehicle -> groupId <- vehicleReport");
+				vehicleService.updateTimeStamp(vin);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
 			vehicleDTO = vehicleService.findByVIN(vin);
 			if (vehicleDTO == null) {
 				url = "http://www.decodethis.com/webservices/API.ashx?vin="
@@ -71,30 +97,24 @@ public class Listener implements NavResearchConstants {
 						+ "&APIKey=8d04c7d0-a00f-4bc4-9cb9-99a3349d0846&format=JSON";
 				JSONObject vehicleJSON = CommonUtils.readJsonFromUrl(url);
 				vehicleDTO = new VehicleDto(vehicleJSON.getJSONObject("decode"));
-				LOGGER.info("Report fetching");
-
+				
 				LOGGER.info("JSON OBJECT  "
 						+ vehicleJSON.getJSONObject("decode"));
 				if (vehicleJSON.getJSONObject("decode").toString() != null) {
-					LOGGER.info("Save vehicle");
+					LOGGER.info("NEW: saving vehicle");
 					saveVehicle(vehicleDTO, device);
 				} else {
 					LOGGER.error("Reponse not get from " + url);
 				}
 
-			} else {
-				LOGGER.info("Vehicle already exists!!");
-
 			}
-			LOGGER.info("Send Data to device");
+			
 			// get controllers based on make , model , year from vehicle
 			EcuControllers ecus = vehicleService.getvehicleECU(
-					vehicleDTO.getMake(), vehicleDTO.getModel(),
-					vehicleDTO.getYear());
+					vehicleDTO.getMake(), vehicleDTO.getModel(),vehicleDTO.getYear());
 
 			if (ecus == null) {
-				LOGGER.info("No Ecus exist for this vehicle");
-				LOGGER.error("VIN should match with ecu_controller(Make , model , year)");
+				LOGGER.info("No Ecus exist for this vehicle (Make , model , year)");
 				return;
 			} else {
 				LOGGER.info("Ecus return for vehicle" + "Make : "
@@ -105,57 +125,17 @@ public class Listener implements NavResearchConstants {
 
 			
 			try {
-
-				LOGGER.info("setting session id: " + sessionId);
-				client = new Socket(serverName, port);
-				System.out.println("Client --->>>>" + client);
-				// out = new DataOutputStream(client.getOutputStream());
-				// create buffered writer to send data to device.
-				BufferedWriter out = new BufferedWriter(new OutputStreamWriter(
-						client.getOutputStream()));
-				out.write("I" + "," + sessionId + ":");
-				out.flush();
-
-				// wait before sending the next packet
-				Thread.sleep(1000);
+				LOGGER.info("Getting parameter_tests for controller : " + ecus.getControllerId());
+				globalParameterList = vehicleService.getDataList(ecus.getControllerId());
 				
-				try {
-					// save session id before sending commands
-					vehicleService.insertVehicleReportGroupId(sessionId, vin);
-					LOGGER.info("vehicle -> groupId <- vehicleReport");
-					vehicleService.updateTimeStamp(vin);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-
-				LOGGER.info("Getting parameter_tests for controller : "
-						+ ecus.getControllerId());
-				globalParameterList = vehicleService.getDataList(ecus
-						.getControllerId());
-				
-				
+				LOGGER.info("Send test data to device");
 				LOGGER.info("Printing for next strings where count is " + count);
+				
 				// loop over all the parameters for a given controller
 				for (GlobalParameters globalParameter : globalParameterList) {
-					if(count < globalParameterList.size() -1 && count!= globalParameterList.size()){
-						
-					LOGGER.info("Connecting....");
-					LOGGER.info("Client is Running");
-					// out = new DataOutputStream(client.getOutputStream());
-
-					/** Old Format deprecated as of 04-30-2016 **/
-					// 0 = PACKET TYPE (D or S) (STRING)
-					// 1 = TEST ID (LONG)
-					// 2 = TX_ID (HEX)
-					// 3 = RX_ID (HEX)
-					// 4 = ENHANCED (INT 0 or 1)
-					// 5 = EXTENDED ID (HEX)
-					// 6 = MODE/SERVICE_ID (HEX)
-					// 7 = PID/PARAMETER_ID (HEX)
-					// 8 = POSITION (INT)
-					// 9 = WIDTH (INT)
-					// 10 = LATENCY (INT)
 					
+					LOGGER.info("Current test count:" + count);
+						
 					/** New Format as of 05-01-2016 **/
 					// SOURCE (C/E)
 					// PACKET TYPE (D/S)
@@ -196,38 +176,53 @@ public class Listener implements NavResearchConstants {
 						+ globalParameter.getEndness() // ENDINESS
 						+ ":"; // CLOSING DELIMITER
 						
-					LOGGER.info("Sending test string: " + testStr + " to device with ip " + serverName + ":" + port);
 					previouspacketLength = packetLength;
 					packetLength = testStr.getBytes().length;
 					count ++;
-					LOGGER.info("No of packets sent to device ::" + count);
 					packetLength = packetLength + previouspacketLength;
-					LOGGER.info(" Limiting Total size of packets sent to device to 1024 bytes !! Bytes sent is " + previouspacketLength);
-					if(packetLength >= 1024){
+					LOGGER.info("Current bytes count is " + packetLength);
+					
+					
+					if(packetLength >= 1020){
 						packetLength =0;
 						previouspacketLength=0;
 						
-						Thread.sleep(10000);
-						LOGGER.info("Wait before sending next 1024 bytes");
+						try {
+							if (out != null) {
+								out.close();
+								LOGGER.info("Out closed");
+							}
+							if (client != null) {
+								client.close();
+								LOGGER.info("Client closed ");
+							}
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+						
+						Thread.sleep(3000);
+						
+						LOGGER.info("Creating a new socket connection");
+						client = new Socket(serverName, port);
+						out = new BufferedWriter(new OutputStreamWriter(
+								client.getOutputStream()));
+						
+						LOGGER.info("Sending test string: " + testStr + " to device with ip " + serverName);
+						out.write(testStr);
+						out.flush();
+						
+					} else {
+						LOGGER.info("Sending test string: " + testStr + " to device with ip " + serverName);
+						out.write(testStr);
+						out.flush();
 					}
-					
-					out.write(testStr);
-					out.flush();
-					// pause before sending next test String
-					 //Thread.sleep(500);
-					}else{
-//						globalParameterMaxSize = true;
-						count = 0;
-						LOGGER.error("No Strings returned for current VIN , Try for another vin");
-//						System.exit(1);
-					}
-					}
+				}
 				
 			} catch (Exception e) {
 				e.printStackTrace();
-				LOGGER.error(serverName + " not Listen " + " on port " + port,
-						e.getMessage());
+				LOGGER.error(serverName + " not Listen " + " on port " + port, e.getMessage());
 			} finally {
+				
 				if (out != null) {
 					out.close();
 					LOGGER.info("Out closed");

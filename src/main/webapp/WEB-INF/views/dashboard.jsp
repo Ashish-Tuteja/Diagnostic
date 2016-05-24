@@ -87,6 +87,12 @@
 	src="<c:url value='/resources/js/angular/controller/EcuControllerCtrl.js'></c:url>"></script>
 <script
 	src="<c:url value='/resources/js/angular/service/EcuControllerAppService.js'></c:url>"></script>
+	
+<!-- Parameters -->
+<script
+	src="<c:url value='/resources/js/angular/controller/ParameterCtrl.js'></c:url>"></script>
+<script
+	src="<c:url value='/resources/js/angular/service/ParameterAppService.js'></c:url>"></script>
 
 <!-- Vehicle -->
 <script
