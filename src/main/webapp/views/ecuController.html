@@ -45,7 +45,7 @@ input[readonly] {
 	<div ng-show="spinnerToggle" class="loader"></div>
 	<div ng-show="!spinnerToggle" class="input-group margin-bottom-10">
 		<input type="text" class="  search-query form-control"
-			placeholder="Search controllers" ng-model="searchcontroller"> <span
+			placeholder="Search controllers" ng-model="searchController"> <span
 			class="input-group-addon"> <i class="fa fa-search"></i>
 		</span>
 		<div class="jarviswidget-ctrls" role="menu">
@@ -89,21 +89,19 @@ input[readonly] {
 							</tr>
 						</thead>
 						<tbody ng-if="controllers!=0">
-							<tr ng-repeat="controller in controllers | filter : searchcontroller">
+							<tr ng-repeat="controller in controllers | filter : searchController">
 								<td>
 									<input type="checkbox" ng-click="clickCheck(controller.controllerId)"></td>
 								<td>{{ controller.make}}</td>
 								<td>{{ controller.model}}</td>
 								<td>{{ controller.year}}</td>
 								<td>{{ controller.controllerName}}</td>
+								<!-- <td>{{controller.description}}</td>
+								<td>{{controller.sim}}</td> -->
 								<td><a href="javascript:void(0)"
-									ng-click="editcontroller(controller)"><i class="fa fa-edit"></i></a>
-									<a
+									ng-click="editcontroller(controller)"><i class="fa fa-edit"></i></a> <a
 									href="javascript:void(0)" ng-click="deleteController(controller.id)"><i
-										class="fa fa-trash-o"></i></a>
-										<a href="javascript:void(0)"
-									ng-click="displayParameters(controller)"><i class="fa fa-file-o"></i>	
-							    </td>
+										class="fa fa-trash-o"></i></a></td>
 
 							</tr>
 
@@ -169,7 +167,7 @@ input[readonly] {
 			<br>
 
 
-			<!-- <section>
+			<section>
 				<select ng-model="save.controller.carrierId" accesskey="0"
 					class="form-control selectpicker">
 					<option value="">--Select a carrier--</option>
@@ -184,7 +182,7 @@ input[readonly] {
 					<option ng-repeat="controllertype in controllertypes"
 						value={{controllertype.id}}>{{controllertype.name}}</option>
 				</select>
-			</section> -->
+			</section>
 			<br>
 
 			<button type="submit" class="btn btn-primary pull-right"

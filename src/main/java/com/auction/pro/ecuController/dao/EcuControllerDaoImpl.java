@@ -22,8 +22,8 @@ import com.auction.pro.ecuController.model.EcuController;
 import com.mongodb.QueryBuilder;
 
 @Repository
-public class EcuControllerDaoImpl extends AbstractDAOImpl<EcuController> implements
-		EcuControllerDao, MongoConstant {
+public class EcuControllerDaoImpl extends AbstractDAOImpl<EcuController>
+		implements EcuControllerDao, MongoConstant {
 	@Autowired
 	MongoTemplate mongoTemplate;
 	private static final Logger LOGGER = LoggerFactory
@@ -32,9 +32,18 @@ public class EcuControllerDaoImpl extends AbstractDAOImpl<EcuController> impleme
 	public List<EcuController> findBySerachterm(String searchterm,
 			Serializable parentAccountId) throws Exception {
 		// TODO Auto-generated method stub
-		return mongoTemplate.find(new Query(new Criteria().andOperator(
-		/* Criteria.where("parentAccountId").all(parentAccountId), */
-		Criteria.where("controllerName").regex(searchterm))), EcuController.class);
+		System.out.println(new Query(new Criteria().orOperator(
+				Criteria.where("controllerName").regex(searchterm),
+				Criteria.where("make").regex(searchterm), Criteria
+						.where("model").regex(searchterm), Criteria
+						.where("year").regex(searchterm))));
+		return mongoTemplate.find(
+				new Query(new Criteria().orOperator(
+						Criteria.where("controllerName").regex(searchterm),
+						Criteria.where("make").regex(searchterm), Criteria
+								.where("model").regex(searchterm), Criteria
+								.where("year").regex(searchterm))),
+				EcuController.class);
 
 	}
 
@@ -43,16 +52,16 @@ public class EcuControllerDaoImpl extends AbstractDAOImpl<EcuController> impleme
 		return mongoTemplate.findAll(Carrier.class);
 	}
 
-//	public List<EcuControllerType> getEcuControllerTypes() throws Exception {
-//		// TODO Auto-generated method stub
-//		return mongoTemplate.findAll(EcuControllerType.class);
-//	}
+	// public List<EcuControllerType> getEcuControllerTypes() throws Exception {
+	// // TODO Auto-generated method stub
+	// return mongoTemplate.findAll(EcuControllerType.class);
+	// }
 
 	public List<EcuController> getEcuControllers() throws Exception {
 		// TODO Auto-generated method stub
 		return mongoTemplate.findAll(EcuController.class);
 	}
-	
+
 	@Override
 	public void delete(EcuController entity) {
 		Query query = new Query(Criteria.where("_id").is(entity.getId()));
@@ -64,8 +73,9 @@ public class EcuControllerDaoImpl extends AbstractDAOImpl<EcuController> impleme
 		// TODO Auto-generated method stub
 		try {
 			return (mongoTemplate.findOne(
-					new Query(new Criteria().orOperator(Criteria.where("controllerId")
-							.is(entity.getControllerId()))), EcuController.class).getControllerId() != null) ? true
+					new Query(new Criteria().orOperator(Criteria.where(
+							"controllerId").is(entity.getControllerId()))),
+					EcuController.class).getControllerId() != null) ? true
 					: false;
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -73,8 +83,8 @@ public class EcuControllerDaoImpl extends AbstractDAOImpl<EcuController> impleme
 		}
 	}
 
-	public Page<EcuController> findAllPage(Pageable pageable, String parentAccountId)
-			throws Exception {
+	public Page<EcuController> findAllPage(Pageable pageable,
+			String parentAccountId) throws Exception {
 		// TODO Auto-generated method stub
 		List<EcuController> list = null;
 		Query query = new Query();
@@ -84,8 +94,8 @@ public class EcuControllerDaoImpl extends AbstractDAOImpl<EcuController> impleme
 		 */
 		query.with(pageable);
 		list = mongoTemplate.find(query, EcuController.class);
-		Page<EcuController> entityPage = new PageImpl<EcuController>(list, pageable,
-				mongoTemplate.count(
+		Page<EcuController> entityPage = new PageImpl<EcuController>(list,
+				pageable, mongoTemplate.count(
 				/*
 				 * Query.query(Criteria.where("parentAccountId").all(
 				 * parentAccountId))
@@ -93,10 +103,10 @@ public class EcuControllerDaoImpl extends AbstractDAOImpl<EcuController> impleme
 		return entityPage;
 	}
 
-	
 	public EcuController findByEcuControllerIp(String id) {
 		// TODO Auto-generated method stub
-		return mongoTemplate.findOne(Query.query(Criteria.where("controllerId").is(id)),
+		return mongoTemplate.findOne(
+				Query.query(Criteria.where("controllerId").is(id)),
 				EcuController.class);
 	}
 
