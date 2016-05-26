@@ -36,7 +36,7 @@ dashboard.controller('EcuControllerCtrl', function($scope, $location, $rootScope
 
 	//Display parameters for each controller
 	$scope.displayParameters = function(obj) {
-		$rootScope.parameterControllerId = obj;
+		$rootScope.contDetails = obj;
 		$location.path("/parameter");    
 	};
 	

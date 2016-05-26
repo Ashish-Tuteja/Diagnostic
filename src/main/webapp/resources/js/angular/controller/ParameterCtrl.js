@@ -11,6 +11,7 @@ dashboard.controller('ParameterCtrl', function($scope, $location, $rootScope,
 	$scope.save = {};
 	$scope.parametertypes = {};
 	$scope.carriers = {};
+	
 	$scope.spinnerToggle=true;
 	var checkList = [];
 	if ($rootScope.parameterDetail != null) {
