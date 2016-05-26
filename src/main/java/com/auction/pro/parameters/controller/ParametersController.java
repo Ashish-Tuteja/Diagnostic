@@ -33,17 +33,16 @@ public class ParametersController extends AbstractController {
 			.getLogger(ParametersController.class.getName());
 
 	// Add/Update on parameter
-	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	@RequestMapping(value = "/add/{controllerId}", method = RequestMethod.POST)
 	protected @ResponseBody ParametersDto save(
 			@RequestBody ParametersDto parametersDto,
-			HttpServletRequest request) {
+			 @PathVariable String controllerId, HttpServletRequest request) {
 		// TODO: handle exception
 		try {
-			LOGGER.info(parametersDto.getId());
+			LOGGER.info("paramertssss id -------------->"+parametersDto.getId());
+			
 			if (parametersDto.getId() == null) {
 				if (request.getSession(false).getAttribute("accountId") != null) {
-					System.out.println("first");
-
 					List<String> accountIDs = accountService.findById(
 							request.getSession(false).getAttribute("accountId")
 									.toString()).getParentAccountIds();
@@ -56,8 +55,12 @@ public class ParametersController extends AbstractController {
 					List<String> accountIds = accountDto.getParentAccountIds();
 					accountIds.add(accountDto.getId());
 					parametersDto.setParentAccountId(accountIds);
+					
 				}
 			}
+			
+			parametersDto.setControllerId(controllerId);
+			LOGGER.info("Paraent Account id --->"+ parametersDto.getParentAccountId() + "ParameterDto id ---->" + parametersDto.getId());
 			return parametersService.save(parametersDto);
 		} catch (Exception e) {
 			// TODO: handle exception

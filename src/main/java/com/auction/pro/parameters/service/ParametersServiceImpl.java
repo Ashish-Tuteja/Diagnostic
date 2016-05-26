@@ -31,17 +31,33 @@ public class ParametersServiceImpl extends AbstractServiceImpl<ParametersDto, Pa
 
 	public ParametersDto save(ParametersDto entity) {
 		// TODO Auto-generated method stub
-		if (entity.getId() != null) {
-			chekIfExists = parametersDao.exists((Parameters) getEntityFromDTO(entity,
-					Parameters.class));
+		
+		
+			if (entity.getId() != null) {
+			
+			System.out.println("updating -------->");
 			return getDTOForEntity(parametersDao.save((Parameters) getEntityFromDTO(
 					entity, Parameters.class)));
 		} else {
-			chekIfExists = parametersDao.exists((Parameters) getEntityFromDTO(entity,
-					Parameters.class));
-			return !chekIfExists ? getDTOForEntity(parametersDao
+			System.out.println("Adding------------>");
+			/*chekIfExists = parametersDao.exists((Parameters) getEntityFromDTO(entity,
+					Parameters.class));*/
+			try{
+			String paramDescId = parametersDao.getParamDescIdByControllerId(entity.getControllerId());
+			LOGGER.info("ParameterDescId returned :::" + paramDescId + "for controller Id :::" + entity.getControllerId());
+			int ParamDescId = Integer.parseInt(paramDescId.toString()) + 1;
+			  
+			entity.setParameterDescId(String.valueOf(ParamDescId));
+			
+			}catch(Exception e){
+				e.printStackTrace();
+				LOGGER.error("Parameter desc id not found");
+			}
+			/*return !chekIfExists ? getDTOForEntity(parametersDao
 					.save((Parameters) getEntityFromDTO(entity, Parameters.class)))
-					: null;
+					: null;*/
+			return getDTOForEntity(parametersDao.save((Parameters) getEntityFromDTO(
+					entity, Parameters.class)));
 		}
 	}
 

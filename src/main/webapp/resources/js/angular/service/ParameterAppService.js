@@ -1,9 +1,8 @@
 dashboard.factory('parameterService', [ '$resource', function($resource) {
-	return $resource(':url', {},{
+	return $resource('/NavResearch/parameters/add/:id',{id: "@id"},{
 		save : {
-			url : '/NavResearch/Parameter/add',
 			method : 'POST',
-			isArray : false
+			isArray : false,
 		}
 
 	});
@@ -11,7 +10,7 @@ dashboard.factory('parameterService', [ '$resource', function($resource) {
 
 	
 dashboard.factory('parameterDeleteService', [ '$resource', function($resource) {
-	return $resource('/NavResearch/Parameter/delete/:id',{id: "@id"},{
+	return $resource('/NavResearch/parameters/delete/:id',{id: "@id"},{
 		deleteParameter : {
 			method : 'DELETE',
 			isArray : false
@@ -26,7 +25,7 @@ dashboard.factory('parameterListService', [ '$resource', function($resource) {
 		page : "@page"
 	}, {
 		getList : {
-			url : '/NavResearch/Parameter/list?page=:page&size=20',
+			url : '/NavResearch/parameters/list?page=:page&size=20',
 			method : 'GET',
 			isArray : false
 		}

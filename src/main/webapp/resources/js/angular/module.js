@@ -111,6 +111,17 @@ dashboard.config(function($routeProvider, $locationProvider) {
 				};
 			}
 		}
+	}).when('/controller/parameter', {
+		controller : 'ParameterCtrl',
+		templateUrl : 'views/parameter.html',
+		label : 'Parameters',
+		resolve : {
+			ctrlOptions : function() {
+				return {
+					showparameters : false,
+				};
+			}
+		}
 	}).when('/vehicle', {
 		controller : 'VehicleCtrl',
 		templateUrl : 'views/vehicle.html',

@@ -14,7 +14,7 @@
 	<div ng-show="spinnerToggle" class="loader"></div>
 	<div ng-show="!spinnerToggle" class="input-group margin-bottom-10">
 		<input type="text" class="  search-query form-control"
-			placeholder="Search parameters" ng-model="searchparameter"> <span
+			placeholder="Search parameters" ng-model="searchParameter"> <span
 			class="input-group-addon"> <i class="fa fa-search"></i>
 		</span>
 		<div class="jarviswidget-ctrls" role="menu">
@@ -56,8 +56,7 @@
 								<th data-hide="phone,tablet">Length</th>
 								<th data-hide="phone,tablet">Offset</th>
 								<th data-hide="phone,tablet">Position</th>
-								<th data-hide="phone,tablet">Pidth</th>
-								<th data-hide="phone,tablet">Description</th>
+								<th data-hide="phone,tablet">Width</th>
 								<th data-hide="phone,tablet">WasError</th>
 								<th>Actions</th>
 
@@ -65,21 +64,21 @@
 						</thead>
 						<tbody ng-if="parameters!=0">
 							<tr ng-repeat="parameter in parameters | filter : searchParameter">
-								<td>{{ parameter.ParameterDesc}}</td>
-								<td>{{ parameter.TxId}}</td>
-								<td>{{ parameter.Rxid}}</td>
-								<td>{{ parameter.IsEnhanced}}</td>
-								<td>{{ parameter.ServiceId}}</td>
-								<td>{{ parameter.ParameterId}}</td>
-								<td>{{ parameter.Length}}</td>
-								<td>{{ parameter.Offset}}</td>
-								<td>{{ parameter.Position}}</td>
-								<td>{{ parameter.Width}}</td>
+								<td>{{ parameter.parameterDesc}}</td>
+								<td>{{ parameter.txId}}</td>
+								<td>{{ parameter.rxId}}</td>
+								<td>{{ parameter.isEnhanced}}</td>
+								<td>{{ parameter.serviceId}}</td>
+								<td>{{ parameter.parameterId}}</td>
+								<td>{{ parameter.length}}</td>
+								<td>{{ parameter.offset}}</td>
+								<td>{{ parameter.bitpostion}}</td>
+								<td>{{ parameter.bitwidth}}</td>
 								<td>{{ parameter.wasError}}</td>
 								<td><a href="javascript:void(0)"
 									ng-click="editparameter(parameter)">
 									<i class="fa fa-edit"></i></a> 
-									<a href="javascript:void(0)" ng-click="deleteparameter(parameter.id)">
+									<a href="javascript:void(0)" ng-click="deleteParameter(parameter.id)">
 									<i class="fa fa-trash-o"></i></a>
 								</td>
 
@@ -113,7 +112,7 @@
 
 <!-- end widget grid -->
 <!-- END MAIN CONTENT -->
-<!-- <modal visible="showModal">
+ <!-- <modal visible="showModal">
 
 <form role="form">
 	<div class="form-group">
@@ -194,6 +193,6 @@
 
 </form>
 
-</modal>
+</modal> -->
 
- -->	
+ 

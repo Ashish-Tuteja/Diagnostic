@@ -33,17 +33,6 @@ dashboard.controller('ParameterCtrl', function($scope, $location, $rootScope,
 		});
 	}
 
-	// parametertypes
-	/*parametertypeListService.getList(function(response) {
-		$scope.parametertypes = response;
-
-	});
-
-	// carriers
-	carrierListService.getList(function(response) {
-		$scope.carriers = response;
-	});*/
-
 	$scope.addParameter = function() {
 		$rootScope.parameterDetail = null;
 		// $scope.showModal = !$scope.showModal;
@@ -62,27 +51,16 @@ dashboard.controller('ParameterCtrl', function($scope, $location, $rootScope,
 	//Display parameters for each parameter
 	$scope.displayParameters = function(obj) {
 		$rootScope.parameterDetail = obj;
+//		$cookieStore.put("deviceip", obj.ip);
 		$location.path("/parameter");
 	};
 	
-	$scope.deleteparameter = function(id) {
-
+	
+	//deleting parameter by Id
+	$scope.deleteParameter = function(id) {
 		console.log(id);
-//		parameterDeleteService.deleteEcu({},{id:id},function(
-//				response) {
-////			if (response.id) {
-//					$location.path("/parameter");
-//					showmessage("Success!", "parameter deleted successfully",
-//							"success");
-//
-////			} else {
-////				showmessage("Error!", "parameter already exists", "error");
-////			}
-//		});
-		
-		parameterDeleteService.deleteEcu({id:id},function(response) {
+		parameterDeleteService.deleteParameter({id:id},function(response) {
 			console.log(response);
-//			$location.path("/parameter");
 			$route.reload();
 			showmessage("Success!", "parameter deleted successfully",
 					"success");
@@ -105,67 +83,23 @@ dashboard.controller('ParameterCtrl', function($scope, $location, $rootScope,
 		console.log(checkList);
 		
 	 }
-	 $scope.uploadFile = function(files) {
-		 $scope.generateObJ = "Global Parameters";
-		 /*
-		 var parameterIds = [];
-		 angular.forEach($scope.parameters, function(parameter) {
-			 if($scope.check[parameter.parameterId]){
-				 this.push(parameter.parameterId);
-				 
-			 }
-		 }, parameterIds);*/
-		 
-		 
-         var formData = new FormData();
-         if (files.length == 0) {
-           showmessage("Info!", "Please select a file", "info");
-           return;
-         }
-         var uploadUrl = "";
-         formData.append("file", files[0]);
-         if (String($scope.generateObJ) == "Global Parameter") {
-           
-           uploadUrl = "/NavResearch/vehicle/upload/globaldata?data="
-                   + String($scope.generateObJ);
-           vehicleupload.uploadGlobalData(uploadUrl, formData);
-           $scope.browse = true;
-         } else if (String($scope.generateObJ) == "Vehicle ECU") {
-           
-           uploadUrl = "/NavResearch/vehicle/upload/vehicleecu?data="
-                   + String($scope.generateObJ);
-           vehicleupload.uploadVehicleECU(uploadUrl, formData);
-           $scope.browse = true;
-
-         } else if (String($scope.generateObJ) == "Global ECU") {
-          
-           uploadUrl = "/NavResearch/vehicle/upload/globalecu?data="
-                   + String($scope.generateObJ);
-           vehicleupload.uploadGlobalECU(uploadUrl, formData);
-           $scope.browse = true;
-
-         } else if (String($scope.generateObJ) == "Global Parameters") {
-             
-             uploadUrl = "/NavResearch/vehicle/upload/globalparameters?data="
-                     + String($scope.generateObJ);
-             vehicleupload.uploadGlobalParameters(uploadUrl, formData,files[0].name,checkList);
-             $scope.browse = true;
-
-         }
-
-       }
+	
+	
+	//Saving parameters for a particular controller by controller Id
 	$scope.register = function() {
 		delete $scope.save.parameter.$$hashKey;
 		if(!$scope.save.parameter.id){
-		var newField = {"id": "","parameterId":""};
-		  angular.extend($scope.save.parameter, newField);
+			
 		}
+		/*var newField = {"controllerId":$rootScope.parameterControllerId};
+		  angular.extend($scope.save.parameter, newField);
+		}*/
 		  console.log(JSON.stringify($scope.save.parameter));
-		  parameterService.save(JSON.stringify($scope.save.parameter), function(
+		  parameterService.save({id:$rootScope.parameterControllerId},JSON.stringify($scope.save.parameter), function(
 					response) {
 				console.log(response);
 				if (response.id) {
-					if ($scope.save.parameter.id !="") {
+					if ($scope.save.parameter.id != null) {
 						angular.forEach($scope.parameters, function(parameter, key) {
 							if (parameter.id == $scope.save.parameter.id) {
 								$scope.parameters[key] = response;
@@ -197,7 +131,7 @@ dashboard.controller('ParameterCtrl', function($scope, $location, $rootScope,
 			$scope.parameters = response.content;
 			$rootScope.pages = response.totalPages;
 		});
-	}, $scope.$watch('searchparameter', function(newValue, oldValue) {
+	}, $scope.$watch('searchParameter', function(newValue, oldValue) {
 		if (String(newValue).length > 1 && newValue) {
 			getParametersBySerach.getList({}, {
 				searchterm : newValue

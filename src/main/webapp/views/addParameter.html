@@ -17,6 +17,20 @@
 					<div class="form-group"
 						style="background-color: #fbfbfb; border: 1px solid #ddd; padding: 15px;">
 						<fieldset>
+						
+						<td>{{ parameter.parameterDesc}}</td>
+								<td>{{ parameter.txId}}</td>
+								<td>{{ parameter.rxId}}</td>
+								<td>{{ parameter.isEnhanced}}</td>
+								<td>{{ parameter.serviceId}}</td>
+								<td>{{ parameter.parameterId}}</td>
+								<td>{{ parameter.length}}</td>
+								<td>{{ parameter.offset}}</td>
+								<td>{{ parameter.bitpostion}}</td>
+								<td>{{ parameter.bitwidth}}</td>
+								<td>{{ parameter.wasError}}</td>
+								
+								
 							<section>
 							<input type="text" name="parameterDesc" placeholder="ParameterDesc"
 									ng-model="save.parameter.parameterDesc" class="form-control" required>
@@ -30,8 +44,8 @@
 							</section>
 							<br>
 							<section>
-								<input type="text" name="rxid" placeholder="Rxid"
-									ng-model="save.parameter.rxid" class="form-control">
+								<input type="text" name="rxId" placeholder="Rxid"
+									ng-model="save.parameter.rxId" class="form-control">
 
 							</section>
 							<br>
@@ -62,13 +76,13 @@
 
 							</section>
 							<br><section>
-							<input type="text" name="position" placeholder="Position"
-									ng-model="save.parameter.position" class="form-control" required>
+							<input type="text" name="bitpostion" placeholder="Position"
+									ng-model="save.parameter.bitpostion" class="form-control" required>
 
 							</section>
 							<br><section>
-							<input type="text" name="width" placeholder="Width"
-									ng-model="save.parameter.width" class="form-control" required>
+							<input type="text" name="bitwidth" placeholder="Width"
+									ng-model="save.parameter.bitwidth" class="form-control" required>
 
 							</section>
 							<br><section>

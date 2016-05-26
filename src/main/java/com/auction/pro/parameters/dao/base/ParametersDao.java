@@ -16,6 +16,8 @@ public interface ParametersDao extends AbstractDAO<Parameters> {
 
 
 	public List<Parameters> getParameters() throws Exception;
+	
+	public String getParamDescIdByControllerId(String id) throws Exception;
 
 	public Page<Parameters> findAllPage(Pageable pageable, String parentAccountId)
 			throws Exception;

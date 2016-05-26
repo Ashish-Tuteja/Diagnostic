@@ -34,6 +34,12 @@ dashboard.controller('EcuControllerCtrl', function($scope, $location, $rootScope
 		});
 	}
 
+	//Display parameters for each controller
+	$scope.displayParameters = function(obj) {
+		$rootScope.parameterControllerId = obj;
+		$location.path("/parameter");
+	};
+	
 	// controllertypes
 	/*controllertypeListService.getList(function(response) {
 		$scope.controllertypes = response;
@@ -59,13 +65,6 @@ dashboard.controller('EcuControllerCtrl', function($scope, $location, $rootScope
 		$location.path("/vehicle/reportinfo");
 	}
 
-	
-	//Display parameters for each controller
-	$scope.displayParameters = function(obj) {
-		$rootScope.parameterDetail = obj;
-		$location.path("/parameter");
-	};
-	
 	$scope.deleteController = function(id) {
 
 		console.log(id);
@@ -158,8 +157,7 @@ dashboard.controller('EcuControllerCtrl', function($scope, $location, $rootScope
 	$scope.register = function() {
 		delete $scope.save.controller.$$hashKey;
 		if(!$scope.save.controller.id){
-		//var newField = {"id": "","controllerId":""};
-			var newField = {"controllerId" :""};
+		var newField = {"id": "","controllerId":""};
 		  angular.extend($scope.save.controller, newField);
 		}
 		  console.log(JSON.stringify($scope.save.controller));

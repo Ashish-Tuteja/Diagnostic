@@ -1,6 +1,8 @@
 package com.auction.pro.parameters.dao;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -17,9 +19,11 @@ import org.springframework.stereotype.Repository;
 import com.auction.pro.common.constants.MongoConstant;
 import com.auction.pro.common.dao.AbstractDAOImpl;
 import com.auction.pro.device.model.Carrier;
-import com.auction.pro.ecuController.model.EcuController;
 import com.auction.pro.parameters.dao.base.ParametersDao;
 import com.auction.pro.parameters.model.Parameters;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
 
 @Repository
 public class ParametersDaoImpl extends AbstractDAOImpl<Parameters> implements
@@ -32,8 +36,21 @@ public class ParametersDaoImpl extends AbstractDAOImpl<Parameters> implements
 	public List<Parameters> findBySerachterm(String searchterm,
 			Serializable parentAccountId) throws Exception {
 		// TODO Auto-generated method stub
-		return mongoTemplate.find(new Query(new Criteria().andOperator(
-		Criteria.where("controllerName").regex(searchterm))), Parameters.class);
+
+		return mongoTemplate.find(
+				new Query(new Criteria().orOperator(
+						Criteria.where("parameterDesc").regex(searchterm),
+						Criteria.where("txId").regex(searchterm), Criteria
+								.where("rxId").regex(searchterm), Criteria
+								.where("isEnhanced").regex(searchterm), Criteria
+								.where("serviceId").regex(searchterm), Criteria
+								.where("parameterId").regex(searchterm), Criteria
+								.where("length").regex(searchterm), Criteria
+								.where("offset").regex(searchterm), Criteria
+								.where("bitpostion").regex(searchterm), Criteria
+								.where("bitwidth").regex(searchterm), Criteria
+								.where("wasError").regex(searchterm))),
+				Parameters.class);
 
 	}
 
@@ -46,11 +63,12 @@ public class ParametersDaoImpl extends AbstractDAOImpl<Parameters> implements
 		// TODO Auto-generated method stub
 		return mongoTemplate.findAll(Parameters.class);
 	}
-	
+
 	@Override
 	public void delete(Parameters entity) {
 		Query query = new Query(Criteria.where("_id").is(entity.getId()));
 		mongoTemplate.remove(query, "parameter_tests");
+		
 	}
 
 	@Override
@@ -58,17 +76,17 @@ public class ParametersDaoImpl extends AbstractDAOImpl<Parameters> implements
 		// TODO Auto-generated method stub
 		try {
 			return (mongoTemplate.findOne(
-					new Query(new Criteria().orOperator(Criteria.where("controllerId")
-							.is(entity.getControllerId()))), Parameters.class).getControllerId() != null) ? true
-					: false;
+					new Query(new Criteria().orOperator(Criteria.where(
+							"controllerId").is(entity.getControllerId()))),
+					Parameters.class).getControllerId() != null) ? true : false;
 		} catch (Exception e) {
 			// TODO: handle exception
 			return false;
 		}
 	}
 
-	public Page<Parameters> findAllPage(Pageable pageable, String parentAccountId)
-			throws Exception {
+	public Page<Parameters> findAllPage(Pageable pageable,
+			String parentAccountId) throws Exception {
 		// TODO Auto-generated method stub
 		List<Parameters> list = null;
 		Query query = new Query();
@@ -84,9 +102,35 @@ public class ParametersDaoImpl extends AbstractDAOImpl<Parameters> implements
 	}
 
 	
+	public String getParamDescIdByControllerId(String id){
+		
+		
+		//Sorting on the basis of ParameterDescID
+		DBCollection collection = mongoTemplate.getCollection(GLOBAL_PARAMETERS);
+		  
+		  BasicDBObject query = new BasicDBObject();
+		  query.put("controllerId",id);
+		  DBCursor cursor = collection.find(query).sort(new BasicDBObject("parameterDescId",-1)).limit(1);
+		  String value = null;
+			while (cursor.iterator().hasNext()) {
+				try {
+//					LOGGER.info("pppppppppppp"+String.valueOf(cursor.next().get("parameterDescId")));
+					value = String.valueOf(cursor.next().get("parameterDescId"));
+					break;
+				} catch (Exception e) {
+					e.printStackTrace();
+					LOGGER.error("Parameter Desc id not found for controller id :::" + id);
+				}
+			}
+		
+	    return value;
+	
+	} 
+	
 	public Parameters findByParametersIp(String id) {
 		// TODO Auto-generated method stub
-		return mongoTemplate.findOne(Query.query(Criteria.where("controllerId").is(id)),
+		return mongoTemplate.findOne(
+				Query.query(Criteria.where("controllerId").is(id)),
 				Parameters.class);
 	}
 
