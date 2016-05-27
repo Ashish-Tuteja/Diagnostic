@@ -19,9 +19,13 @@
 	href="<c:url value='/resources/css/bootstrap.min.css'></c:url>">
 <link rel="stylesheet"
 	href="<c:url value='/resources/css/popup.css'></c:url>">
-
+<link rel="stylesheet"
+	href="<c:url value='/resources/css/select2.min.css'></c:url>">
 <!-- jQuery library -->
+
+
 <script src="<c:url value='/resources/js/libs/jquery.min.js'></c:url>"></script>
+<script src="<c:url value='/resources/js/select2.min.js'></c:url>"></script>
 <script
 	src="<c:url value='/resources/js/bootstrap/bootstrap.min.js'></c:url>"></script>
 <!-- Spinner-->

@@ -14,6 +14,9 @@ dashboard.controller('EcuControllerCtrl', function($scope, $location, $rootScope
 	$scope.carriers = {};
 	$scope.spinnerToggle=true;
 	var checkList = [];
+	var controllerList = [];
+	 var fileNameOne ="";
+	 var oneFormData = new FormData();
 	if ($rootScope.controllerDetail != null) {
 		$scope.buttonName = "Edit";
 		$scope.save.controller = $rootScope.controllerDetail;
@@ -68,17 +71,6 @@ dashboard.controller('EcuControllerCtrl', function($scope, $location, $rootScope
 	$scope.deleteController = function(id) {
 
 		console.log(id);
-//		controllerdeleteservice.deleteEcu({},{id:id},function(
-//				response) {
-////			if (response.id) {
-//					$location.path("/controller");
-//					showmessage("Success!", "Controller deleted successfully",
-//							"success");
-//
-////			} else {
-////				showmessage("Error!", "Controller already exists", "error");
-////			}
-//		});
 		
 		controllerdeleteservice.deleteEcu({id:id},function(response) {
 			console.log(response);
@@ -105,17 +97,10 @@ dashboard.controller('EcuControllerCtrl', function($scope, $location, $rootScope
 		console.log(checkList);
 		
 	 }
+	
+	
 	 $scope.uploadFile = function(files) {
 		 $scope.generateObJ = "Global Parameters";
-		 /*
-		 var controllerIds = [];
-		 angular.forEach($scope.controllers, function(controller) {
-			 if($scope.check[controller.controllerId]){
-				 this.push(controller.controllerId);
-				 
-			 }
-		 }, controllerIds);*/
-		 
 		 
          var formData = new FormData();
          if (files.length == 0) {
@@ -124,27 +109,7 @@ dashboard.controller('EcuControllerCtrl', function($scope, $location, $rootScope
          }
          var uploadUrl = "";
          formData.append("file", files[0]);
-         if (String($scope.generateObJ) == "Global Parameter") {
-           
-           uploadUrl = "/NavResearch/vehicle/upload/globaldata?data="
-                   + String($scope.generateObJ);
-           vehicleupload.uploadGlobalData(uploadUrl, formData);
-           $scope.browse = true;
-         } else if (String($scope.generateObJ) == "Vehicle ECU") {
-           
-           uploadUrl = "/NavResearch/vehicle/upload/vehicleecu?data="
-                   + String($scope.generateObJ);
-           vehicleupload.uploadVehicleECU(uploadUrl, formData);
-           $scope.browse = true;
-
-         } else if (String($scope.generateObJ) == "Global ECU") {
-          
-           uploadUrl = "/NavResearch/vehicle/upload/globalecu?data="
-                   + String($scope.generateObJ);
-           vehicleupload.uploadGlobalECU(uploadUrl, formData);
-           $scope.browse = true;
-
-         } else if (String($scope.generateObJ) == "Global Parameters") {
+         if (String($scope.generateObJ) == "Global Parameters") {
              
              uploadUrl = "/NavResearch/vehicle/upload/globalparameters?data="
                      + String($scope.generateObJ);
@@ -154,12 +119,45 @@ dashboard.controller('EcuControllerCtrl', function($scope, $location, $rootScope
          }
 
        }
+	 $scope.uploadFileForOne = function(files) {
+		 
+         
+         if (files.length == 0) {
+           showmessage("Info!", "Please select a file", "info");
+           return;
+         }
+         oneFormData.append("file", files[0]);
+             fileNameOne = files[0].name;
+            
+             $scope.browse = true;
+       }
+	 
+	 $scope.generateUUID = function(){
+		    var d = new Date().getTime();
+		    var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+		        var r = (d + Math.random()*16)%16 | 0;
+		        d = Math.floor(d/16);
+		        return (c=='x' ? r : (r&0x3|0x8)).toString(16);
+		    });
+		    return uuid;
+		};
+	 
 	$scope.register = function() {
 		delete $scope.save.controller.$$hashKey;
 		if(!$scope.save.controller.id){
-		var newField = {"id": "","controllerId":""};
-		  angular.extend($scope.save.controller, newField);
+			
+			angular.forEach($scope.save.controller.year, function(value) {
+		  console.log(value);
+		  var controllerUUID = $scope.generateUUID();
+		  console.log(controllerUUID);
+		  controllerList.push(controllerUUID);
+		  
+		});
+		
+		var newField = {"id": "","controllerId":controllerList.toString()};
+		angular.extend($scope.save.controller, newField);
 		}
+		$scope.save.controller.year = $scope.save.controller.year.toString();
 		  console.log(JSON.stringify($scope.save.controller));
 			controllerservice.save(JSON.stringify($scope.save.controller), function(
 					response) {
@@ -176,15 +174,25 @@ dashboard.controller('EcuControllerCtrl', function($scope, $location, $rootScope
 						showmessage("Success!", "Controller update successfully",
 								"success");
 					} else {
+						  var OneUploadUrl = "/NavResearch/vehicle/upload/globalparameters?data=Global Parameters";
+						vehicleupload.uploadGlobalParameters(OneUploadUrl, oneFormData,fileNameOne,controllerList);
 						$location.path("/controller");
 						showmessage("Success!", "Controller create successfully",
 								"success");
+						
+						
+						
 					}
 
 				} else {
 					showmessage("Error!", "Controller already exists", "error");
 				}
 			});
+			
+			
+			
+			
+		
 
 
 	}, $scope.range = function(n) {

@@ -34,18 +34,32 @@ public class EcuControllerServiceImpl extends AbstractServiceImpl<EcuControllerD
 
 	public EcuControllerDto save(EcuControllerDto entity) {
 		// TODO Auto-generated method stub
+		int count=0;
+		String[] controllerIds = entity.getControllerId().split(",");
+		String[] years = entity.getYear().split(",");
+		EcuControllerDto finalEntity = null;
+		for(String controllerId : controllerIds){
+			
+			entity.setControllerId(controllerId);
+			entity.setYear(years[count]);
+			count++;
+			
+		
+		
 		if (entity.getId() != null) {
 			chekIfExists = ecuControllerDao.exists((EcuController) getEntityFromDTO(entity,
 					EcuController.class));
-			return getDTOForEntity(ecuControllerDao.save((EcuController) getEntityFromDTO(
+			finalEntity = getDTOForEntity(ecuControllerDao.save((EcuController) getEntityFromDTO(
 					entity, EcuController.class)));
 		} else {
 			chekIfExists = ecuControllerDao.exists((EcuController) getEntityFromDTO(entity,
 					EcuController.class));
-			return !chekIfExists ? getDTOForEntity(ecuControllerDao
+			finalEntity = !chekIfExists ? getDTOForEntity(ecuControllerDao
 					.save((EcuController) getEntityFromDTO(entity, EcuController_backup.class)))
 					: null;
 		}
+	}
+		return finalEntity;
 	}
 
 	public void delete(EcuControllerDto entity) {

@@ -1,4 +1,39 @@
+<style type="text/css">
+.btn-file {
+	position: absolute;
+	overflow: hidden;
+}
+.select2-container{
+	width:100% !important
+	}
+.file-input {
+/* 	margin-left: 200px; */
+	margin-top: 20px;
+}
 
+.btn-file input[type=file] {
+	position: absolute;
+	top: 0;
+	right: 0;
+	min-width: 100%;
+	min-height: 100%;
+	font-size: 100px;
+	text-align: left;
+	filter: alpha(opacity = 0);
+	opacity: 0;
+	background: red;
+	cursor: inherit;
+	display: block;
+}
+
+input[readonly] {
+	background-color: white !important;
+	cursor: text !important;
+}
+</style>
+<script type="text/javascript">
+$(".multi-year").select2({ placeholder: "Year"});
+</script>
 <div>
 	<ol class="ab-nav breadcrumb">
 		<li
@@ -41,13 +76,30 @@
 
 							</section>
 							<br>
-							<section>
+							<!-- <section>
 								<input type="text" name="year" placeholder="Year"
 									ng-model="save.controller.year" class="form-control">
 
+							</section> -->
+							<section>
+							<select class="multi-year" ng-model="save.controller.year" multiple="multiple">
+								<option value="2011">2011</option>
+								<option value="2012">2012</option>
+								<option value="2013">2013</option>
+								<option value="2014">2014</option>
+								<option value="2015">2015</option>
+								<option value="2016">2016</option>
+								<option value="2017">2017</option>
+								<option value="2018">2018</option>
+								<option value="2019">2019</option>
+								<option value="2020">2020</option>
+
+							</select>
 							</section>
 							<br>
-							
+									<span 	class="file-input btn btn-primary pull-left btn-file"> Browse 
+											<input	type="file"	onchange="angular.element(this).scope().uploadFileForOne(this.files)">
+							</span>
 							<button class="btn btn-primary pull-right" ng-click="register()">Save</button>
 							<button ng-click="close()" class="btn btn-secondary pull-right">Cancel</button>
 

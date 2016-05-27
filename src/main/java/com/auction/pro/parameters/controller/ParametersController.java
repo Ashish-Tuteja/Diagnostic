@@ -112,7 +112,7 @@ public class ParametersController extends AbstractController {
 	}
 
 
-	// Search on list of Controllers
+	// Search on list of parameters
 	@RequestMapping(value = "/search/{searchterm}", method = RequestMethod.GET)
 	public @ResponseBody List<ParametersDto> getparametersBySearchTerm(
 			@PathVariable String searchterm, HttpServletRequest request) {
