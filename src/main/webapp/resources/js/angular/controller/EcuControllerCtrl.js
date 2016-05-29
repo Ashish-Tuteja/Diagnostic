@@ -42,7 +42,7 @@ dashboard.controller('EcuControllerCtrl', function($scope, $location, $rootScope
 		$rootScope.contDetails = obj;
 		$location.path("/parameter");    
 	};
-	
+		
 	// controllertypes
 	/*controllertypeListService.getList(function(response) {
 		$scope.controllertypes = response;
@@ -163,7 +163,7 @@ dashboard.controller('EcuControllerCtrl', function($scope, $location, $rootScope
 					response) {
 				console.log(response);
 				if (response.id) {
-					if ($scope.save.controller.id !="") {
+					if ($scope.save.controller.id != null) {
 						angular.forEach($scope.controllers, function(controller, key) {
 							if (controller.id == $scope.save.controller.id) {
 								$scope.controllers[key] = response;

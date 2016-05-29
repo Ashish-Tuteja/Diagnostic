@@ -108,11 +108,11 @@ dashboard.controller('ParameterCtrl', function($scope, $location, $rootScope,
 							}
 						});
 						$location.path("/parameter");
-						showmessage("Success!", "parameter update successfully",
+						showmessage("Success!", "parameter updated successfully",
 								"success");
 					} else {
 						$location.path("/parameter");
-						showmessage("Success!", "parameter create successfully",
+						showmessage("Success!", "parameter created successfully",
 								"success");
 					}
 
