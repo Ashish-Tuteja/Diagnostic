@@ -39,7 +39,7 @@ public class ParametersController extends AbstractController {
 			 @PathVariable String controllerId, HttpServletRequest request) {
 		// TODO: handle exception
 		try {
-			LOGGER.info("paramertssss id -------------->"+parametersDto.getId());
+			LOGGER.info("paramerts id -------------->"+parametersDto.getId());
 			
 			if (parametersDto.getId() == null) {
 				if (request.getSession(false).getAttribute("accountId") != null) {
@@ -116,9 +116,8 @@ public class ParametersController extends AbstractController {
 	@RequestMapping(value = "/search/{searchterm}", method = RequestMethod.GET)
 	public @ResponseBody List<ParametersDto> getparametersBySearchTerm(
 			@PathVariable String searchterm, HttpServletRequest request) {
-		LOGGER.debug("Search term " + searchterm);
+		LOGGER.info("Search term " + searchterm);
 		try {
-			System.out.println("printing serach term");
 			return parametersService
 					.findBySerachterm(
 							searchterm,

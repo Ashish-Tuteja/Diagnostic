@@ -49,7 +49,7 @@ dashboard.factory('getParametersBySerach', [ '$resource', function($resource) {
 		searchterm : "@searchterm"
 	}, {
 		getList : {
-			url : '/NavResearch/Parameter/search/:searchterm',
+			url : '/NavResearch/parameters/search/:searchterm',
 			method : 'GET',
 			isArray : true
 		}

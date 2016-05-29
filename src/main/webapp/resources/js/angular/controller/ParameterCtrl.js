@@ -52,6 +52,8 @@ dashboard.controller('ParameterCtrl', function($scope, $location, $rootScope,
 	//Display parameters for each parameter
 	$scope.displayParameters = function(obj) {
 		$rootScope.parameterDetail = obj;
+		console.log(obj);
+		$rootScope.parameterControllerId = obj.controllerId;
 //		$cookieStore.put("deviceip", obj.ip);
 		$location.path("/parameter");
 	};
