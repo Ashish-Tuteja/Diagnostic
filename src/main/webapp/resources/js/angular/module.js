@@ -67,18 +67,7 @@ dashboard.config(function($routeProvider, $locationProvider) {
 				};
 			}
 		}
-	}).when('/parameter', {
-		controller : 'ParameterCtrl',
-		templateUrl : 'views/parameter.html',
-		label : 'Parameter',
-		resolve : {
-			ctrlOptions : function() {
-				return {
-					showparameters : true,
-				};
-			}
-		}
-	}).when('/parameter/add', {
+	}).when('/controller/parameter/add', {
 		controller : 'ParameterCtrl',
 		templateUrl : 'views/addParameter.html',
 		label : 'Add',
@@ -118,7 +107,7 @@ dashboard.config(function($routeProvider, $locationProvider) {
 		resolve : {
 			ctrlOptions : function() {
 				return {
-					showparameters : false,
+					showparameters : true,
 				};
 			}
 		}

@@ -37,27 +37,17 @@ dashboard.controller('ParameterCtrl', function($scope, $location, $rootScope,
 	$scope.addParameter = function() {
 		$rootScope.parameterDetail = null;
 		// $scope.showModal = !$scope.showModal;
-		$location.path("/parameter/add");
+		$location.path("/controller/parameter/add");
 	};
 
 	$scope.editparameter = function(obj) {
 		$rootScope.parameterDetail = obj;
-		$location.path("/parameter/add");
+		$location.path("/controller/parameter/add");
 	}, $scope.getReports = function(obj) {
 		$cookieStore.put("parameterip", obj.ip);
 		$location.path("/vehicle/reportinfo");
 	}
 
-	
-	//Display parameters for each parameter
-	$scope.displayParameters = function(obj) {
-		$rootScope.parameterDetail = obj;
-		console.log(obj);
-		$rootScope.parameterControllerId = obj.controllerId;
-//		$cookieStore.put("deviceip", obj.ip);
-		$location.path("/parameter");
-	};
-	
 	
 	//deleting parameter by Id
 	$scope.deleteParameter = function(id) {
@@ -73,32 +63,17 @@ dashboard.controller('ParameterCtrl', function($scope, $location, $rootScope,
 	}
 	
 	
-	
-	$scope.clickCheck = function(id){
-		if(checkList.indexOf(id) < 0)
-			{
-			checkList.push(id);
-			}
-		else
-			{
-			checkList.pop(id);
-			}
-		console.log(checkList);
-		
-	 }
-	
-	
 	//Saving parameters for a particular controller by controller Id
 	$scope.register = function() {
 		delete $scope.save.parameter.$$hashKey;
-		if(!$scope.save.parameter.id){
+		/*if(!$scope.save.parameter.id){
 			
 		}
-		/*var newField = {"controllerId":$rootScope.parameterControllerId};
+		var newField = {"controllerId":$rootScope.parameterControllerId};
 		  angular.extend($scope.save.parameter, newField);
 		}*/
 		  console.log(JSON.stringify($scope.save.parameter));
-		  parameterService.save({id:$rootScope.parameterControllerId},JSON.stringify($scope.save.parameter), function(
+		  parameterService.save({id:$rootScope.contDetails.controllerId},JSON.stringify($scope.save.parameter), function(
 					response) {
 				console.log(response);
 				if (response.id) {
@@ -149,7 +124,7 @@ dashboard.controller('ParameterCtrl', function($scope, $location, $rootScope,
 	});
 
 	$scope.close = function() {
-		$location.path("/parameter");
+		$location.path("/controller/parameter");
 	}
 	$scope.previous = function() {
 		if ($rootScope.pageNumber > 1) {
