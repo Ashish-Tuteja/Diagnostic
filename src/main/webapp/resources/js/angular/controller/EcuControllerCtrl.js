@@ -18,9 +18,11 @@ dashboard.controller('EcuControllerCtrl', function($scope, $location, $rootScope
 	 var fileNameOne ="";
 	 var oneFormData = new FormData();
 	if ($rootScope.controllerDetail != null) {
+		$scope.showSingleYear = true;
 		$scope.buttonName = "Edit";
 		$scope.save.controller = $rootScope.controllerDetail;
 	} else {
+		$scope.showSingleYear = false;
 		$scope.buttonName = "Save";
 	}
 	if (ctrlOptions.showcontrollers) {
