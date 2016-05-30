@@ -8,7 +8,7 @@
 	}
 .file-input {
 /* 	margin-left: 200px; */
-	margin-top: 20px;
+/* 	margin-top: 20px; */
 }
 
 .btn-file input[type=file] {
@@ -98,7 +98,7 @@ $(".multi-year").select2({ placeholder: "Year"});
 							</section>
 							<br>
 									<span 	class="file-input btn btn-primary pull-left btn-file"> Browse 
-											<input	type="file"	onchange="angular.element(this).scope().uploadFileForOne(this.files)">
+									<input	type="file"	onchange="angular.element(this).scope().uploadFileForOne(this.files)">
 							</span>
 							<button class="btn btn-primary pull-right" ng-click="register()">Save</button>
 							<button ng-click="close()" class="btn btn-secondary pull-right">Cancel</button>
