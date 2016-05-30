@@ -23,9 +23,7 @@ dashboard.controller('ParameterCtrl', function($scope, $location, $rootScope,
 	if (ctrlOptions.showparameters) {
 		loading("Fetching Parameters...");
 		$scope.buttonName = "Save";
-		parameterListService.getList({}, {
-			page : 1
-		}, function(response) {	
+		parameterListService.getList({id:$rootScope.contDetails.controllerId}, {page : 1}, function(response) {	
 			$scope.parameters = response.content;
 			$rootScope.responseList = response;
 			$rootScope.pages = response.totalPages;
@@ -84,11 +82,11 @@ dashboard.controller('ParameterCtrl', function($scope, $location, $rootScope,
 
 							}
 						});
-						$location.path("/parameter");
+						$location.path("/controller/parameter");
 						showmessage("Success!", "parameter updated successfully",
 								"success");
 					} else {
-						$location.path("/parameter");
+						$location.path("/controller/parameter");
 						showmessage("Success!", "parameter created successfully",
 								"success");
 					}

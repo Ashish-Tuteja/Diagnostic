@@ -7,7 +7,15 @@ dashboard.factory('parameterService', [ '$resource', function($resource) {
 
 	});
 } ]);
-
+dashboard.factory('parameterListService', [ '$resource', function($resource) {
+	return $resource(':url', {id : "@id",page : "@page"}, {
+		getList : {
+			url : '/NavResearch/parameters/list/:id?page=:page&size=20',
+			method : 'GET',
+			isArray : false
+		}
+	});
+} ]);
 	
 dashboard.factory('parameterDeleteService', [ '$resource', function($resource) {
 	return $resource('/NavResearch/parameters/delete/:id',{id: "@id"},{
@@ -20,7 +28,7 @@ dashboard.factory('parameterDeleteService', [ '$resource', function($resource) {
 } ]);
 
 
-dashboard.factory('parameterListService', [ '$resource', function($resource) {
+/*dashboard.factory('parameterListService', [ '$resource', function($resource) {
 	return $resource(':url', {
 		page : "@page"
 	}, {
@@ -30,7 +38,7 @@ dashboard.factory('parameterListService', [ '$resource', function($resource) {
 			isArray : false
 		}
 	});
-} ]);
+} ]);*/
 
 dashboard.factory('getParameterService', [ '$resource', function($resource) {
 	return $resource(':url', {
