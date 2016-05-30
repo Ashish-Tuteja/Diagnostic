@@ -109,6 +109,13 @@ public class ParametersServiceImpl extends AbstractServiceImpl<ParametersDto, Pa
 		return convertEntityPageToDTOPage(
 				parametersDao.findAllPage(pageable, parentAccountId), pageable);
 	}
+	
+	public Page<ParametersDto> findAllPageParameters(String controllerId , Pageable pageable, String parentAccountId)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return convertEntityPageToDTOPage(
+				parametersDao.findAllPageParameters(controllerId, pageable, parentAccountId), pageable);
+	}
 
 	public ParametersDto findByParametersIp(String ip) {
 		// TODO Auto-generated method stub

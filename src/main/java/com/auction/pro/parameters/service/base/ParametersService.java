@@ -21,6 +21,9 @@ public interface ParametersService extends AbstractService<ParametersDto> {
 
 	public Page<ParametersDto> findAllPage(Pageable pageable, String parentAccountId)
 			throws Exception;
+	
+	public Page<ParametersDto> findAllPageParameters(String id ,Pageable pageable, String parentAccountId)
+			throws Exception;
 
 	void delete(String id);
 	

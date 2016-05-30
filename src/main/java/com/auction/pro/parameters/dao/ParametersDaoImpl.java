@@ -102,6 +102,26 @@ public class ParametersDaoImpl extends AbstractDAOImpl<Parameters> implements
 	}
 
 	
+	public Page<Parameters> findAllPageParameters(String controllerId , Pageable pageable,
+			String parentAccountId) throws Exception {
+		// TODO Auto-generated method stub
+		List<Parameters> list = null;
+		Query query = new Query();
+	
+		query.with(pageable);
+		query.addCriteria(Criteria.where("controllerId").is(controllerId));
+		
+		list = mongoTemplate.find(query, Parameters.class);
+		LOGGER.info("No of parameters returned for controllerId" + controllerId + ":::" + list.size());
+		Page<Parameters> entityPage = new PageImpl<Parameters>(list, pageable,
+				mongoTemplate.count(
+				/*
+				 * Query.query(Criteria.where("parentAccountId").all(
+				 * parentAccountId))
+				 */new Query(), Parameters.class));
+		return entityPage;
+	}
+	
 	public String getParamDescIdByControllerId(String id){
 		
 		

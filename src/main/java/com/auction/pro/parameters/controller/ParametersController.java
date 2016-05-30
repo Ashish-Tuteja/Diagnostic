@@ -111,6 +111,35 @@ public class ParametersController extends AbstractController {
 
 	}
 
+	
+	
+	
+	// List parameters By Controller id
+		@RequestMapping(value = "/list/{controllerId}", method = RequestMethod.GET)
+		public @ResponseBody Page<ParametersDto> getListofParametersByControllerId(
+				PagedRequest pageRequest,@PathVariable String controllerId, HttpServletRequest request) {
+			try {
+				
+				return parametersService
+						.findAllPageParameters(controllerId,
+								pageRequest,
+								request.getSession(false).getAttribute("accountId") != null ? request
+										.getSession(false)
+										.getAttribute("accountId").toString()
+										: accountService.findByUserId(
+												currentUserNameByPrincipal()
+														.getId()).getId());
+
+			} catch (Exception e) {
+				e.printStackTrace();
+
+				// TODO: handle exception
+				LOGGER.error("Problem occur get parameters", e.getMessage());
+				return null;
+			}
+
+		}
+
 
 	// Search on list of parameters
 	@RequestMapping(value = "/search/{searchterm}", method = RequestMethod.GET)
