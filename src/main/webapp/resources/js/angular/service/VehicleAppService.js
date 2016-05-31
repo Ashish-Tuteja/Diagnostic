@@ -101,7 +101,7 @@ dashboard.factory('vehicleupload', function($http, $location) {
 			}).success(
 					function(data) {
 						if (data == "0") {
-							showmessage("Sucsses!", "Upload file successfully",
+							showmessage("Success!", "Upload file successfully",
 									"success");
 							$location.path("/import");
 						} else {
@@ -124,7 +124,7 @@ dashboard.factory('vehicleupload', function($http, $location) {
 			}).success(
 					function(data) {
 						if (data == "0") {
-							showmessage("Sucsses!", "Upload file successfully",
+							showmessage("Success!", "Upload file successfully",
 									"success");
 							$location.path("/import");
 						} else {
@@ -147,7 +147,7 @@ dashboard.factory('vehicleupload', function($http, $location) {
 			}).success(
 					function(data) {
 						if (data == "0") {
-							showmessage("Sucsses!", "Upload file successfully",
+							showmessage("Success!", "Upload file successfully",
 									"success");
 							$location.path("/import");
 						} else {
@@ -173,7 +173,7 @@ dashboard.factory('vehicleupload', function($http, $location) {
 			}).success(
 					function(data) {
 						if (data == "0") {
-							showmessage("Succsess!", fileName+" uploaded !!",
+							showmessage("Success!", fileName+" uploaded !!",
 									"success");
 							$location.path("/controller");
 						} else {
@@ -184,7 +184,7 @@ dashboard.factory('vehicleupload', function($http, $location) {
 						}
 
 					}).error(function(error) {
-				showmessage("Error!", "File not upload !! Try again", "error");
+				showmessage("", "Please upload the file", "success");
 			});
 		}
 //end for uploading global parameters
