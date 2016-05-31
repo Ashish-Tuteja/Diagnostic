@@ -3,7 +3,7 @@
  */
 dashboard.controller('EcuControllerCtrl', function($scope, $location, $rootScope,
 		controllerservice, controllerListService, carrierListService,
-		controllertypeListService, getControllerService, getControllersBySerach,controllerdeleteservice,
+		controllertypeListService, getControllerService, getControllersBySerach,controllerdeleteservice,parametersDeleteService,
 		 ctrlOptions, $routeParams, $window, breadcrumbs, $route,
 		$cookieStore,vehicleupload) {
 	$scope.showModal = false;
@@ -70,13 +70,19 @@ dashboard.controller('EcuControllerCtrl', function($scope, $location, $rootScope
 		$location.path("/vehicle/reportinfo");
 	}
 
-	$scope.deleteController = function(id) {
+	$scope.deleteController = function(id,controllerId) {
 
 		console.log(id);
-		
+		//deleting the controller
 		controllerdeleteservice.deleteEcu({id:id},function(response) {
+
+			//deleting parameters for the controller
+			parametersDeleteService.deleteParameters({id:controllerId},function(response) {
+				console.log(response);
+
+			});
+
 			console.log(response);
-//			$location.path("/controller");
 			$route.reload();
 			showmessage("Success!", "Controller deleted successfully",
 					"success");
@@ -165,7 +171,7 @@ dashboard.controller('EcuControllerCtrl', function($scope, $location, $rootScope
 					response) {
 				console.log(response);
 				if (response.id) {
-					if ($scope.save.controller.id != null) {
+					if ($scope.save.controller.id != "") {
 						angular.forEach($scope.controllers, function(controller, key) {
 							if (controller.id == $scope.save.controller.id) {
 								$scope.controllers[key] = response;

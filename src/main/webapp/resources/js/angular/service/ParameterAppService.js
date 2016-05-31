@@ -28,6 +28,17 @@ dashboard.factory('parameterDeleteService', [ '$resource', function($resource) {
 } ]);
 
 
+
+dashboard.factory('parametersDeleteService', [ '$resource', function($resource) {
+	return $resource('/NavResearch/parameters/deleteParamsForCtrl/:id',{id: "@id"},{
+		deleteParameters : {
+			method : 'DELETE',
+			isArray : false
+		}
+
+	});
+} ]);
+
 /*dashboard.factory('parameterListService', [ '$resource', function($resource) {
 	return $resource(':url', {
 		page : "@page"
@@ -53,11 +64,9 @@ dashboard.factory('getParameterService', [ '$resource', function($resource) {
 } ]);
 
 dashboard.factory('getParametersBySerach', [ '$resource', function($resource) {
-	return $resource(':url', {
-		searchterm : "@searchterm"
-	}, {
+	return $resource(':url', {searchterm : "@searchterm", contId : "@contId"}, {
 		getList : {
-			url : '/NavResearch/parameters/search/:searchterm',
+			url : '/NavResearch/parameters/search/:searchterm/:contId',
 			method : 'GET',
 			isArray : true
 		}

@@ -11,7 +11,7 @@ import com.auction.pro.ecuController.model.EcuController;
 import com.auction.pro.parameters.model.Parameters;
 
 public interface ParametersDao extends AbstractDAO<Parameters> {
-	List<Parameters> findBySerachterm(String searchterm, Serializable accountId)
+	List<Parameters> findBySerachterm(String contId,String searchterm, Serializable accountId)
 			throws Exception;
 
 
@@ -26,4 +26,6 @@ public interface ParametersDao extends AbstractDAO<Parameters> {
 			throws Exception;
 
 	Parameters findByParametersIp(String ip);
+	
+	void deleteParams(Parameters params);
 }

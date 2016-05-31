@@ -90,10 +90,10 @@ public class ParametersServiceImpl extends AbstractServiceImpl<ParametersDto, Pa
 	}
 
 
-	public List<ParametersDto> findBySerachterm(String searchterm,
+	public List<ParametersDto> findBySerachterm(String contId,String searchterm,
 			Serializable accountId) throws Exception {
 		// TODO Auto-generated method stub
-		return getDTOsForEntities(parametersDao.findBySerachterm(searchterm,
+		return getDTOsForEntities(parametersDao.findBySerachterm(contId,searchterm,
 				accountId));
 	}
 
@@ -144,7 +144,13 @@ public class ParametersServiceImpl extends AbstractServiceImpl<ParametersDto, Pa
 		parametersDao.delete(parameters);
 		
 	}
-
+	
+	public void deleteParams(String id) {
+		Parameters parameters= new Parameters();
+		parameters.setControllerId(id);
+		parametersDao.deleteParams(parameters);
+		
+	}
 	public List<ParametersDto> getParameters() throws Exception {
 		// TODO Auto-generated method stub
 		return null;

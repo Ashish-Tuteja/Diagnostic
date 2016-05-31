@@ -33,24 +33,26 @@ public class ParametersDaoImpl extends AbstractDAOImpl<Parameters> implements
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(ParametersDaoImpl.class.getName());
 
-	public List<Parameters> findBySerachterm(String searchterm,
+	public List<Parameters> findBySerachterm(String contId,String searchterm,
 			Serializable parentAccountId) throws Exception {
 		// TODO Auto-generated method stub
-
+		Query query = new Query(new Criteria().orOperator(
+				Criteria.where("parameterDesc").regex(searchterm),
+				Criteria.where("txId").regex(searchterm), Criteria
+						.where("rxId").regex(searchterm), Criteria
+						.where("isEnhanced").regex(searchterm), Criteria
+						.where("serviceId").regex(searchterm), Criteria
+						.where("parameterId").regex(searchterm), Criteria
+						.where("length").regex(searchterm), Criteria
+						.where("offset").regex(searchterm), Criteria
+						.where("bitpostion").regex(searchterm), Criteria
+						.where("bitwidth").regex(searchterm), Criteria
+						.where("wasError").regex(searchterm)));
+		query.addCriteria(new Criteria().andOperator(Criteria.where("controllerId").regex(contId)));
+		
+		
 		return mongoTemplate.find(
-				new Query(new Criteria().orOperator(
-						Criteria.where("parameterDesc").regex(searchterm),
-						Criteria.where("txId").regex(searchterm), Criteria
-								.where("rxId").regex(searchterm), Criteria
-								.where("isEnhanced").regex(searchterm), Criteria
-								.where("serviceId").regex(searchterm), Criteria
-								.where("parameterId").regex(searchterm), Criteria
-								.where("length").regex(searchterm), Criteria
-								.where("offset").regex(searchterm), Criteria
-								.where("bitpostion").regex(searchterm), Criteria
-								.where("bitwidth").regex(searchterm), Criteria
-								.where("wasError").regex(searchterm))),
-				Parameters.class);
+			query,Parameters.class);
 
 	}
 
@@ -67,6 +69,13 @@ public class ParametersDaoImpl extends AbstractDAOImpl<Parameters> implements
 	@Override
 	public void delete(Parameters entity) {
 		Query query = new Query(Criteria.where("_id").is(entity.getId()));
+		mongoTemplate.remove(query, "parameter_tests");
+		
+	}
+	
+	@Override
+	public void deleteParams(Parameters entity) {
+		Query query = new Query(Criteria.where("controllerId").is(entity.getControllerId()));
 		mongoTemplate.remove(query, "parameter_tests");
 		
 	}

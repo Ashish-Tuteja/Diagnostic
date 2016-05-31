@@ -109,7 +109,7 @@ dashboard.controller('ParameterCtrl', function($scope, $location, $rootScope,
 		});
 	}, $scope.$watch('searchParameter', function(newValue, oldValue) {
 		if (String(newValue).length > 1 && newValue) {
-			getParametersBySerach.getList({}, {
+			getParametersBySerach.getList({contId : $rootScope.contDetails.controllerId}, {
 				searchterm : newValue
 			}, function(response) {
 				$rootScope.pages = response.length;

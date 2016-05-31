@@ -84,6 +84,21 @@ public class ParametersController extends AbstractController {
 		}
 
 	}
+	
+	// Delete Parameters on the basis of controller 
+		@RequestMapping(value = "/deleteParamsForCtrl/{id}", method = RequestMethod.DELETE, produces = "application/json")
+		protected @ResponseBody void DeleteForCtrl(@PathVariable String id) {
+			// TODO: handle exception
+
+			try {
+				LOGGER.info("Deleteing all parameters for controller ID::" + id);
+				parametersService.deleteParams(id);
+			} catch (Exception e) {
+				e.printStackTrace();
+				LOGGER.error("Problem occured in deleting parameters for controller " + id);
+			}
+
+		}
 
 	// List all parameters
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -142,13 +157,15 @@ public class ParametersController extends AbstractController {
 
 
 	// Search on list of parameters
-	@RequestMapping(value = "/search/{searchterm}", method = RequestMethod.GET)
+	@RequestMapping(value = "/search/{searchterm}/{contId}", method = RequestMethod.GET)
 	public @ResponseBody List<ParametersDto> getparametersBySearchTerm(
-			@PathVariable String searchterm, HttpServletRequest request) {
+			@PathVariable String searchterm,@PathVariable String contId, HttpServletRequest request) {
 		LOGGER.info("Search term " + searchterm);
+		LOGGER.info("controller ID " + contId);
 		try {
 			return parametersService
 					.findBySerachterm(
+							contId,
 							searchterm,
 							request.getSession(false).getAttribute("accountId") != null ? request
 									.getSession(false)

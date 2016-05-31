@@ -12,7 +12,7 @@ import com.auction.pro.parameters.dto.ParametersDto;
 public interface ParametersService extends AbstractService<ParametersDto> {
 	
 	
-	List<ParametersDto> findBySerachterm(String searchterm, Serializable accountId)
+	List<ParametersDto> findBySerachterm(String contId,String searchterm, Serializable accountId)
 			throws Exception;
 
 
@@ -26,6 +26,8 @@ public interface ParametersService extends AbstractService<ParametersDto> {
 			throws Exception;
 
 	void delete(String id);
+	
+	void deleteParams(String id); 
 	
 
 }
