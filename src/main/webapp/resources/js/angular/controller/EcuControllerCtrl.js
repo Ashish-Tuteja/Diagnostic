@@ -138,6 +138,10 @@ dashboard.controller('EcuControllerCtrl', function($scope, $location, $rootScope
              fileNameOne = files[0].name;
             
              $scope.browse = true;
+             showmessage("File Uploaded!", "Click save",
+				"success");
+             
+             
        }
 	 
 	 $scope.generateUUID = function(){
