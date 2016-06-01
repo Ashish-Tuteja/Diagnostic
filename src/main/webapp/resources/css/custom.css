@@ -170,3 +170,45 @@ article {
 
 }
 /*end of spinner*/
+
+
+
+
+.btn-file {
+	position: absolute;
+	overflow: hidden;
+}
+.select2-container{
+	width:100% !important
+	}
+
+.file-input {
+/* 	margin-left: 200px; */
+	margin-top: 20px;
+}
+
+
+.file-input-add {
+/* 	margin-left: 200px;
+	margin-top: 20px; */
+}
+
+.btn-file input[type=file] {
+	position: absolute;
+	top: 0;
+	right: 0;
+	min-width: 100%;
+	min-height: 100%;
+	font-size: 100px;
+	text-align: left;
+	filter: alpha(opacity = 0);
+	opacity: 0;
+	background: red;
+	cursor: inherit;
+	display: block;
+}
+
+input[readonly] {
+	background-color: white !important;
+	cursor: text !important;
+}
