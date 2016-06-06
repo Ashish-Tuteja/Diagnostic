@@ -195,12 +195,12 @@ dashboard
 				'translationServiceDynamicStaticTest',
 				function($http) {
 					return $http
-							.get('/NavResearch/resources/js/angular/i18n/parameter_description.json');
+							.get('/NavResearch/resources/js/angular/i18n/trouble_codes_description.json');
 				});
 dashboard
 		.factory(
 				'translationServiceDynamicStatic',
 				function($http) {
 					return $http
-							.get('/NavResearch/resources/js/angular/i18n/parameter_description_d_s.json');
+							.get('/NavResearch/resources/js/angular/i18n/dynamic_static_reports.json');
 				});
