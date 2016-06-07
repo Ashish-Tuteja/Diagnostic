@@ -134,9 +134,9 @@
 							<tbody>
 								<tr style="background-color: #ddd">
 									<th style="padding: 8px 0px;">Time</th>
-									<th colspan="1" style="padding: 8px 0px;">Parameter</th>
-									<th colspan="1" style="padding: 8px 0px;">Value</th>
-									<th colspan="1" style="padding: 8px 0px;">Valid</th>
+									<th colspan="1" style="padding: 8px 0px;">Parameter Description</th>
+									<th colspan="1" style="padding: 8px 0px;">Raw Value</th>
+									<th colspan="1" style="padding: 8px 0px;">Scaled Value</th>
 
 								</tr>
 								<tr
@@ -152,7 +152,8 @@
 													ng-repeat="report in reports track by $index"><span
 													ng-if="$index==0">{{translateParametersDesc(report,$parent.$parent.$parent.$index,"static")}}
 														{{translateUnit(report,$parent.$parent.$parent.$index,"static")}}</span>
-													<span ng-if="$index!=0 && report!=0">{{report}}</span></td>
+													<span ng-if="$index==1 && report!=0">{{report}}</span>
+													<span ng-if="$index==2 && report!=0">{{applyScaling(reports[$index-1],reports[$index-2])}}</span></td>
 											</tr>
 										</table>
 									</td>

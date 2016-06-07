@@ -426,5 +426,45 @@ dashboard
 						}
 
 					}
+					
+					$scope.applyScaling = function(rawValue,parameterId){
+						
+						switch (parameterId) {
+			            case '5':
+			                return rawValue-40;
+			                break;
+			            case '10':
+			                return rawValue*3;
+			                break;
+			            case '12':
+			                return rawValue/4;
+			                break;
+			            case '15':
+			                return rawValue-40;
+			                break;
+			            case '31':
+			                return 'Formula not clear';
+			                break;
+			            case '66':
+			                return rawValue/1000;
+			                break;
+			            case '67':
+			                return rawValue*100/255;
+			                break;
+			            case '71':
+			                return rawValue*100/255;
+			                break;
+			            case '72':
+			                return rawValue*100/255;
+			                break;
+			            case '70':
+			                return rawValue-40;
+			                break;
+			            default:
+			            	return rawValue;
+			        }
+						
+						
+					}
 
 				});
