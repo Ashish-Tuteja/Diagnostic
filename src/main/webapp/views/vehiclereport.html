@@ -51,8 +51,10 @@
 							ng-click="tab = 2">Dynamic Report</a></li>
 						<li ng-class="{active:tab===3}"><a href="JAVASCRIPT:void(0);"
 							ng-click="tab = 3">Trouble code</a></li>
-						<li ng-class="{active:tab===4}" class="last"><a
-							href="JAVASCRIPT:void(0);" ng-click="tab = 4">System Report</a></li>
+						<li ng-class="{active:tab===4}" class="last"><a href="JAVASCRIPT:void(0);"
+						    ng-click="tab = 4">System Report</a></li>
+<!-- 							<li ng-class="{active:tab===5}" class="last"><a -->
+<!-- 							href="JAVASCRIPT:void(0);" ng-click="tab = 5">Mode6 Report</a></li> -->
 					</ul>
 					<br> <br>
 					<!-- SYSTEM REPORTS -->
@@ -89,34 +91,73 @@
 							</tbody>
 						</table>
 					</div>
-
-					<!-- TROUBLE CODES -->
+					
+			
+					
+						<!-- MODE 6 REPORT 
+					<div class="table-responsive" ng-show="tab === 5">
+						<span ng-if="mode6Reports.length==0">No Report found</span>
+						<table ng-if="mode6Reports.length!=0" id="dt_basic"
+							class="table table-striped table-bordered table-hover font default-fontsize"
+							width="100%" style="border-color: #c8c8c8; table-layout: fixed">
+							<tr style="background-color: #ddd">
+								<th style="padding: 8px 0px;">TimeStamp</th>
+								<th colspan="1">OBDM ID</th>
+								<th colspan="1">TEST ID</th>
+								<th colspan="1">SCALING ID</th>
+								<th colspan="1">MIN</th>
+								<th colspan="1">MAX</th>
+								<th colspan="1">VALUE</th>
+								<th colspan="1">RESULT</th>
+							</tr>
+							<tbody>
+								<tr
+									ng-Repeat="timestamp in mode6ReportsTimestamp track by $index">
+									<td>{{timestamp | date:'MM-dd-yyyy HH:mm:ss'}}</td>
+									<td style="padding: 0px;" colspan="1">
+										<table cellpadding="0" cellspacing="0" width="100%"
+											style="table-layout: fixed" border="1" style="padding : 0px;">
+											<tr
+												ng-repeat="reports in mode6Reports[$index] track by $index">
+												<td style="border: 1px solid #ddd;" colspan="1"
+													ng-repeat="report in reports track by $index"><span
+													ng-if="$index==0">{{translateParametersDesc(report)}}</span>
+													<span ng-if="$index!=0 && report!=0">{{report}}</span></td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div> -->
+					
+			<!-- TROUBLE CODES -->
 					<div class="table-responsive" ng-show="tab === 3">
 						<span ng-if="troubleReports.length==0">No Report found</span>
 						<table ng-if="troubleReports.length!=0" id="dt_basic"
 							class="table table-striped table-bordered table-hover font default-fontsize"
 							width="100%" style="border-color: #c8c8c8; table-layout: fixed">
 							<tr style="background-color: #ddd">
-								<th style="padding: 8px 0px;">Time</th>
-								<th colspan="1">Parameter</th>
-								<th colspan="1">Sample</th>
-								<th colspan="1">Min</th>
-								<th colspan="1">Max</th>
-								<th colspan="1">Mean</th>
+								<th style="padding: 8px 0px;">TimeStamp</th>
+								<th colspan="1">Parameter Description</th>
+<!-- 								<th colspan="1">Code</th> -->
+<!-- 								<th colspan="1">Sample</th> -->
+<!-- 								<th colspan="1">Min</th> -->
+<!-- 								<th colspan="1">Max</th> -->
+<!-- 								<th colspan="1">Mean</th> -->
 							</tr>
 							<tbody>
 								<tr
 									ng-Repeat="timestamp in troubleReportsTimestamp track by $index">
 									<td>{{timestamp | date:'MM-dd-yyyy HH:mm:ss'}}</td>
-									<td style="padding: 0px;" colspan="5">
+									<td style="padding: 0px;" colspan="1">
 										<table cellpadding="0" cellspacing="0" width="100%"
 											style="table-layout: fixed" border="1" style="padding : 0px;">
-											<tr
-												ng-repeat="reports in troubleReports[$index] track by $index">
+											<tr	ng-repeat="reports in troubleReports[$index] track by $index">
 												<td style="border: 1px solid #ddd;" colspan="1"
 													ng-repeat="report in reports track by $index"><span
 													ng-if="$index==0">{{translateParametersDesc(report)}}</span>
-													<span ng-if="$index!=0 && report!=0">{{report}}</span></td>
+													</td>
 											</tr>
 										</table>
 									</td>

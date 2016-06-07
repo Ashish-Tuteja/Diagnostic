@@ -102,7 +102,7 @@ public class SServer {
 				OutputStream outToServer = clientSocket.getOutputStream();
 				DataOutputStream out = new DataOutputStream(outToServer);
 				System.out.println();
-				out.write("3,0,10,5:34071808:1;10:257:1;12:11:1;15:0:0;31:85:1;66:73:1;71:61:1;72:85:1;70:2175:1;51:103:1"
+				out.write(" 2,0,2,P0403;P0203"
 						.getBytes());
 				System.out.println("Send Data.... ");
 				// out.flush();

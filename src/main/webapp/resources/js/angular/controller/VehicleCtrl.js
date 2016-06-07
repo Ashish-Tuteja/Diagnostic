@@ -17,6 +17,8 @@ dashboard
 					$scope.staticReportpacketType = [];
 					$scope.troubleReports = [];
 					$scope.troubleReportsTimestamp = [];
+//					$scope.mode6Reports = [];					mode6 report
+//					$scope.mode6ReportsTimestamp = [];
 					$scope.systemReports = [];
 					$scope.systemReportsTimestamp = [];
 					$scope.spinnerToggle = true;
@@ -124,7 +126,8 @@ dashboard
 						$scope.staticReports.push(temp);
 						console.log("static reports "+$scope.staticReports);
 					}
-
+					
+					
 					// Generate Trouble Reports
 					$scope.setTroubleReports = function(system_array) {
 						var temp = new Array();
@@ -132,6 +135,7 @@ dashboard
 							var check = system_array[i].split(":");
 							if(check[1] != 0 || check[2] != 0 || check[3] != 0|| check[4] != 0 ){
 							temp.push(system_array[i].split(":"));
+							
 							}
 							
 						}
