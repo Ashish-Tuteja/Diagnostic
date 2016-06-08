@@ -51,10 +51,10 @@
 							ng-click="tab = 2">Dynamic Report</a></li>
 						<li ng-class="{active:tab===3}"><a href="JAVASCRIPT:void(0);"
 							ng-click="tab = 3">Trouble code</a></li>
-						<li ng-class="{active:tab===4}" class="last"><a href="JAVASCRIPT:void(0);"
+						<li ng-class="{active:tab===4}"><a href="JAVASCRIPT:void(0);"
 						    ng-click="tab = 4">System Report</a></li>
-<!-- 							<li ng-class="{active:tab===5}" class="last"><a -->
-<!-- 							href="JAVASCRIPT:void(0);" ng-click="tab = 5">Mode6 Report</a></li> -->
+						<li ng-class="{active:tab===5}" class="last"><a	href="JAVASCRIPT:void(0);"
+							ng-click="tab = 5">Mode6 Report</a></li>
 					</ul>
 					<br> <br>
 					<!-- SYSTEM REPORTS -->
@@ -94,7 +94,7 @@
 					
 			
 					
-						<!-- MODE 6 REPORT 
+						<!-- MODE 6 REPORT --> 
 					<div class="table-responsive" ng-show="tab === 5">
 						<span ng-if="mode6Reports.length==0">No Report found</span>
 						<table ng-if="mode6Reports.length!=0" id="dt_basic"
@@ -114,14 +114,14 @@
 								<tr
 									ng-Repeat="timestamp in mode6ReportsTimestamp track by $index">
 									<td>{{timestamp | date:'MM-dd-yyyy HH:mm:ss'}}</td>
-									<td style="padding: 0px;" colspan="1">
+									<td style="padding: 0px;" colspan="7">
 										<table cellpadding="0" cellspacing="0" width="100%"
 											style="table-layout: fixed" border="1" style="padding : 0px;">
 											<tr
 												ng-repeat="reports in mode6Reports[$index] track by $index">
 												<td style="border: 1px solid #ddd;" colspan="1"
 													ng-repeat="report in reports track by $index"><span
-													ng-if="$index==0">{{translateParametersDesc(report)}}</span>
+													ng-if="$index==0">{{report}}</span>
 													<span ng-if="$index!=0 && report!=0">{{report}}</span></td>
 											</tr>
 										</table>
@@ -129,7 +129,7 @@
 								</tr>
 							</tbody>
 						</table>
-					</div> -->
+					</div>
 					
 			<!-- TROUBLE CODES -->
 					<div class="table-responsive" ng-show="tab === 3">

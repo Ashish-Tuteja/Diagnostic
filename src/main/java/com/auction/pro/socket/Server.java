@@ -27,6 +27,7 @@ public class Server {
 	public static final String DYNAMIC_REPORT = "Dynamic Report";
 	public static final String TROUBLE_CODE = "Trouble Code";
 	public static final String STATIC_REPORT = "Static Report";
+	public static final String MODE6_REPORT = "Mode6 Report";
 	public static final String STATIC_RESULT_REPORT = "Static Test Report";
 	public static final String DYNAMIC_RESULT_REPORT = "Dynamic Test Report";
 	public static final String ODOMETER_REPORT = "Odometer Report";
@@ -139,6 +140,9 @@ public class Server {
 				String[] packetList = payload.split(",");
 				LOGGER.debug("Code is :::: " + packetList[0]);
 				int packetType = Integer.parseInt(packetList[0]);
+				
+				System.out.println("packet type==========================="+ packetType);
+				System.out.println("packetlist[0]========================="+packetList[0]);
 				if ("1".equals(packetList[0])) {
 					String vin = packetList[1].toString();
 					System.out.println("New VIN: " + vin);
@@ -165,6 +169,9 @@ public class Server {
 				} else if ("7".equals(packetList[0])) {
 					LOGGER.debug("Odometer response");
 					sendReport(packetList, ODOMETER_REPORT, ip, packetType);
+				}else if ("9".equals(packetList[0])) {
+					LOGGER.debug("Mode 6 Report");
+					sendReport(packetList, MODE6_REPORT, ip, packetType);
 				} else {
 					LOGGER.info("unknown code - " + packetList[0]);
 					sendReport(packetList, DUMP, ip, packetType);

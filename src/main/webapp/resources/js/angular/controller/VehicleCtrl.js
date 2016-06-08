@@ -17,8 +17,9 @@ dashboard
 					$scope.staticReportpacketType = [];
 					$scope.troubleReports = [];
 					$scope.troubleReportsTimestamp = [];
-//					$scope.mode6Reports = [];					mode6 report
-//					$scope.mode6ReportsTimestamp = [];
+					$scope.mode6Reports = [];					
+					$scope.mode6ReportsTimestamp = [];
+					$scope.mode6reportpacketType = [];
 					$scope.systemReports = [];
 					$scope.systemReportsTimestamp = [];
 					$scope.spinnerToggle = true;
@@ -141,6 +142,20 @@ dashboard
 						}
 						$scope.troubleReports.push(temp);
 					}
+					
+					// Generate Mode 6 Reports
+					$scope.setMode6Reports = function(system_array) {
+						var temp = new Array();
+						for (var i = 0; i < system_array.length; i++) {
+							var check = system_array[i].split(":");
+							if(check[1] != 0 || check[2] != 0 || check[3] != 0|| check[4] != 0|| check[5] != 0|| check[6] != 0 ){
+							temp.push(system_array[i].split(":"));
+							
+							}
+							
+						}
+						$scope.mode6Reports.push(temp);
+					}
 					$scope.hi = function(obj) {
 						console.log(obj);
 					}
@@ -165,6 +180,7 @@ dashboard
 						$scope.dynamicReports = [];
 						$scope.staticReports = [];
 						$scope.troubleReports = [];
+						$scope.mode6Reports = [];
 						$scope.systemReports = [];
 						loading("Fetching Reports...");
 						translationServiceDynamicStaticTest.success(function(
@@ -246,7 +262,21 @@ dashboard
 																	.stringify(response))["reports"][k]["System Report"]
 															.split(';');
 													$scope
-															.setSystemReports(system_array)
+															.setSystemReports(system_array);
+												} else if (timestamp[k]
+														.indexOf("Mode6") != -1) {
+													$scope.mode6ReportsTimestamp
+															.push(timestamp[k]
+																	.split(',')[1]);
+													$scope.mode6reportpacketType
+															.push(packetType[k]);
+													var system_array = JSON
+															.parse(JSON
+																	.stringify(response))["reports"][k]["Mode6 Report"]
+															.split(';');
+													$scope
+															.setMode6Reports(system_array)
+
 												}
 											}
 											console
@@ -447,7 +477,7 @@ dashboard
 			                return rawValue-40;
 			                break;
 			            case '31':
-			                return 'Formula not clear';
+			                return 'Formula:(A*256)+B';
 			                break;
 			            case '66':
 			                return rawValue/1000;
