@@ -209,7 +209,7 @@ dashboard.controller('EcuControllerCtrl', function($scope, $location, $rootScope
 
 	}, $scope.range = function(n) {
 		return new Array(n);
-	}, $scope.getControllerINRange = function(range) {
+	}, $scope.getcontrollerINRange = function(range) {
 		$rootScope.pageNumber = range;
 		controllerListService.getList({}, {
 			page : range
@@ -237,13 +237,13 @@ dashboard.controller('EcuControllerCtrl', function($scope, $location, $rootScope
 	$scope.previous = function() {
 		if ($rootScope.pageNumber > 1) {
 			$rootScope.pageNumber = $rootScope.pageNumber - 1;
-			$scope.getControllerINRange($rootScope.pageNumber);
+			$scope.getcontrollerINRange($rootScope.pageNumber);
 		}
 	}
 	$scope.next = function() {
 		if ($rootScope.pages > $rootScope.pageNumber) {
 			$rootScope.pageNumber = $rootScope.pageNumber + 1;
-			$scope.getControllerINRange($rootScope.pageNumber);
+			$scope.getcontrollerINRange($rootScope.pageNumber);
 		}
 	}
 });

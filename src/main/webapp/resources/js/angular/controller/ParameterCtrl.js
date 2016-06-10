@@ -99,7 +99,7 @@ dashboard.controller('ParameterCtrl', function($scope, $location, $rootScope,
 
 	}, $scope.range = function(n) {
 		return new Array(n);
-	}, $scope.getparameterINRange = function(range) {
+	}, $scope.getParameterINRange = function(range) {
 		$rootScope.pageNumber = range;
 		parameterListService.getList({}, {
 			page : range
