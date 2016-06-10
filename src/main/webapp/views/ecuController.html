@@ -47,18 +47,20 @@
 						<thead>
 							<tr style="background-color: #ddd">
 								<th data-hide="phone,tablet">Select</th>
-								<th data-hide="phone,tablet">Make</th>
-								<th data-hide="phone,tablet">Model</th>
-								<th data-hide="phone,tablet">Year</th>
-								<th data-hide="phone,tablet">Controller Name</th>
-								<!-- <th data-hide="phone,tablet">Description</th>
-								<th data-hide="phone,tablet">Sim</th> -->
+								<th data-hide="phone,tablet" ng-click="sortBy('make')">Make
+								<span class="sortorder" ng-show="propertyName === 'make'" ng-class="{reverse: reverse}"></span></th>
+								<th data-hide="phone,tablet" ng-click="sortBy('model')" >Model
+								<span class="sortorder" ng-show="propertyName === 'model'" ng-class="{reverse: reverse}"></span></th>
+								<th data-hide="phone,tablet" ng-click="sortBy('year')">Year
+								<span class="sortorder" ng-show="propertyName === 'year'" ng-class="{reverse: reverse}"></span></th>
+								<th data-hide="phone,tablet" ng-click="sortBy('controllerName')">Controller Name
+								<span class="sortorder" ng-show="propertyName === 'controllerName'" ng-class="{reverse: reverse}"></span></th>
 								<th>Actions</th>
 
 							</tr>
 						</thead>
 						<tbody ng-if="controllers!=0">
-							<tr ng-repeat="controller in controllers | filter : searchController">
+							<tr ng-repeat="controller in controllers | filter : searchController | orderBy:propertyName:reverse">
 								<td>
 									<input type="checkbox" ng-click="clickCheck(controller.controllerId)"></td>
 								<td>{{ controller.make}}</td>

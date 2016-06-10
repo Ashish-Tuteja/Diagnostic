@@ -17,6 +17,13 @@ dashboard.controller('EcuControllerCtrl', function($scope, $location, $rootScope
 	var controllerList = [];
 	 var fileNameOne ="";
 	 var oneFormData = new FormData();
+	 $scope.propertyName = 'make';
+	  $scope.reverse = false;
+
+	  $scope.sortBy = function(propertyName) {
+	    $scope.reverse = ($scope.propertyName === propertyName) ? !$scope.reverse : false;
+	    $scope.propertyName = propertyName;
+	  };
 	if ($rootScope.controllerDetail != null) {
 		$scope.showSingleYear = true;
 		$scope.buttonName = "Edit";
