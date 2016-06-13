@@ -414,7 +414,6 @@ dashboard
 							$index, reportName) {
 						var getStaticPacketType = parseInt($scope.staticReportpacketType[$index]);
 						var getDynamicPacketType = parseInt($scope.dynamicReportpacketType[$index]);
-						console.log(String(reportName) == "dynamic");
 						if ((getDynamicPacketType == 4 && String(reportName) == "dynamic")
 								|| (getStaticPacketType == 3 && String(reportName) == "static")) {
 							if ($scope.translation != null

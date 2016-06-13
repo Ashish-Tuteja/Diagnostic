@@ -64,12 +64,6 @@ dashboard.controller('ParameterCtrl', function($scope, $location, $rootScope,
 	//Saving parameters for a particular controller by controller Id
 	$scope.register = function() {
 		delete $scope.save.parameter.$$hashKey;
-		/*if(!$scope.save.parameter.id){
-			
-		}
-		var newField = {"controllerId":$rootScope.parameterControllerId};
-		  angular.extend($scope.save.parameter, newField);
-		}*/
 		  console.log(JSON.stringify($scope.save.parameter));
 		  parameterService.save({id:$rootScope.contDetails.controllerId},JSON.stringify($scope.save.parameter), function(
 					response) {

@@ -102,8 +102,6 @@
 <script
 	src="<c:url value='/resources/js/angular/controller/VehicleCtrl.js'></c:url>"></script>
 <script
-	src="<c:url value='/resources/js/angular/controller/ImportCtrl.js'></c:url>"></script>
-<script
 	src="<c:url value='/resources/js/angular/service/VehicleAppService.js'></c:url>"></script>
 <link rel="stylesheet" type="text/css" media="screen"
 	href="<c:url value='/resources/css/font-awesome.min.css'></c:url>">
