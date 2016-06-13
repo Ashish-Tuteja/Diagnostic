@@ -143,7 +143,6 @@ public class ParametersDaoImpl extends AbstractDAOImpl<Parameters> implements
 		String value = null;
 		while (cursor.iterator().hasNext()) {
 			try {
-				// LOGGER.info("pppppppppppp"+String.valueOf(cursor.next().get("parameterDescId")));
 				value = String.valueOf(cursor.next().get("parameterDescId"));
 				break;
 			} catch (Exception e) {

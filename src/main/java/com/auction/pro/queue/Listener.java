@@ -19,7 +19,7 @@ import com.auction.pro.common.utils.CommonUtils;
 import com.auction.pro.device.dto.DeviceDto;
 import com.auction.pro.device.service.base.DeviceService;
 import com.auction.pro.vehicle.dto.VehicleDto;
-import com.auction.pro.vehicle.model.EcuControllers;
+import com.auction.pro.ecuController.model.EcuController;
 import com.auction.pro.vehicle.model.GlobalParameters;
 import com.auction.pro.vehicle.service.base.VehicleService;
 
@@ -110,7 +110,7 @@ public class Listener implements NavResearchConstants {
 			}
 			
 			// get controllers based on make , model , year from vehicle
-			EcuControllers ecus = vehicleService.getvehicleECU(
+			EcuController ecus = vehicleService.getvehicleECU(
 					vehicleDTO.getMake(), vehicleDTO.getModel(),vehicleDTO.getYear());
 
 			if (ecus == null) {
