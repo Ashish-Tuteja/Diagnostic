@@ -92,6 +92,76 @@ dashboard.factory('getReportsbyIP', [ '$resource', function($resource) {
 } ]);
 dashboard.factory('vehicleupload', function($http, $location) {
 	return {
+		uploadGlobalData : function(uploadUrl, formData) {
+			$http.post(uploadUrl, formData, {
+				headers : {
+					'Content-Type' : undefined
+				},
+				transformRequest : angular.identity
+			}).success(
+					function(data) {
+						if (data == "0") {
+							showmessage("Success!", "Upload file successfully",
+									"success");
+							$location.path("/import");
+						} else {
+							showmessage("Error!",
+									"File not upload please check file format",
+									"error");
+							$location.path("/import");
+						}
+
+					}).error(function(error) {
+				showmessage("Error!", "File not upload !! Try again", "error");
+			});
+		},
+		uploadVehicleECU : function(uploadUrl, formData) {
+			$http.post(uploadUrl, formData, {
+				headers : {
+					'Content-Type' : undefined
+				},
+				transformRequest : angular.identity
+			}).success(
+					function(data) {
+						if (data == "0") {
+							showmessage("Success!", "Upload file successfully",
+									"success");
+							$location.path("/import");
+						} else {
+							showmessage("Error!",
+									"File not upload please check file format",
+									"error");
+							$location.path("/import");
+						}
+
+					}).error(function(error) {
+				showmessage("Error!", "File not upload !! Try again", "error");
+			});
+		},
+		uploadGlobalECU : function(uploadUrl, formData) {
+			$http.post(uploadUrl, formData, {
+				headers : {
+					'Content-Type' : undefined
+				},
+				transformRequest : angular.identity
+			}).success(
+					function(data) {
+						if (data == "0") {
+							showmessage("Success!", "Upload file successfully",
+									"success");
+							$location.path("/import");
+						} else {
+							showmessage("Error!",
+									"File not upload please check file format",
+									"error");
+							$location.path("/import");
+						}
+
+					}).error(function(error) {
+				showmessage("Error!", "File not upload !! Try again", "error");
+			});
+		},
+		
 		//Uploading Global parameters List for 1 file
 		uploadGlobalParameters : function(uploadUrl, formData,fileName,controllerIds) {
 			$http.post(uploadUrl, formData,  {

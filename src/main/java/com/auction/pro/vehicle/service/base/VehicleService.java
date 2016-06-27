@@ -10,7 +10,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.auction.pro.common.service.AbstractService;
 import com.auction.pro.vehicle.dto.VehicleDto;
-import com.auction.pro.ecuController.model.EcuController;
+import com.auction.pro.vehicle.model.EcuControllers;
 import com.auction.pro.vehicle.model.GlobalParameters;
 
 public interface VehicleService extends AbstractService<VehicleDto> {
@@ -22,6 +22,7 @@ public interface VehicleService extends AbstractService<VehicleDto> {
 			String parentAccountId) throws Exception;
 
 	void saveReport(VehicleDto reportDto) throws Exception;
+
 	
 
 	Map<String, Object> getReportsByGroupId(String groupid) throws Exception;
@@ -31,6 +32,14 @@ public interface VehicleService extends AbstractService<VehicleDto> {
 	void insertVehicleReportGroupId(String groupId, String vin)
 			throws Exception;
 
+	public int uploadGlobalData(File tempfile, byte[] bytestream,
+			String uploadoption);
+
+	public int uploadVehicleEcu(File tempfile, byte[] bytestream,
+			String uploadoption);
+
+	public int uploadGlobalEcu(File tempfile, byte[] bytestream,
+			String uploadoption);
 
 	public int uploadGlobalParameters(String[] ids, File tempfile, byte[] bytestream,
 			String uploadoption);
@@ -38,12 +47,16 @@ public interface VehicleService extends AbstractService<VehicleDto> {
 	
 
 	List<GlobalParameters> getDataList(String controllerId);
+	List<GlobalParameters> getDataListParameters(String vehicleControllerId);
+	List<EcuControllers> getEcuListParameters();
 	
 	VehicleDto findByVIN(String vin) throws Exception;
 	
 
-	EcuController getvehicleECU(String make , String model , String year);
+	EcuControllers getvehicleECU(String make , String model , String year);
 
-	public void setControllerEcu(EcuController controllerParameters) throws Exception;
+	//Vehicle getDefault() throws Exception;
+
+	public void setControllerEcu(EcuControllers controllerParameters) throws Exception;
 
 }

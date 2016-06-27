@@ -19,7 +19,7 @@ import com.auction.pro.common.utils.CommonUtils;
 import com.auction.pro.device.dto.DeviceDto;
 import com.auction.pro.device.service.base.DeviceService;
 import com.auction.pro.vehicle.dto.VehicleDto;
-import com.auction.pro.ecuController.model.EcuController;
+import com.auction.pro.vehicle.model.EcuControllers;
 import com.auction.pro.vehicle.model.GlobalParameters;
 import com.auction.pro.vehicle.service.base.VehicleService;
 
@@ -110,7 +110,7 @@ public class Listener implements NavResearchConstants {
 			}
 			
 			// get controllers based on make , model , year from vehicle
-			EcuController ecus = vehicleService.getvehicleECU(
+			EcuControllers ecus = vehicleService.getvehicleECU(
 					vehicleDTO.getMake(), vehicleDTO.getModel(),vehicleDTO.getYear());
 
 			if (ecus == null) {
@@ -182,10 +182,16 @@ public class Listener implements NavResearchConstants {
 					packetLength = packetLength + previouspacketLength;
 					LOGGER.info("Current bytes count is " + packetLength);
 					
-					
-					if(packetLength >= 1020){
+					if(packetLength >= 1020) {
 						packetLength =0;
 						previouspacketLength=0;
+						
+						LOGGER.info("Exceeded Packet Size, reset byte count:" + packetLength);
+						
+						// Start a new packet length with the of good.
+						packetLength = testStr.getBytes().length;
+						
+						LOGGER.info("New byte count:" + packetLength);
 						
 						try {
 							if (out != null) {

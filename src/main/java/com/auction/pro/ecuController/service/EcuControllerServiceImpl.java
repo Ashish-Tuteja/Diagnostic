@@ -19,6 +19,7 @@ import com.auction.pro.ecuController.dao.base.EcuControllerDao;
 import com.auction.pro.ecuController.dto.EcuControllerDto;
 import com.auction.pro.ecuController.model.EcuController;
 import com.auction.pro.ecuController.service.base.EcuControllerService;
+import com.auction.pro.vehicle.model.EcuController_backup;
 
 @Service
 public class EcuControllerServiceImpl extends AbstractServiceImpl<EcuControllerDto, EcuController>
@@ -54,7 +55,7 @@ public class EcuControllerServiceImpl extends AbstractServiceImpl<EcuControllerD
 			chekIfExists = ecuControllerDao.exists((EcuController) getEntityFromDTO(entity,
 					EcuController.class));
 			finalEntity = !chekIfExists ? getDTOForEntity(ecuControllerDao
-					.save((EcuController) getEntityFromDTO(entity, EcuController.class)))
+					.save((EcuController) getEntityFromDTO(entity, EcuController_backup.class)))
 					: null;
 		}
 	}
@@ -89,6 +90,17 @@ public class EcuControllerServiceImpl extends AbstractServiceImpl<EcuControllerD
 
 	}
 
+	/*@Override
+	public List<EcuControllerDto> getDTOsForEntities(Iterable<EcuController> entities) {
+		// TODO Auto-generated method stub
+		Iterator<EcuController_backup> iterateecuController = entities.iterator();
+		List<EcuControllerDto> ecuControllerDTOs = new ArrayList<EcuControllerDto>();
+		while (iterateecuController.hasNext()) {
+			ecuControllerDTOs.add(getDTOForEntity(iterateecuController.next()));
+		}
+		return ecuControllerDTOs;
+	}*/
+
 	public List<EcuControllerDto> findBySerachterm(String searchterm,
 			Serializable accountId) throws Exception {
 		// TODO Auto-generated method stub
@@ -97,11 +109,58 @@ public class EcuControllerServiceImpl extends AbstractServiceImpl<EcuControllerD
 	}
 
 
+	/*public List<EcuControllerTypeDto> getEcuControllerTypes() throws Exception {
+		// TODO Auto-generated method stub
+		return getEcuControllerTypeDTOsForEntities(ecuControllerDao.getEcuControllerTypes());
+	}*/
+
+	/*public List<CarrierDto> getCarrierDTOsForEntities(Iterable<Carrier> entities) {
+		// TODO Auto-generated method stub
+		Iterator<Carrier> iterator = entities.iterator();
+		List<CarrierDto> carrier = new ArrayList<CarrierDto>();
+		Carrier carrierEntity = null;
+		CarrierDto carrierDto = null;
+		while (iterator.hasNext()) {
+			carrierDto = new CarrierDto();
+			carrierEntity = (Carrier) iterator.next();
+			carrierDto.setName(carrierEntity.getName());
+			carrierDto.setId(carrierEntity.getId());
+			carrier.add(carrierDto);
+		}
+		return carrier;
+	}*/
+
+/*	public List<EcuControllerTypeDto> getEcuControllerTypeDTOsForEntities(
+			Iterable<EcuControllerType> entities) {
+		// TODO Auto-generated method stub
+		Iterator<EcuControllerType> iterator = entities.iterator();
+		List<EcuControllerTypeDto> ecuControllerTypeDTO = new ArrayList<EcuControllerTypeDto>();
+		EcuControllerType ecuControllerTypeEntity = null;
+		EcuControllerTypeDto ecuControllerTypeDto = null;
+		while (iterator.hasNext()) {
+			ecuControllerTypeDto = new EcuControllerTypeDto();
+			ecuControllerTypeEntity = (EcuControllerType) iterator.next();
+			ecuControllerTypeDto.setName(ecuControllerTypeEntity.getName());
+			ecuControllerTypeDto.setId(ecuControllerTypeEntity.getId());
+			ecuControllerTypeDTO.add(ecuControllerTypeDto);
+		}
+		return ecuControllerTypeDTO;
+	}*/
 
 	public List<EcuControllerDto> getEcuControllers() throws Exception {
 		// TODO Auto-generated method stub
 		return getDTOsForEntities(ecuControllerDao.getEcuControllers());
 	}
+
+	/*public CarrierDto findCarrierById(Serializable carrieId) {
+		// TODO Auto-generated method stub
+		Carrier carrier = carrierDao.findById(carrieId);
+		CarrierDto carrierDto = new CarrierDto();
+		carrierDto.setId(carrier.getId());
+		carrierDto.setName(carrier.getName());
+		return carrierDto;
+	}*/
+
 	public Page<EcuControllerDto> findAllPage(Pageable pageable, String parentAccountId)
 			throws Exception {
 		// TODO Auto-generated method stub

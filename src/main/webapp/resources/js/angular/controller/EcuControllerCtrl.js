@@ -51,6 +51,17 @@ dashboard.controller('EcuControllerCtrl', function($scope, $location, $rootScope
 		$rootScope.contDetails = obj;
 		$location.path("/controller/parameter");    
 	};
+		
+	// controllertypes
+	/*controllertypeListService.getList(function(response) {
+		$scope.controllertypes = response;
+
+	});
+
+	// carriers
+	carrierListService.getList(function(response) {
+		$scope.carriers = response;
+	});*/
 
 	$scope.addController = function() {
 		$rootScope.controllerDetail = null;

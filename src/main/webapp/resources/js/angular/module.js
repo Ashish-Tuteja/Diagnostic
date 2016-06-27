@@ -195,6 +195,18 @@ dashboard.config(function($routeProvider, $locationProvider) {
 		}
 	})
 
+	.when('/import', {
+		controller : 'ImportCtrl',
+		templateUrl : 'views/import.html',
+		label : 'UserAccount',
+		resolve : {
+			ctrlOptions : function() {
+				return {
+					useraccount : true,
+				};
+			}
+		}
+	})
 
 	.when('/useraccount/changepassword', {
 		controller : 'UserAccountCtrl',

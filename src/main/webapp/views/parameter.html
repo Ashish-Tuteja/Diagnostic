@@ -53,7 +53,8 @@
 						width="100%" style="border-color: #c8c8c8">
 						<thead>
 							<tr style="background-color: #ddd">
-								<th data-hide="phone,tablet">ParameterDesc</th>
+								<th data-hide="phone,tablet" ng-click="sortBy('parameterDesc')">ParameterDesc
+								<span class="sortorder" ng-show="propertyName === 'parameterDesc'" ng-class="{reverse: reverse}"></span></th>
 								<th data-hide="phone,tablet">TxId</th>
 								<th data-hide="phone,tablet">Rxid</th>
 								<th data-hide="phone,tablet">IsEnhanced</th>
@@ -69,7 +70,7 @@
 							</tr>
 						</thead>
 						<tbody ng-if="parameters!=0">
-							<tr ng-repeat="parameter in parameters | filter : searchParameter">
+							<tr ng-repeat="parameter in parameters | filter : searchParameter | orderBy:propertyName:reverse">
 								<td>{{ parameter.parameterDesc}}</td>
 								<td>{{ parameter.txId}}</td>
 								<td>{{ parameter.rxId}}</td>
@@ -97,7 +98,7 @@
 							ng-click="getParameterINRange(1)">First</a></li>
 						<li><a href="javascript:void(0)" ng-click="previous()">Previous</a></li>
 						<li ng-repeat="a in range(pages) track by $index"
-							ng-if="$index+1<5" ng-class="{active: pageNumber==$index+1}"><a
+							ng-if="$index+1==pageNumber" ng-class="{active: pageNumber==$index+1}"><a
 							href="javascript:void(0)" ng-click="getParameterINRange($index+1)">{{$index+1}}</a></li>
 						<li><a href="javascript:void(0)" ng-click="next()">Next</a></li>
 						<li><a href="javascript:void(0)"

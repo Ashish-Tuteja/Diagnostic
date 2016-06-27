@@ -243,5 +243,124 @@ public class VehicleController extends AbstractController {
 
 	}
 	//End for global parameters
+	
+	
+	@RequestMapping(value = "/upload/globaldata", method = RequestMethod.POST)
+	private @ResponseBody int globalDataUpload(
+			@RequestParam(value = "data") String uploadoption,
+			@RequestParam(value = "file", required = true) MultipartFile file) {
+		// TODO Auto-generated method stub
+		System.out.println("File name " + file.getOriginalFilename());
+		try {
+			String fileName = file.getOriginalFilename();
+			if (!file.isEmpty()) {
+				try {
+					
+					byte[] bytes = file.getBytes();
+					// Creating the directory to store file
+					String rootPath = System.getProperty("user.home");
+					File tempfile = new File(rootPath + File.separator
+							+ fileName);
+					tempfile.deleteOnExit();
+					// Files.deleteIfExists(tempfile.toPath());
+					System.out.println("uploadGlobal data ");
+					return vehicleService.uploadGlobalData(tempfile, bytes,
+							uploadoption);
+				} catch (Exception e) {
+					e.printStackTrace();
+					LOGGER.info("You failed to upload " + fileName + " => "
+							+ e.getMessage());
+					return 1;
+				}
+			} else {
+				System.out.println("You failed to upload ");
+				LOGGER.info("You failed to upload " + fileName
+						+ " because the file was empty.");
+				return 1;
+			}
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("in controller");
+			e.printStackTrace();
+			LOGGER.error("Global Parameter error " + e.getMessage());
+			return 1;
+		}
+
+	}
+
+	@RequestMapping(value = "/upload/vehicleecu", method = RequestMethod.POST)
+	private @ResponseBody int vehicleecuDataUpload(
+			@RequestParam(value = "data") String uploadoption,
+			@RequestParam(value = "file", required = true) MultipartFile file) {
+		// TODO Auto-generated method stub
+		try {
+			String fileName = file.getOriginalFilename();
+			if (!file.isEmpty()) {
+				try {
+					byte[] bytes = file.getBytes();
+					// Creating the directory to store file
+					String rootPath = System.getProperty("user.home");
+					File tempfile = new File(rootPath + File.separator
+							+ fileName);
+					tempfile.deleteOnExit();
+					// Files.deleteIfExists(tempfile.toPath());
+					return vehicleService.uploadVehicleEcu(tempfile, bytes,
+							uploadoption);
+				} catch (Exception e) {
+					LOGGER.info("You failed to upload " + fileName + " => "
+							+ e.getMessage());
+					return 1;
+				}
+			} else {
+				LOGGER.info("You failed to upload " + fileName
+						+ " because the file was empty.");
+				return 1;
+			}
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			LOGGER.error("Global Parameter error " + e.getMessage());
+			return 1;
+		}
+
+	}
+
+	@RequestMapping(value = "/upload/globalecu", method = RequestMethod.POST)
+	private @ResponseBody int globalecuDataUpload(
+			@RequestParam(value = "data") String uploadoption,
+			@RequestParam(value = "file", required = true) MultipartFile file) {
+		// TODO Auto-generated method stub
+		try {
+			String fileName = file.getOriginalFilename();
+			if (!file.isEmpty()) {
+				try {
+					byte[] bytes = file.getBytes();
+					// Creating the directory to store file
+					String rootPath = System.getProperty("user.home");
+					File tempfile = new File(rootPath + File.separator
+							+ fileName);
+					tempfile.deleteOnExit();
+					// Files.deleteIfExists(tempfile.toPath());
+					return vehicleService.uploadGlobalEcu(tempfile, bytes,
+							uploadoption);
+				} catch (Exception e) {
+					LOGGER.info("You failed to upload " + fileName + " => "
+							+ e.getMessage());
+					return 1;
+				}
+			} else {
+				LOGGER.info("You failed to upload " + fileName
+						+ " because the file was empty.");
+				return 1;
+			}
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			LOGGER.error("Global Parameter error " + e.getMessage());
+			return 1;
+		}
+
+	}
 
 }

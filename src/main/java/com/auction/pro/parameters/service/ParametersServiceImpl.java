@@ -40,6 +40,8 @@ public class ParametersServiceImpl extends AbstractServiceImpl<ParametersDto, Pa
 					entity, Parameters.class)));
 		} else {
 			System.out.println("Adding------------>");
+			/*chekIfExists = parametersDao.exists((Parameters) getEntityFromDTO(entity,
+					Parameters.class));*/
 			try{
 			String paramDescId = parametersDao.getParamDescIdByControllerId(entity.getControllerId());
 			LOGGER.info("ParameterDescId returned :::" + paramDescId + "for controller Id :::" + entity.getControllerId());
@@ -51,6 +53,9 @@ public class ParametersServiceImpl extends AbstractServiceImpl<ParametersDto, Pa
 				e.printStackTrace();
 				LOGGER.error("Parameter desc id not found");
 			}
+			/*return !chekIfExists ? getDTOForEntity(parametersDao
+					.save((Parameters) getEntityFromDTO(entity, Parameters.class)))
+					: null;*/
 			return getDTOForEntity(parametersDao.save((Parameters) getEntityFromDTO(
 					entity, Parameters.class)));
 		}

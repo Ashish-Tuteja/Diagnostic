@@ -66,6 +66,24 @@ public class EcuControllerController extends AbstractController {
 
 	}
 
+	/*
+	 * //Delete Functionality
+	 * 
+	 * @RequestMapping(value = "/delete", method = RequestMethod.DELETE,
+	 * produces = "application/json") protected @ResponseBody void Delete(
+	 * 
+	 * @RequestBody EcuControllerDto ecuControllerDto, HttpServletRequest
+	 * request) { // TODO: handle exception try{
+	 * 
+	 * LOGGER.info("Deleteing Controllers for " + ecuControllerDto.getId());
+	 * ecuControllerDto.getControllerId();
+	 * ecuControllerService.delete(ecuControllerDto); }catch(Exception e){
+	 * e.printStackTrace();
+	 * LOGGER.error("Problem occured in deleting controller for " +
+	 * ecuControllerDto.getId()); }
+	 * 
+	 * }
+	 */
 
 	// Delete Functionality By id
 	@RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE, produces = "application/json")

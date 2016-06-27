@@ -24,8 +24,12 @@ import com.auction.pro.common.constants.MongoConstant;
 import com.auction.pro.common.constants.NavResearchConstants;
 import com.auction.pro.common.dao.AbstractDAOImpl;
 import com.auction.pro.common.utils.CommonUtils;
-import com.auction.pro.ecuController.model.EcuController;
 import com.auction.pro.vehicle.dao.base.VehicleDao;
+import com.auction.pro.vehicle.filter.VehicleFilter;
+import com.auction.pro.vehicle.model.Ecu;
+import com.auction.pro.vehicle.model.EcuController_backup;
+import com.auction.pro.vehicle.model.EcuControllers;
+import com.auction.pro.vehicle.model.GlobalParameter;
 import com.auction.pro.vehicle.model.GlobalParameters;
 import com.auction.pro.vehicle.model.Vehicle;
 import com.mongodb.BasicDBList;
@@ -53,6 +57,24 @@ public class VehicleDaoImpl extends AbstractDAOImpl<Vehicle> implements
 
 	}
 	
+	
+	/*
+	 * public Vehicle findDefaultVehicle() {
+	 * 
+	 * 
+	 * List<Vehicle> dVehicle = mongoTemplate.find(
+	 * Query.query(Criteria.where("type").is(0)), Vehicle.class);
+	 * System.out.println("Mongotemplate dvehicle"+dVehicle); return dVehicle !=
+	 * null ? dVehicle.get(0) : null; { // TODO Auto-generated method stub
+	 * Criteria and = new Criteria().andOperator(
+	 * Criteria.where("type").is(searchFilter.getType())); return
+	 * mongoTemplate.findOne(Query.query(and), Vehicle.class);
+	 * 
+	 * }
+	 * 
+	 * 
+	 * }
+	 */
 
 	@Override
 	public boolean isExists(Vehicle entity) {
@@ -65,6 +87,10 @@ public class VehicleDaoImpl extends AbstractDAOImpl<Vehicle> implements
 		// TODO Auto-generated method stub
 		List<Vehicle> list = null;
 		Query query = new Query();
+		/*
+		 * query.addCriteria(Criteria.where("parentAccountId")
+		 * .all(parentAccountId));
+		 */
 		query.with(pageable);
 		list = mongoTemplate.find(query, Vehicle.class);
 
@@ -128,6 +154,41 @@ public class VehicleDaoImpl extends AbstractDAOImpl<Vehicle> implements
 
 	}
 	
+	
+	/*//getting datalist on the basis of vehicleControllerID
+	public List<GlobalParameters> getDataListParameters(String vehicleControllerId) {
+
+		DBCollection collection = mongoTemplate
+				.getCollection(GLOBAL_PARAMETERS);
+
+		List<GlobalParameters> globalParameters = new ArrayList<GlobalParameters>();
+		List<BasicDBObject> andObjs = new ArrayList<BasicDBObject>();
+		andObjs.add(new BasicDBObject().append("wasError",
+				new BasicDBObject().append("$ne", "")));
+		andObjs.add(new BasicDBObject().append("vehicleControllerId", vehicleControllerId));
+		BasicDBObject findOBJ = new BasicDBObject();
+		findOBJ.append("$and", andObjs);
+		DBCursor cursor = collection.find(findOBJ);
+
+		while (cursor.hasNext()) {
+			try {
+				globalParameters.add(GlobalParameters
+						.convertGlobalParameters(new JSONObject(
+								((BasicDBObject) cursor.next()).toString())));
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				LOGGER.error("convert json to pojo error");
+			}
+		}
+		return globalParameters;
+	}
+	
+	//return gblist on basis of vehicleControllerID
+*/	
+	
+	
+	
 	//getting ecugbList on the basis of controllerids
 		public List<GlobalParameters> getECUController(String[] controllerIds) {
 
@@ -169,6 +230,14 @@ public class VehicleDaoImpl extends AbstractDAOImpl<Vehicle> implements
 
 		List<GlobalParameters> globalParameters = new ArrayList<GlobalParameters>();
 		List<BasicDBObject> andObjs = new ArrayList<BasicDBObject>();
+		/*andObjs.add(new BasicDBObject().append("isEnhanced",
+				new BasicDBObject().append("$ne", "")));
+		andObjs.add(new BasicDBObject().append("parameterId",
+				new BasicDBObject().append("$ne", "")));
+		andObjs.add(new BasicDBObject().append("bitpostion",
+				new BasicDBObject().append("$ne", "")));
+		andObjs.add(new BasicDBObject().append("serviceId",
+				new BasicDBObject().append("$ne", "")));*/
 		andObjs.add(new BasicDBObject().append("wasError",
 				new BasicDBObject().append("$ne", "")));
 		andObjs.add(new BasicDBObject().append("controllerId", controllerId));
@@ -195,11 +264,11 @@ public class VehicleDaoImpl extends AbstractDAOImpl<Vehicle> implements
 	
 	//Getting ecuList parameters
 	
-	public List<EcuController> getEcuListParameters() {
+	public List<EcuControllers> getEcuListParameters() {
 		// TODO Auto-generated method stub
-		List<EcuController> ecuControllers = new ArrayList<EcuController>();
+		List<EcuControllers> ecuControllers = new ArrayList<EcuControllers>();
 		
-			ecuControllers.addAll(mongoTemplate.findAll(EcuController.class, CONTROLLER_ECU));
+			ecuControllers.addAll(mongoTemplate.findAll(EcuControllers.class, CONTROLLER_ECU));
 
 		return ecuControllers;
 	}
@@ -219,6 +288,64 @@ public class VehicleDaoImpl extends AbstractDAOImpl<Vehicle> implements
 
 		//end tags for ecuList parameters
 	
+	
+	/*// Getting DataList parameters
+	public List<GlobalParameters> getDataListParameters() {
+
+		DBCollection collection = mongoTemplate
+				.getCollection(GLOBAL_PARAMETERS);
+
+		List<GlobalParameters> globalParameters = new ArrayList<GlobalParameters>();
+		List<BasicDBObject> andObjs = new ArrayList<BasicDBObject>();
+		andObjs.add(new BasicDBObject().append("controllerId",
+				new BasicDBObject().append("$ne", "")));
+
+		BasicDBObject findOBJ = new BasicDBObject();
+		findOBJ.append("$and", andObjs);
+		DBCursor cursor = collection.find(findOBJ);
+
+		while (cursor.hasNext()) {
+			try {
+
+				globalParameters.add(GlobalParameters
+						.convertGlobalParameters(new JSONObject(
+								((BasicDBObject) cursor.next()).toString())));
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				LOGGER.error("convert json to pojo error");
+			}
+
+		}
+		return globalParameters;
+	}
+
+	// End tags for dataList Parameters
+*/
+	public boolean setVehicleECU(List<Ecu> ecus) throws Exception {
+		if (ecus.size() == 0) {
+			return false;
+		}
+		DBCollection collection = mongoTemplate.getCollection(VEHICLE_ECU);
+		List<BasicDBObject> andObject = new ArrayList<BasicDBObject>();
+		BasicDBObject findObject = new BasicDBObject();
+		DBObject setObject = new BasicDBObject();
+		for (Ecu vehicleECU : ecus) {
+			andObject.add(new BasicDBObject().append("make",
+					vehicleECU.getMake()));
+			andObject.add(new BasicDBObject().append("model",
+					vehicleECU.getModel()));
+			findObject.append("$and", andObject);
+			setObject = (DBObject) JSON.parse(CommonUtils.convertPojoToJSon(
+					vehicleECU).toString());
+			collection.update(findObject, new BasicDBObject("$set", setObject),
+					true, false);
+
+		}
+		return true;
+
+	}
+
 	
 
 	public List<String> getControllerIds(String make, String model,
@@ -245,19 +372,75 @@ public class VehicleDaoImpl extends AbstractDAOImpl<Vehicle> implements
 	}
 
 	
-	public List<EcuController> getECUControllers(List<String> controllerIds) {
+
+	/*public List<GlobalParameters> getECUController(List<String> controllerIds) {
 		// TODO Auto-generated method stub
-		List<EcuController> ecuControllers = new ArrayList<EcuController>();
+		List<GlobalParameters> ecuControllers = new ArrayList<GlobalParameters>();
 		System.out.println("controller ids " + controllerIds);
 		for (String controllerId : controllerIds) {
 			ecuControllers.add(mongoTemplate.findOne(Query.query(Criteria
 					.where("controllerId").is(controllerId)),
-					EcuController.class));
+					GlobalParameters.class));
+
+		}
+		return ecuControllers;
+	}*/
+	
+	
+	/*public List<GlobalParameters> getECUController(String[] controllerIds) {
+		System.out.println("In Global parameters ");
+		
+		// TODO Auto-generated method stub
+		List<GlobalParameters> ecuControllers = new ArrayList<GlobalParameters>();
+		for (String controllerId : controllerIds) {
+			
+			
+			ecuControllers.add((mongoTemplate.findOne(Query.query(Criteria
+					.where("controllerId").is(controllerId)), GlobalParameters.class, GLOBAL_PARAMETERS)));
+					
+		}
+		return ecuControllers;
+	}*/
+	
+	public List<EcuControllers> getECUControllers(List<String> controllerIds) {
+		// TODO Auto-generated method stub
+		List<EcuControllers> ecuControllers = new ArrayList<EcuControllers>();
+		System.out.println("controller ids " + controllerIds);
+		for (String controllerId : controllerIds) {
+			ecuControllers.add(mongoTemplate.findOne(Query.query(Criteria
+					.where("controllerId").is(controllerId)),
+					EcuControllers.class));
 
 		}
 		return ecuControllers;
 	}
 	
+	public void setGlobalparameter(List<GlobalParameter> parameters)
+			throws Exception {
+		// TODO Auto-generated method stub
+
+		DBCollection collection = mongoTemplate.getCollection(GLOBAL_PARAMRTER);
+		BasicDBObject findObject = new BasicDBObject();
+		DBObject setObject = new BasicDBObject();
+		for (GlobalParameter globalParameter : parameters) {
+			globalParameter
+					.setParameterDescId(findParameterDescIdByControllerId(globalParameter
+							.getControllerId()));
+			BasicDBList and = new BasicDBList();
+			and.add(new BasicDBObject().append("controllerId",
+					globalParameter.getControllerId()));
+			and.add(new BasicDBObject().append("supportedbyECU",
+					globalParameter.getSupportedbyECU()));
+
+			findObject.append("$and", and);
+			setObject = (DBObject) JSON.parse(CommonUtils.convertPojoToJSon(
+					globalParameter).toString());
+			collection.update(findObject, new BasicDBObject("$set", setObject),
+					true, false);
+
+		}
+
+	}
 
 	
 	
@@ -267,8 +450,27 @@ public class VehicleDaoImpl extends AbstractDAOImpl<Vehicle> implements
 		// TODO Auto-generated method stub
 		DBCollection collection = mongoTemplate
 				.getCollection(GLOBAL_PARAMETERS);
+//		BasicDBObject findObject = new BasicDBObject();
+//		DBObject setObject = new BasicDBObject();
 		int count = 0;
 		for (String id: uploadList) {
+//			BasicDBList and = new BasicDBList();
+			/*if (globalParameters.getWasError().length() == 5
+					&& globalParameters.getWasError() != null) {
+
+				LOGGER.info(String.valueOf("ParameterDescID ::" +globalParameters.getParameterDescId()));
+				and.add(new BasicDBObject().append("parameterDescId",
+						globalParameters.getParameterDescId()));
+				
+
+				findObject.append("$and", and);
+				setObject = (DBObject) JSON.parse(CommonUtils
+						.convertPojoToJSon(globalParameters).toString());
+				collection.update(findObject, new BasicDBObject().append("$set", setObject), true, false);
+				
+				
+				
+			}*/
 			count++;
 			collection.remove(new BasicDBObject().append("controllerId", id));
 		}
@@ -297,6 +499,7 @@ public class VehicleDaoImpl extends AbstractDAOImpl<Vehicle> implements
 				and.add(new BasicDBObject().append("wasError",
 						globalParameters.getWasError()));
 				count++;
+//				LOGGER.info(String.valueOf("ParameterDescID " +globalParameters.getParameterDescId()));
 				findObject.append("$and", and);
 
 				setObject = (DBObject) JSON.parse(CommonUtils
@@ -315,8 +518,30 @@ public class VehicleDaoImpl extends AbstractDAOImpl<Vehicle> implements
 	
 		
 	
+	public boolean setGlobalECU(List<EcuController_backup> ecus) throws Exception {
+		// TODO Auto-generated method stub
+		if (ecus.size() == 0) {
+			return false;
+		}
+		for (EcuController_backup globalECU : ecus) {
+			EcuController_backup findObj = mongoTemplate.findOne(
+					Query.query(Criteria.where("controllerId").is(
+							globalECU.getControllerId())), EcuController_backup.class);
+			if (findObj == null) {
+				if (globalECU.getId() == null
+						|| globalECU.getId().length() <= 0) {
+					globalECU.setId(CommonUtils.generateUUID());
+				}
+
+				mongoTemplate.save(globalECU);
+			}
+		}
+		return true;
+
+	}
+	
 	// Saving Controller fields
-			public void setControllerEcuParameters(EcuController controllerParameters)
+			public void setControllerEcuParameters(EcuControllers controllerParameters)
 					throws Exception {
 				DBCollection collection = mongoTemplate.getCollection(CONTROLLER_ECU);
 				DBObject setObject = new BasicDBObject();
@@ -328,15 +553,81 @@ public class VehicleDaoImpl extends AbstractDAOImpl<Vehicle> implements
 				
 
 			}
+	/*
+	 * public void setGlobalParameters(List<GlobalParameters> parameters) throws
+	 * Exception { // TODO Auto-generated method stub
+	 * 
+	 * DBCollection collection = mongoTemplate.getCollection(GLOBAL_PARAMETERS);
+	 * BasicDBObject findObject = new BasicDBObject(); DBObject setObject = new
+	 * BasicDBObject(); for (GlobalParameters globalParameter : parameters) {
+	 * globalParameter
+	 * .setParameterDescId(findParameterDescIdByControllerId(globalParameter
+	 * .getControllerId())); BasicDBList and = new BasicDBList(); and.add(new
+	 * BasicDBObject().append("controllerId",
+	 * globalParameter.getControllerId())); and.add(new
+	 * BasicDBObject().append("supportedbyECU",
+	 * globalParameter.getSupportedByECU()));
+	 * 
+	 * findObject.append("$and", and); setObject = (DBObject)
+	 * JSON.parse(CommonUtils.convertPojoToJSon( globalParameter).toString());
+	 * collection.update(findObject, new BasicDBObject("$set", setObject), true,
+	 * false); collection.update
+	 * 
+	 * 
+	 * System.out.println("Saving in mongodb"); }
+	 * 
+	 * 
+	 * 
+	 * }
+	 */
+	// End braces for setting global parameters
 
-	public EcuController getvehicleECU(String make , String model , String year) {
+	public EcuControllers getvehicleECU(String make , String model , String year) {
 		// TODO Auto-generated method stub
 		Criteria and = new Criteria().andOperator(
 				Criteria.where("make").is(make), Criteria
 						.where("model").is(model), Criteria
 						.where("year").is(year));
-		return mongoTemplate.findOne(Query.query(and), EcuController.class);
+		return mongoTemplate.findOne(Query.query(and), EcuControllers.class);
 
 	}
+	
+	 public Ecu getvehicleECU(VehicleFilter searchterm) {
+         // TODO Auto-generated method stub
+         Criteria and = new Criteria().andOperator(
+                         Criteria.where("make").is(searchterm.getMake()), Criteria
+                                         .where("model").is(searchterm.getModel()), Criteria
+                                         .where("year").is(searchterm.getYear()));
+         return mongoTemplate.findOne(Query.query(and), Ecu.class);
+
+ }
+
+
+	/*
+	 * This return parameter's description id from parameter_description
+	 * document by controller ID of parameter_test
+	 */
+	private int findParameterDescIdByControllerId(String controllerId) {
+		DBCollection collection = mongoTemplate
+				.getCollection(PARAMETER_DESCRIPTION);
+		BasicDBObject findobj = new BasicDBObject();
+		findobj.append("description", controllerId);
+		DBObject dbObject = collection.findOne(findobj);
+		if (dbObject == null) {
+			return 0;
+		}
+		System.out.println(dbObject.get("parameterId"));
+		return Integer.parseInt(String.valueOf(dbObject.get("parameterId")));
+	}
+
+
+	public List<GlobalParameters> getDataListParameters(
+			String vehicleControllerId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	
 
 }

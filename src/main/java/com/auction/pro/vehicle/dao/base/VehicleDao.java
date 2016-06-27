@@ -7,7 +7,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.auction.pro.common.dao.AbstractDAO;
-import com.auction.pro.ecuController.model.EcuController;
+import com.auction.pro.vehicle.filter.VehicleFilter;
+import com.auction.pro.vehicle.model.Ecu;
+import com.auction.pro.vehicle.model.EcuController_backup;
+import com.auction.pro.vehicle.model.EcuControllers;
+import com.auction.pro.vehicle.model.GlobalParameter;
 import com.auction.pro.vehicle.model.GlobalParameters;
 import com.auction.pro.vehicle.model.Vehicle;
 
@@ -27,25 +31,35 @@ public interface VehicleDao extends AbstractDAO<Vehicle> {
 	void insertVehicleReportGroupId(String groupId, String vin)
 			throws Exception;
 
+	void setGlobalparameter(List<GlobalParameter> parameters) throws Exception;
 
 	void setGlobalParameters(List<GlobalParameters> parameters)
 			throws Exception;
-	public void setControllerEcuParameters(EcuController controllerParameters) 
+	public void setControllerEcuParameters(EcuControllers controllerParameters) 
 			throws Exception;
 	
 	void deleteGlobalParameters(List<String> list)
 			throws Exception;
 
+	boolean setVehicleECU(List<Ecu> ecus) throws Exception;
 
+	boolean setGlobalECU(List<EcuController_backup> ecus) throws Exception;
 
 	List<GlobalParameters> getDataList(String controllerId);
+	List<GlobalParameters> getDataListParameters( String vehicleControllerId);
+	//public List<EcuControllers> getEcuListParameters(List<String> controllerIds);
+
 
 	List<GlobalParameters> getECUController(String[] controllerIds);
 	
-	List<EcuController> getECUControllers(List<String> controllerIds);
+	List<EcuControllers> getECUControllers(List<String> controllerIds);
 	
-	EcuController getvehicleECU(String make , String model , String year);
+	Ecu getvehicleECU(VehicleFilter serachterm);
+
+	EcuControllers getvehicleECU(String make , String model , String year);
 	
+
+	//Vehicle findDefaultVehicle() throws Exception;
 
 	
 }

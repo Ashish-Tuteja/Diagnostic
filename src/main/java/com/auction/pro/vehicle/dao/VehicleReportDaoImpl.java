@@ -3,6 +3,7 @@ package com.auction.pro.vehicle.dao;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,14 +29,16 @@ import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
 
 @Repository
 public class VehicleReportDaoImpl extends AbstractDAOImpl<VehicleReport>
-		implements VehicleReportDao, MongoConstant {
+implements VehicleReportDao, MongoConstant {
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(VehicleReportDaoImpl.class.getName());
 	@Autowired
 	MongoTemplate mongoTemplate;
+
 
 	@Override
 	public boolean isExists(VehicleReport entity) {
@@ -45,11 +48,12 @@ public class VehicleReportDaoImpl extends AbstractDAOImpl<VehicleReport>
 
 	public Map<String, Object> findbyGroupId(String groupid) throws Exception {
 		// TODO Auto-generated method stub
-
-		List<Map<String, Object>> listReport = new ArrayList<Map<String, Object>>();
 		Map<String, Object> out = new LinkedHashMap<String, Object>();
+		try{
+		List<Map<String, Object>> listReport = new ArrayList<Map<String, Object>>();
+		Map<String,String[]> details = new HashMap<String,String[]>();
 		Query query = new Query();
-
+		DBCollection vehicleColl = mongoTemplate.getCollection(VEHICLE);
 		query.addCriteria(Criteria.where("reportgroupId").is(groupid));
 		List<VehicleReport> vehicleReports = mongoTemplate.find(query,
 				VehicleReport.class);
@@ -64,9 +68,82 @@ public class VehicleReportDaoImpl extends AbstractDAOImpl<VehicleReport>
 					+ vehicleReport.getTimeStamp();
 
 		}
+
+		DBCursor cur = vehicleColl.find(new BasicDBObject("reportgroupIds", groupid));
+		if(cur.hasNext())
+		{
+			for (DBObject dbObject : cur) {
+				BasicDBObject whereFields = new BasicDBObject();
+				whereFields.put("make", dbObject.get("make"));
+				whereFields.put("model", dbObject.get("model"));
+				whereFields.put("year", dbObject.get("year"));
+
+				DBCollection ecuControllerColl = mongoTemplate.getCollection(CONTROLLER_ECU);
+				DBCursor cur1 = ecuControllerColl.find(whereFields);
+
+				if(cur1.hasNext())
+				{
+					for (DBObject dbObject2 : cur1) {
+
+						DBCollection parameterTestColl = mongoTemplate.getCollection(GLOBAL_PARAMETERS);
+
+						DBCursor cur2 = parameterTestColl.find(new BasicDBObject("controllerId", dbObject2.get("controllerId")));
+
+						if(cur2.hasNext())
+						{
+							for (DBObject dbObject3 : cur2) {
+								if(listReport.size() != 0)
+								{
+									for (Map a : listReport) {
+										Iterator it = a.entrySet().iterator();
+										while (it.hasNext()) {
+											Map.Entry pair = (Map.Entry)it.next();
+											Object reportObj = pair.getValue();
+											String splitArr[] = reportObj.toString().split(";");
+											for (String s : splitArr) {
+												String parameterIndex = s.split(":")[0];
+												if(parameterIndex.equalsIgnoreCase(dbObject3.get("parameterIndex").toString()))
+												{
+													String arr[] = {dbObject3.get("parameterDesc").toString(),dbObject3.get("parameterId").toString()};
+													details.put(parameterIndex, arr);
+
+												}
+
+											}
+
+										}
+
+
+
+									}
+								}
+
+							}
+						}
+
+
+					}
+				}
+
+			}
+		}
+
+		//pid 
+
+		out.put("json", details);
 		out.put("timestamp", timestamp);
 		out.put("reports", listReport);
 		out.put("packetType", packetType);
+		}
+		
+		catch(Exception e)
+		{
+			LOGGER.error("No values found for map");
+			e.printStackTrace();
+		}
+
+		//find pid , paramdesc
+
 		return out;
 	}
 
@@ -121,7 +198,7 @@ public class VehicleReportDaoImpl extends AbstractDAOImpl<VehicleReport>
 			}
 
 		}
-		System.out.println("fetching reports");
+		LOGGER.info("fetching reports");
 		for (VehicleReport report : reports) {
 			report.setReportCount(groupIds.get(report.getReportgroupId()));
 		}

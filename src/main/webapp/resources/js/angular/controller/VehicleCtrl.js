@@ -1,7 +1,7 @@
 dashboard
 		.controller(
 				'VehicleCtrl',
-				function($scope, $location, vehicleservice, vehicleListService,
+				function($scope, $location, vehicleservice, vehicleListService,applyScale,
 						getVehicleService, vehicleDeviceListService,
 						getVehiclesBySerach, getReportByGroupId,
 						getReportsbyID, getReportsbyIP,
@@ -17,7 +17,7 @@ dashboard
 					$scope.staticReportpacketType = [];
 					$scope.troubleReports = [];
 					$scope.troubleReportsTimestamp = [];
-					$scope.mode6Reports = [];					
+					$scope.mode6Reports = [];
 					$scope.mode6ReportsTimestamp = [];
 					$scope.mode6reportpacketType = [];
 					$scope.systemReports = [];
@@ -53,7 +53,7 @@ dashboard
 
 					}
 					if (String($location.path()).indexOf("/vehicle/reportinfo") != -1) {
-						$rootScope.reportinfo = ""; 
+						$rootScope.reportinfo = "";
 						loading("Fetching Tests...");
 						if (angular.isUndefined($cookieStore.get("deviceip"))) {
 							getReportsbyID.get({
@@ -105,13 +105,13 @@ dashboard
 						var temp = new Array();
 						for (var i = 0; i < system_array.length; i++) {
 							var check = system_array[i].split(":");
-							if(check[1] != 0 || check[2] != 0 || check[3] != 0|| check[4] != 0 ){
-							temp.push(system_array[i].split(":"));
+							if (check[1] != 0 || check[2] != 0 || check[3] != 0
+									|| check[4] != 0) {
+								temp.push(system_array[i].split(":"));
 							}
-							
+
 						}
 						$scope.dynamicReports.push(temp);
-						console.log("dynamic reports "+$scope.dynamicReports);
 
 					}
 					// Generate Static Reports
@@ -119,40 +119,40 @@ dashboard
 						var temp = new Array();
 						for (var i = 0; i < system_array.length; i++) {
 							var check = system_array[i].split(":");
-							if(check[1] != 0 || check[2] != 0 ){
-							temp.push(system_array[i].split(":"));
+							if (check[1] != 0 || check[2] != 0) {
+								temp.push(system_array[i].split(":"));
 							}
-							
+
 						}
 						$scope.staticReports.push(temp);
-						console.log("static reports "+$scope.staticReports);
 					}
-					
-					
+
 					// Generate Trouble Reports
 					$scope.setTroubleReports = function(system_array) {
 						var temp = new Array();
 						for (var i = 0; i < system_array.length; i++) {
 							var check = system_array[i].split(":");
-							if(check[1] != 0 || check[2] != 0 || check[3] != 0|| check[4] != 0 ){
-							temp.push(system_array[i].split(":"));
-							
+							if (check[1] != 0 || check[2] != 0 || check[3] != 0
+									|| check[4] != 0) {
+								temp.push(system_array[i].split(":"));
+
 							}
-							
+
 						}
 						$scope.troubleReports.push(temp);
 					}
-					
+
 					// Generate Mode 6 Reports
 					$scope.setMode6Reports = function(system_array) {
 						var temp = new Array();
 						for (var i = 0; i < system_array.length; i++) {
 							var check = system_array[i].split(":");
-							if(check[1] != 0 || check[2] != 0 || check[3] != 0|| check[4] != 0|| check[5] != 0|| check[6] != 0 ){
-							temp.push(system_array[i].split(":"));
-							
+							if (check[1] != 0 || check[2] != 0 || check[3] != 0
+									|| check[4] != 0 || check[5] != 0
+									|| check[6] != 0) {
+								temp.push(system_array[i].split(":"));
 							}
-							
+
 						}
 						$scope.mode6Reports.push(temp);
 					}
@@ -165,10 +165,11 @@ dashboard
 						var temp = new Array();
 						for (var i = 0; i < system_array.length; i++) {
 							var check = system_array[i].split(":");
-							if(check[1] != 0 || check[2] != 0 || check[3] != 0|| check[4] != 0 ){
-							temp.push(system_array[i].split(":"));
+							if (check[1] != 0 || check[2] != 0 || check[3] != 0
+									|| check[4] != 0) {
+								temp.push(system_array[i].split(":"));
 							}
-							
+
 						}
 						$scope.systemReports.push(temp);
 					}
@@ -200,19 +201,29 @@ dashboard
 													.get('groupid')
 										},
 										function(response) {
-											console.log(JSON
-													.stringify(response));
+
 											$scope.reportslen = JSON.parse(JSON
 													.stringify(response))["reports"].length;
+
 											if ($scope.reportslen == 0) {
 												// print message no reports
 												return;
 											}
 											var timestamp = JSON.parse(JSON
 													.stringify(response))["timestamp"];
+
 											var packetType = JSON.parse(JSON
 													.stringify(response))["packetType"];
+
+											$scope.descDetails = JSON
+													.parse(JSON
+															.stringify(response))["json"];
+
+											$scope.rawData = JSON.parse(JSON
+													.stringify(response))["reports"];
+
 											for (k = 0; k < timestamp.length; k++) {
+
 												if (timestamp[k]
 														.indexOf("Dynamic") != -1) {
 													$scope.dynamicReportsTimestamp
@@ -220,24 +231,29 @@ dashboard
 																	.split(',')[1]);
 													$scope.dynamicReportpacketType
 															.push(packetType[k]);
+
 													var system_array = JSON
 															.parse(JSON
 																	.stringify(response))["reports"][k]["Dynamic Report"]
 															.split(';');
+
 													$scope
 															.setDynamicReports(system_array);
 
 												} else if (timestamp[k]
 														.indexOf("Static") != -1) {
+
 													$scope.staticReportsTimestamp
 															.push(timestamp[k]
 																	.split(',')[1]);
 													$scope.staticReportpacketType
 															.push(packetType[k]);
+
 													var system_array = JSON
 															.parse(JSON
 																	.stringify(response))["reports"][k]["Static Report"]
 															.split(';');
+
 													$scope
 															.setStaticReports(system_array);
 
@@ -246,43 +262,46 @@ dashboard
 													$scope.troubleReportsTimestamp
 															.push(timestamp[k]
 																	.split(',')[1]);
+
 													var system_array = JSON
 															.parse(JSON
 																	.stringify(response))["reports"][k]["Trouble Code"]
 															.split(';');
 													$scope
 															.setTroubleReports(system_array);
+
 												} else if (timestamp[k]
 														.indexOf("System") != -1) {
 													$scope.systemReportsTimestamp
 															.push(timestamp[k]
 																	.split(',')[1]);
+
 													var system_array = JSON
 															.parse(JSON
 																	.stringify(response))["reports"][k]["System Report"]
 															.split(';');
+
 													$scope
 															.setSystemReports(system_array);
+
 												} else if (timestamp[k]
-														.indexOf("Mode6") != -1) {
+														.indexOf("Mode 6 Report") != -1) {
 													$scope.mode6ReportsTimestamp
 															.push(timestamp[k]
 																	.split(',')[1]);
 													$scope.mode6reportpacketType
 															.push(packetType[k]);
+
 													var system_array = JSON
 															.parse(JSON
-																	.stringify(response))["reports"][k]["Mode6 Report"]
+																	.stringify(response))["reports"][k]["Mode 6 Report"]
 															.split(';');
+
 													$scope
 															.setMode6Reports(system_array)
 
 												}
 											}
-											console
-													.log($scope.dynamicReportpacketType);
-											console
-													.log($scope.staticReportpacketType);
 											$scope.spinnerToggle = false;
 										});
 
@@ -413,6 +432,12 @@ dashboard
 					$scope.translateParametersDesc = function(parameterId,
 							$index, reportName) {
 						var getStaticPacketType = parseInt($scope.staticReportpacketType[$index]);
+						/*
+						 * // var getDynamicPacketType =
+						 * parseInt($scope.dynamicReportpacketType[$index]); if ( //
+						 * (getDynamicPacketType == 4 && String(reportName) ==
+						 * "dynamic") ||
+						 */
 						var getDynamicPacketType = parseInt($scope.dynamicReportpacketType[$index]);
 						if ((getDynamicPacketType == 4 && String(reportName) == "dynamic")
 								|| (getStaticPacketType == 3 && String(reportName) == "static")) {
@@ -442,7 +467,7 @@ dashboard
 							if ($scope.units != null
 									&& $scope.units[parameterId] != null
 									&& $scope.units[parameterId].length > 0) {
-								return "(" + $scope.units[parameterId] + ")";
+								return " " + $scope.units[parameterId];
 							} else {
 								return "";
 							}
@@ -451,53 +476,80 @@ dashboard
 									&& $scope.testunits[parameterId] != null
 									&& $scope.testunits[parameterId].length > 0) {
 
-								return "(" + $scope.testunits[parameterId]
-										+ ")";
+								return " " + $scope.testunits[parameterId];
 							} else {
 								return "";
 							}
 						}
 
 					}
-					
-					$scope.applyScaling = function(rawValue,parameterId){
-						
+
+					$scope.getParameterId = function(report) {
+						if (!angular.isUndefined($scope.descDetails[report])) {
+							var desc = $scope.descDetails[report][1];
+							return desc;
+						} else {
+							return report;
+						}
+					}
+
+					$scope.getParameterDescfromDB = function(report) {
+						if (!angular.isUndefined($scope.descDetails[report])) {
+							var desc = $scope.descDetails[report][0];
+							return desc;
+						} else {
+							return report;
+						}
+					}
+
+					$scope.applyScalingMode1 = function(rawValue, parameterId) {
+
+						return applyScale.scaleForMode1(rawValue, parameterId);
+
+					}
+
+					$scope.changeToHex = function(report) {
+
+						return parseInt(report, 10).toString(16).toUpperCase();
+					}
+
+					$scope.applyScaling = function(rawValue, parameterId) {
+
 						switch (parameterId) {
-			            case '5':
-			                return rawValue-40;
-			                break;
-			            case '10':
-			                return rawValue*3;
-			                break;
-			            case '12':
-			                return rawValue/4;
-			                break;
-			            case '15':
-			                return rawValue-40;
-			                break;
-			            case '31':
-			                return 'Formula:(A*256)+B';
-			                break;
-			            case '66':
-			                return rawValue/1000;
-			                break;
-			            case '67':
-			                return rawValue*100/255;
-			                break;
-			            case '71':
-			                return rawValue*100/255;
-			                break;
-			            case '72':
-			                return rawValue*100/255;
-			                break;
-			            case '70':
-			                return rawValue-40;
-			                break;
-			            default:
-			            	return rawValue;
-			        }
-						
-						
+						case '5':
+							return rawValue - 40;
+							break;
+						case '10':
+							return rawValue * 3;
+							break;
+						case '12':
+							return rawValue / 4;
+							break;
+						case '15':
+							return rawValue - 40;
+							break;
+						case '31':
+							return 'Formula :(A*256)+B //A & B values ?';
+							break;
+						case '66':
+							return rawValue / 1000;
+							break;
+						case '67':
+							return rawValue * 100 / 255;
+							break;
+						case '71':
+							return rawValue * 100 / 255;
+							break;
+						case '72':
+							return rawValue * 100 / 255;
+							break;
+						case '70':
+							return rawValue - 40;
+							break;
+						default:
+							return rawValue;
+						}
+
 					}
 
 				});

@@ -72,7 +72,6 @@ public class ParametersDaoImpl extends AbstractDAOImpl<Parameters> implements
 
 	}
 
-	@Override
 	public void deleteParams(Parameters entity) {
 		Query query = new Query(Criteria.where("controllerId").is(entity.getControllerId()));
 		mongoTemplate.remove(query, "parameter_tests");
@@ -143,6 +142,7 @@ public class ParametersDaoImpl extends AbstractDAOImpl<Parameters> implements
 		String value = null;
 		while (cursor.iterator().hasNext()) {
 			try {
+				// LOGGER.info("pppppppppppp"+String.valueOf(cursor.next().get("parameterDescId")));
 				value = String.valueOf(cursor.next().get("parameterDescId"));
 				break;
 			} catch (Exception e) {

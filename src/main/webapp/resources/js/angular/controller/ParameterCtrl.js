@@ -13,6 +13,14 @@ dashboard.controller('ParameterCtrl', function($scope, $location, $rootScope,
 	$scope.carriers = {};
 	
 	$scope.spinnerToggle=true;
+	$scope.propertyName = 'parameterDesc';
+	  $scope.reverse = false;
+
+	  $scope.sortBy = function(propertyName) {
+	    $scope.reverse = ($scope.propertyName === propertyName) ? !$scope.reverse : false;
+	    $scope.propertyName = propertyName;
+	  };
+	
 	var checkList = [];
 	if ($rootScope.parameterDetail != null) {
 		$scope.buttonName = "Edit";
@@ -64,6 +72,12 @@ dashboard.controller('ParameterCtrl', function($scope, $location, $rootScope,
 	//Saving parameters for a particular controller by controller Id
 	$scope.register = function() {
 		delete $scope.save.parameter.$$hashKey;
+		/*if(!$scope.save.parameter.id){
+			
+		}
+		var newField = {"controllerId":$rootScope.parameterControllerId};
+		  angular.extend($scope.save.parameter, newField);
+		}*/
 		  console.log(JSON.stringify($scope.save.parameter));
 		  parameterService.save({id:$rootScope.contDetails.controllerId},JSON.stringify($scope.save.parameter), function(
 					response) {
@@ -95,9 +109,7 @@ dashboard.controller('ParameterCtrl', function($scope, $location, $rootScope,
 		return new Array(n);
 	}, $scope.getParameterINRange = function(range) {
 		$rootScope.pageNumber = range;
-		parameterListService.getList({}, {
-			page : range
-		}, function(response) {
+		parameterListService.getList({id:$rootScope.contDetails.controllerId}, {page : range}, function(response) {
 			$scope.parameters = response.content;
 			$rootScope.pages = response.totalPages;
 		});
@@ -121,13 +133,13 @@ dashboard.controller('ParameterCtrl', function($scope, $location, $rootScope,
 	$scope.previous = function() {
 		if ($rootScope.pageNumber > 1) {
 			$rootScope.pageNumber = $rootScope.pageNumber - 1;
-			$scope.getparameterINRange($rootScope.pageNumber);
+			$scope.getParameterINRange($rootScope.pageNumber);
 		}
 	}
 	$scope.next = function() {
 		if ($rootScope.pages > $rootScope.pageNumber) {
 			$rootScope.pageNumber = $rootScope.pageNumber + 1;
-			$scope.getparameterINRange($rootScope.pageNumber);
+			$scope.getParameterINRange($rootScope.pageNumber);
 		}
 	}
 });
