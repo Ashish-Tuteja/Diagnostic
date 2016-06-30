@@ -484,12 +484,12 @@ dashboard
 
 					}
 
-					$scope.getParameterId = function(report) {
+					$scope.getParameterIdfromDB = function(report) {
 						if (!angular.isUndefined($scope.descDetails[report])) {
 							var desc = $scope.descDetails[report][1];
 							return desc;
 						} else {
-							return report;
+							return 0;
 						}
 					}
 
@@ -498,7 +498,7 @@ dashboard
 							var desc = $scope.descDetails[report][0];
 							return desc;
 						} else {
-							return report;
+							return 0;
 						}
 					}
 

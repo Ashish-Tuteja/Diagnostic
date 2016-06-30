@@ -85,7 +85,7 @@ dashboard.factory('applyScale', function() {
 		},
     	scaleForMode1 : function(rawValue,parameterId) {
 
-
+    		var initialValue = rawValue;
 			var rawValueSize = rawValue.toString().split('').length;
 			switch(rawValueSize)
 			{
@@ -100,14 +100,14 @@ dashboard.factory('applyScale', function() {
 				break;
 			}
 
-			console.log("rawValueSize: "+rawValue)
+//			console.log("rawValueSize: "+rawValue)
 
 			var A = rawValue & 0xff;
 			var B = (rawValue >> 8) & 0xff;
 			var C = (rawValue >> 16) & 0xff;
 			var D = (rawValue >> 24)  & 0xff;
 
-			console.log("A: "+A+" B :"+B+" C: "+C+" D: "+D)
+//			console.log("A: "+A+" B :"+B+" C: "+C+" D: "+D)
 
 			switch (parameterId) {
 			/**
@@ -130,7 +130,7 @@ dashboard.factory('applyScale', function() {
 				break;
 			case '4':
 				// Calculated engine load
-				return (A * 2.55);
+				return (A/2.55).toFixed(2);
 				break;
 			case 5:
 				// Engine coolant temperature
@@ -144,7 +144,7 @@ dashboard.factory('applyScale', function() {
 				// Short term fuel trim—Bank 2
 			case '9':
 				// Long term fuel trim—Bank 2
-				return ((A /1.28) - 100);
+				return ((A /1.28) - 100).toFixed(2);
 				break;
 			case '10':
 				// Fuel pressure
@@ -156,7 +156,7 @@ dashboard.factory('applyScale', function() {
 				break;
 			case '12':
 				// Engine RPM
-				return ( ((256 * A) +B) / 4);
+				return (rawValue/4).toFixed(2);
 				break;
 			case '13':
 				// Vehicle speed
@@ -164,7 +164,7 @@ dashboard.factory('applyScale', function() {
 				break;
 			case '14':
 				// 	Timing advance
-				return ((A/2) - 64);
+				return ((A/2) - 64).toFixed(2);
 				break;
 			case '15':
 				// Intake air temperature
@@ -172,11 +172,11 @@ dashboard.factory('applyScale', function() {
 				break;
 			case '16':
 				// MAF air flow rate
-				return (((256 * A)+B)/100);
+				return (rawValue/100).toFixed(2);
 				break;
 			case '17':
 				// Throttle position
-				return (A * 2.55) ;
+				return (A/2.55).toFixed(2);
 				break;
 			case '18':
 				// Commanded secondary air status
@@ -202,7 +202,7 @@ dashboard.factory('applyScale', function() {
 				// Oxygen Sensor 7 (Short term fuel trim)
 		    case '27':
 				// Oxygen Sensor 8 (Short term fuel trim)
-				return ((1.28*B)-100);
+				return ((1.28*B)-100).toFixed(2);
 				break;
 			/**
 			case '28':
@@ -218,7 +218,7 @@ dashboard.factory('applyScale', function() {
 			**/
 			case '31':
 				// Run time since engine start
-				return ((256 * A)+B);
+				return initialValue;
  				break;
 				/*case '32':
 					// PIDs supported [21 - 40]
@@ -226,15 +226,15 @@ dashboard.factory('applyScale', function() {
 		        break;*/
 			case '33':
 				// Distance traveled with MIL on
-				return ((256 * A) + B);
+				return (initialValue);
 				break;
 			case '34':
 				// Fuel Rail Pressure
-				return (0.079 * ((256 * A)+B));
+				return (0.079 * rawValue).toFixed(2);
 				break;
 			case '35':
 				// Fuel Rail Gauge Pressure
-				return (10 * ((256 * A)+B));
+				return (10 * rawValue);
 				break;
 			case '36':
 				// Oxygen Sensor 1 (voltage)
@@ -252,23 +252,23 @@ dashboard.factory('applyScale', function() {
 				// Oxygen Sensor 7 (voltage)
 			case '43':
 				// Oxygen Sensor 8 (voltage)
-        return ( (8/65536) * ((256*C)+D) );
+        return ( (8/65536) * ((256*C)+D) ).toFixed(2);
         break;
 			case '44':
 				// Commanded EGR
-				return (A * 2.55);
+				return (A/2.55).toFixed(2);
 				break;
 			case '45':
 				// EGR Error
-				return ((A * 1.28) - 100) ;
+				return ((A * 1.28) - 100).toFixed(2) ;
 				break;
 			case '46':
 				// Commanded evaporative purge
-				return (A * 2.55);
+				return (A/2.55).toFixed(2);
 				break;
 			case '47':
 				// Fuel Tank Level Input
-				return (A * 2.55);
+				return (A/2.55).toFixed(2);
 				break;
 			case '48':
 				// Warm-ups since codes cleared
@@ -276,11 +276,11 @@ dashboard.factory('applyScale', function() {
 				break;
 			case '49':
 				// Distance traveled since codes cleared
-				return ((256 * A)+B);
+				return initialValue;
 				break;
 			case '50':
 				// Evap. System Vapor Pressure
-				return (((256 *A)+B)/4);
+				return (rawValue/4).toFixed(2);
 				break;
 			case '51':
 				// Absolute Barometric Pressure
@@ -302,7 +302,7 @@ dashboard.factory('applyScale', function() {
 				// Oxygen Sensor 7 (Current)
 		  case '59':
 				// Oxygen Sensor 8 (Current)
-	      return ()(C + (D/256)) - 128);
+	      return ((C + (D/256)) - 128).toFixed(2);
 	      break;
 			case '60':
 				// Catalyst Temperature: Bank 1, Sensor 1
@@ -312,7 +312,7 @@ dashboard.factory('applyScale', function() {
 				// Catalyst Temperature: Bank 1, Sensor 2
 			case '63':
 				// Catalyst Temperature: Bank 2, Sensor 2
-				return ((((256 * A)+B)/10) - 40);
+				return ((rawValue/10) - 40).toFixed(2);
 				break;
 			/*case '64':
 				// PIDs supported [41 - 60]
@@ -324,19 +324,19 @@ dashboard.factory('applyScale', function() {
         break;*/
 			case '66':
 				// Control module voltage
-				// return (((256 * A)+B)/1000);
-				return Number((((256 * A) + B)/1000)).toFixed(4);
+				// return (rawValue/1000);
+				return Number(((rawValue)/1000)).toFixed(2);
 			case '67':
 				// Absolute load value
-				return (((256 * A)+B) * 2.55);
+				return (rawValue * 2.55).toFixed(2);
 				break;
 			case '68':
 				// 	Fuel–Air commanded equivalence ratio
-				return ((2/65536)*((256 * A)+B));
+				return ((2/65536)*rawValue).toFixed(2);
 				break;
 			case '69':
 				// Relative throttle position
-				return (A * 2.55);
+				return (A/2.55).toFixed(2);
 			case '70':
 				// Ambient air temperature
 				return (A-40);
@@ -352,15 +352,15 @@ dashboard.factory('applyScale', function() {
 				// Accelerator pedal position F
 			case '76':
 				// 	Commanded throttle actuator
-				return (A * 2.55);
+				return (A/2.55).toFixed(2);
 				break;
 			case '77':
 				// Time run with MIL on
-				return ((256 * A)+B);
+				return initialValue;
 				break;
 			case '78':
 				// Time since trouble codes cleared
-				return ((256 * A)+B);
+				return initialValue;
 				break;
 			case '81':
 				// Fuel Type
@@ -368,46 +368,46 @@ dashboard.factory('applyScale', function() {
 				break;
 			case '82':
 				// Ethanol fuel %
-				return Number((A * 2.55)).toFixed(4);
-				//return (A * 2.55) ;
+				return Number((A/2.55)).toFixed(2);
+				//return (A/2.55) ;
 				break;
 			case '83':
 				// Absolute Evap system Vapor Pressure
-				return (((256 * A)+B)/200);
+				return (rawValue/200).toFixed(2);
 				break;
 			case '84':
 				//Evap system vapor pressure
-				return 	((A*256)+B)-32767;
+				return 	(rawValue-32767);
 			case '85':
 				//Short term secondary oxygen sensor trim, A: bank 1
-				return ((1.28*B)-100);
+				return ((1.28*B)-100).toFixed(2);
 			case '86':
 				// Long term secondary oxygen sensor trim, A: bank 1
-				return ((1.28*B)-100);
+				return ((1.28*B)-100).toFixed(2);
 			case '87':
 				// 	Short term secondary oxygen sensor trim, A: bank 2
-				return ((1.28*B)-100);
+				return ((1.28*B)-100).toFixed(2);
 			case '88':
 				// Long term secondary oxygen sensor trim, A: bank 2
-				return ((1.28*B)-100);
+				return ((1.28*B)-100).toFixed(2);
 			case '89':
 				// Fuel rail absolute pressure
-				return ((1.28*B)-100);
+				return ((1.28*B)-100).toFixed(2);
 			case '90':
 				// Relative accelerator pedal position
-				return ((1.28*B)-100);
+				return ((1.28*B)-100).toFixed(2);
 			case '91':
 				// Hybrid battery pack remaining life
-				return ((1.28*B)-100);
+				return ((1.28*B)-100).toFixed(2);
 			case '92':
 				// Hybrid battery pack remaining life
-				return ((1.28*B)-100);
+				return ((1.28*B)-100).toFixed(2);
 			case '93':
 				// Engine oil temperature
-				return (((256*A)+B)/128)-210;
+				return ((rawValue/128)-210).toFixed(2);
 			case '94':
 				// Fuel injection timing
-				return ((256*A)+B)/20;
+				return (rawValue/20).toFixed(2);
 			case '97':
 				// Driver's demand engine - percent torque
 			case '98':
@@ -415,10 +415,10 @@ dashboard.factory('applyScale', function() {
 				return (A-125);
 			case '99':
 				// Engine reference torque
-				return ((256 * A) + B);
+				return (initialValue);
 
 			default:
-				return rawValue;
+				return initialValue;
 			}
 		}
 
