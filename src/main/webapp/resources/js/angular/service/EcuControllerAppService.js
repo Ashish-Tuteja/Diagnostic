@@ -26,7 +26,7 @@ dashboard.factory('controllerListService', [ '$resource', function($resource) {
 		page : "@page"
 	}, {
 		getList : {
-			url : '/NavResearch/ecuController/list?page=:page&size=20',
+			url : '/navresearch/ecuController/list?page=:page&size=20',
 			method : 'GET',
 			isArray : false
 		}

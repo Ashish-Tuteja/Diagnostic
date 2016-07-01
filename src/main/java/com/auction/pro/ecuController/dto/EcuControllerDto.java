@@ -30,6 +30,8 @@ public class EcuControllerDto extends BaseDTO {
 			this.controllerName = entity.getControllerName();
 			this.controllerId = entity.getControllerId();
 			this.parentAccountId = entity.getParentAccountId();
+			setCreatedAt(entity.getCreatedAt());
+			
 		}
 	}
 

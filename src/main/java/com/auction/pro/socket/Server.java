@@ -144,7 +144,7 @@ public class Server {
 					String vin = packetList[1].toString();
 					System.out.println("New VIN: " + vin);
 					LOGGER.debug("New VIN: " + vin);
-					String url = "http://54.165.27.164:8080/NavResearch/vehicle/savevehicle";
+					String url = "http://54.165.27.164:8080/navresearch/vehicle/savevehicle";
 					String postjson = "{\"vin\":\"" + vin
 							+ "\",\"serverIP\":\"" + ip + "\"}";
 					sendPost(url, postjson);
@@ -239,7 +239,7 @@ public class Server {
 			LOGGER.debug("Send data " + packetList[0]);
 
 			if (packetList.length >= 4) {
-				String url = "http://54.165.27.164:8080/NavResearch/vehicle/setreport";
+				String url = "http://54.165.27.164:8080/navresearch/vehicle/setreport";
 				String postjson = "{\"reportname\":\"" + reportname
 						+ "\",\"serverIP\":\"" + ip + ""
 						+ "\",\"reportgroupId\":\"" + packetList[1].toString()

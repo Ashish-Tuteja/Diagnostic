@@ -55,6 +55,8 @@
 								<span class="sortorder" ng-show="propertyName === 'year'" ng-class="{reverse: reverse}"></span></th>
 								<th data-hide="phone,tablet" ng-click="sortBy('controllerName')">Controller Name
 								<span class="sortorder" ng-show="propertyName === 'controllerName'" ng-class="{reverse: reverse}"></span></th>
+								<th data-hide="phone,tablet" ng-click="sortBy('createdAt')">Created At
+								<span class="sortorder" ng-show="propertyName === 'createdAt'" ng-class="{reverse: reverse}"></span></th>
 								<th>Actions</th>
 
 							</tr>
@@ -67,6 +69,7 @@
 								<td>{{ controller.model}}</td>
 								<td>{{ controller.year}}</td>
 								<td>{{ controller.controllerName}}</td>
+								<td>{{ controller.createdAt | date:'MM-dd-yyyy HH:mm:ss'}}</td>
 								<!-- <td>{{controller.description}}</td>
 								<td>{{controller.sim}}</td> -->
 								<td><a href="javascript:void(0)"
