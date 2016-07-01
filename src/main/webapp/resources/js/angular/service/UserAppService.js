@@ -2,7 +2,7 @@
 app.factory('userservice', [ '$resource', function($resource) {
 	return $resource(':url', {}, {
 		save : {
-			url : '/NavResearch/user/add/',
+			url : '/navresearch/user/add/',
 			method : 'POST',
 			isArray : false
 		}
@@ -11,7 +11,7 @@ app.factory('userservice', [ '$resource', function($resource) {
 dashboard.factory('userservice', [ '$resource', function($resource) {
 	return $resource(':url', {}, {
 		save : {
-			url : '/NavResearch/user/add/',
+			url : '/navresearch/user/add/',
 			method : 'POST',
 			isArray : false
 		}
@@ -21,7 +21,7 @@ dashboard.factory('userservice', [ '$resource', function($resource) {
 dashboard.factory('useraccountservice', [ '$resource', function($resource) {
 	return $resource(':url', {}, {
 		getUserAccount : {
-			url : '/NavResearch/user/getuseraccount/',
+			url : '/navresearch/user/getuseraccount/',
 			method : 'GET',
 			isArray : false
 		}
@@ -31,7 +31,7 @@ dashboard.factory('sendlinktochangecredential', [ '$resource',
 		function($resource) {
 			return $resource(':url', {}, {
 				sendCode : {
-					url : '/NavResearch/user/accountsetting',
+					url : '/navresearch/user/accountsetting',
 					method : 'GET',
 					isArray : false
 				}
@@ -41,7 +41,7 @@ dashboard.factory('sendlinktochangecredential', [ '$resource',
 dashboard.factory('changepassword', [ '$resource', function($resource) {
 	return $resource(':url', {}, {
 		changepassword : {
-			url : '/NavResearch/user/changepassword',
+			url : '/navresearch/user/changepassword',
 			method : 'POST',
 			isArray : false
 		}
@@ -53,7 +53,7 @@ dashboard.factory('getUserService', [ '$resource', function($resource) {
 		user : "@user"
 	}, {
 		getUserForEdit : {
-			url : '/NavResearch/user/get/:user',
+			url : '/navresearch/user/get/:user',
 			method : 'GET',
 			isArray : false
 		}
@@ -64,7 +64,7 @@ dashboard.factory('findaccountname', [ '$resource', function($resource) {
 		user : "@user"
 	}, {
 		getAccountName : {
-			url : '/NavResearch/account/find/',
+			url : '/navresearch/account/find/',
 			method : 'GET',
 			isArray : true
 		}
@@ -76,7 +76,7 @@ dashboard.factory('userListService', [ '$resource', function($resource) {
 		page : "@page"
 	}, {
 		getList : {
-			url : '/NavResearch/user/list/?page=:page&size=20',
+			url : '/navresearch/user/list/?page=:page&size=20',
 			method : 'GET',
 			isArray : false
 		}
@@ -85,7 +85,7 @@ dashboard.factory('userListService', [ '$resource', function($resource) {
 dashboard.factory('userRoleService', [ '$resource', function($resource) {
 	return $resource(':url', {}, {
 		getList : {
-			url : '/NavResearch/user/roles/list',
+			url : '/navresearch/user/roles/list',
 			method : 'GET',
 			isArray : true
 		}
@@ -96,7 +96,7 @@ dashboard.factory('getUsersBySerach', [ '$resource', function($resource) {
 		searchterm : "@searchterm"
 	}, {
 		getList : {
-			url : '/NavResearch/user/search/:searchterm',
+			url : '/navresearch/user/search/:searchterm',
 			method : 'GET',
 			isArray : true
 		}

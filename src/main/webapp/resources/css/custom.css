@@ -21,7 +21,7 @@ body {
 	font-family:"Helvetica Neue",Helvetica,Arial,sans-serif !important;
 }
 .defaultlogo {
-	content: url("/NavResearch/resources/img/NavResearch.png");
+	content: url("/navresearch/resources/img/NavResearch.png");
 	width: 150px;
 	no-repeat
 	!important;

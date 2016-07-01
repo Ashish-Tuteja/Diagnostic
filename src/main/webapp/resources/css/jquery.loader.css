@@ -12,7 +12,7 @@
   z-index: 1999;
 }
 .loader .loader-load {
-  background: #000000 url(/NavResearch/resources/img/ajax-loader.gif) no-repeat 50% 50%;
+  background: #000000 url(/navresearch/resources/img/ajax-loader.gif) no-repeat 50% 50%;
   -webkit-border-radius: 5px;
   -khtml-border-radius: 5px;
   -moz-border-radius: 5px;

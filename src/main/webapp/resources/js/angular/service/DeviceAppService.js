@@ -1,7 +1,7 @@
 dashboard.factory('deviceservice', [ '$resource', function($resource) {
 	return $resource(':url', {}, {
 		save : {
-			url : '/NavResearch/device/add',
+			url : '/navresearch/device/add',
 			method : 'POST',
 			isArray : false
 		}
@@ -13,7 +13,7 @@ dashboard.factory('deviceListService', [ '$resource', function($resource) {
 		page : "@page"
 	}, {
 		getList : {
-			url : '/NavResearch/device/list?page=:page&size=20',
+			url : '/navresearch/device/list?page=:page&size=20',
 			method : 'GET',
 			isArray : false
 		}
@@ -25,7 +25,7 @@ dashboard.factory('getDeviceService', [ '$resource', function($resource) {
 		device : "@device"
 	}, {
 		getDeviceForEdit : {
-			url : '/NavResearch/device/get/:device',
+			url : '/navresearch/device/get/:device',
 			method : 'GET',
 			isArray : false
 		}
@@ -35,7 +35,7 @@ dashboard.factory('getDeviceService', [ '$resource', function($resource) {
 dashboard.factory('carrierListService', [ '$resource', function($resource) {
 	return $resource(':url', {}, {
 		getList : {
-			url : '/NavResearch/device/carrier/list',
+			url : '/navresearch/device/carrier/list',
 			method : 'GET',
 			isArray : true
 		}
@@ -44,7 +44,7 @@ dashboard.factory('carrierListService', [ '$resource', function($resource) {
 dashboard.factory('devicetypeListService', [ '$resource', function($resource) {
 	return $resource(':url', {}, {
 		getList : {
-			url : '/NavResearch/device/devicetype/list',
+			url : '/navresearch/device/devicetype/list',
 			method : 'GET',
 			isArray : true
 		}
@@ -55,7 +55,7 @@ dashboard.factory('getDevicesBySerach', [ '$resource', function($resource) {
 		searchterm : "@searchterm"
 	}, {
 		getList : {
-			url : '/NavResearch/device/search/:searchterm',
+			url : '/navresearch/device/search/:searchterm',
 			method : 'GET',
 			isArray : true
 		}

@@ -239,7 +239,7 @@
 					<li><a href="#useraccount" title="User Account" class="user">${principal.emailId}
 					</a></li>
 
-					<li><a href="/NavResearch/logout" title="Sign Out"><span
+					<li><a href="/navresearch/logout" title="Sign Out"><span
 							class="glyphicon glyphicon-log-out"></span></a></li>
 
 				</ul>

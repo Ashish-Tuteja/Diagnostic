@@ -1,7 +1,7 @@
 dashboard.factory('accountservice', [ '$resource', function($resource) {
 	return $resource(':url', {}, {
 		save : {
-			url : '/NavResearch/account/add',
+			url : '/navresearch/account/add',
 			method : 'POST',
 			isArray : false
 		}
@@ -13,7 +13,7 @@ dashboard.factory('accountListService', [ '$resource', function($resource) {
 		page : "@page"
 	}, {
 		getList : {
-			url : '/NavResearch/account/list?page=:page&size=20',
+			url : '/navresearch/account/list?page=:page&size=20',
 			method : 'GET',
 			isArray : false
 		}
@@ -25,7 +25,7 @@ dashboard.factory('getAccountService', [ '$resource', function($resource) {
 		account : "@account"
 	}, {
 		getAccountForEdit : {
-			url : '/NavResearch/account/get/:account',
+			url : '/navresearch/account/get/:account',
 			method : 'GET',
 			isArray : false
 		}
@@ -37,7 +37,7 @@ dashboard.factory('getAccountsBySerach', [ '$resource', function($resource) {
 		searchterm : "@searchterm"
 	}, {
 		getList : {
-			url : '/NavResearch/account/search/:searchterm',
+			url : '/navresearch/account/search/:searchterm',
 			method : 'GET',
 			isArray : true
 		}

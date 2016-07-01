@@ -303,7 +303,7 @@
 		</repository>
 	</repositories>
 	<build>
-		<finalName>NavResearch</finalName>
+		<finalName>navresearch</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

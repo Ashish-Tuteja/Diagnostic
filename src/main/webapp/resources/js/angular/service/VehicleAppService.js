@@ -4,7 +4,7 @@
 dashboard.factory('vehicleservice', [ '$resource', function($resource) {
 	return $resource(':url', {}, {
 		save : {
-			url : '/NavResearch/vehicle/add',
+			url : '/navresearch/vehicle/add',
 			method : 'POST',
 			isArray : false
 		}
@@ -16,7 +16,7 @@ dashboard.factory('vehicleListService', [ '$resource', function($resource) {
 		page : "@page"
 	}, {
 		getList : {
-			url : '/NavResearch/vehicle/list?page=:page&size=20',
+			url : '/navresearch/vehicle/list?page=:page&size=20',
 			method : 'GET',
 			isArray : false
 		}
@@ -28,7 +28,7 @@ dashboard.factory('getVehicleService', [ '$resource', function($resource) {
 		vehicle : "@vehicle"
 	}, {
 		getVehicleForEdit : {
-			url : '/NavResearch/vehicle/get/:vehicle',
+			url : '/navresearch/vehicle/get/:vehicle',
 			method : 'GET',
 			isArray : false
 		}
@@ -39,7 +39,7 @@ dashboard.factory('vehicleDeviceListService', [ '$resource',
 		function($resource) {
 			return $resource(':url', {}, {
 				getList : {
-					url : '/NavResearch/vehicle/device/list',
+					url : '/navresearch/vehicle/device/list',
 					method : 'GET',
 					isArray : true
 				}
@@ -50,7 +50,7 @@ dashboard.factory('getVehiclesBySerach', [ '$resource', function($resource) {
 		searchterm : "@searchterm"
 	}, {
 		getList : {
-			url : '/NavResearch/vehicle/search/:searchterm',
+			url : '/navresearch/vehicle/search/:searchterm',
 			method : 'GET',
 			isArray : true
 		}
@@ -62,7 +62,7 @@ dashboard.factory('getReportByGroupId', [ '$resource', function($resource) {
 		groupid : "@groupid"
 	}, {
 		get : {
-			url : '/NavResearch/vehicle/findreportbygroupid/:groupid',
+			url : '/navresearch/vehicle/findreportbygroupid/:groupid',
 			method : 'GET',
 			isArray : false
 		}
@@ -73,7 +73,7 @@ dashboard.factory('getReportsbyID', [ '$resource', function($resource) {
 		vin : "@vin"
 	}, {
 		get : {
-			url : '/NavResearch/vehicle/findreportsbyvin/:vin',
+			url : '/navresearch/vehicle/findreportsbyvin/:vin',
 			method : 'GET',
 			isArray : true
 		}
@@ -84,7 +84,7 @@ dashboard.factory('getReportsbyIP', [ '$resource', function($resource) {
 		ip : "@ip"
 	}, {
 		get : {
-			url : '/NavResearch/vehicle/findreportsbyip/:ip',
+			url : '/navresearch/vehicle/findreportsbyip/:ip',
 			method : 'GET',
 			isArray : true
 		}
@@ -195,12 +195,12 @@ dashboard
 				'translationServiceDynamicStaticTest',
 				function($http) {
 					return $http
-							.get('/NavResearch/resources/js/angular/i18n/trouble_codes_description.json');
+							.get('/navresearch/resources/js/angular/i18n/trouble_codes_description.json');
 				});
 dashboard
 		.factory(
 				'translationServiceDynamicStatic',
 				function($http) {
 					return $http
-							.get('/NavResearch/resources/js/angular/i18n/dynamic_static_reports.json');
+							.get('/navresearch/resources/js/angular/i18n/dynamic_static_reports.json');
 				});

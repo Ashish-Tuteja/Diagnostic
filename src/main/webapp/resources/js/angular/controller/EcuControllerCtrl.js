@@ -126,7 +126,7 @@ dashboard.controller('EcuControllerCtrl', function($scope, $location, $rootScope
          formData.append("file", files[0]);
          if (String($scope.generateObJ) == "Global Parameters") {
              
-             uploadUrl = "/NavResearch/vehicle/upload/globalparameters?data="
+             uploadUrl = "/navresearch/vehicle/upload/globalparameters?data="
                      + String($scope.generateObJ);
              vehicleupload.uploadGlobalParameters(uploadUrl, formData,files[0].name,checkList);
              $scope.browse = true;
@@ -193,7 +193,7 @@ dashboard.controller('EcuControllerCtrl', function($scope, $location, $rootScope
 						showmessage("Success!", "Controller update successfully",
 								"success");
 					} else {
-						  var OneUploadUrl = "/NavResearch/vehicle/upload/globalparameters?data=Global Parameters";
+						  var OneUploadUrl = "/navresearch/vehicle/upload/globalparameters?data=Global Parameters";
 						vehicleupload.uploadGlobalParameters(OneUploadUrl, oneFormData,fileNameOne,controllerList);
 						$location.path("/controller");
 						showmessage("Success!", "Controller create successfully",

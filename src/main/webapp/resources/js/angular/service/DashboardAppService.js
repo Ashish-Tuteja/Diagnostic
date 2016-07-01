@@ -3,7 +3,7 @@ dashboard.factory('UserLog', [ '$resource', function($resource) {
 		page : "@page"
 	}, {
 		get : {
-			url : '/NavResearch/dashboard/getUserLogs?page=:page&size=11',
+			url : '/navresearch/dashboard/getUserLogs?page=:page&size=11',
 			method : 'GET',
 			isArray : false
 		}
@@ -13,7 +13,7 @@ dashboard.factory('UserLog', [ '$resource', function($resource) {
 dashboard.factory('getChildAccounts', [ '$resource', function($resource) {
 	return $resource(':url', {}, {
 		get : {
-			url : '/NavResearch/dashboard/getAccounts',
+			url : '/navresearch/dashboard/getAccounts',
 			method : 'GET',
 			isArray : true
 		}
@@ -25,7 +25,7 @@ dashboard.factory('accountsession', [ '$resource', function($resource) {
 		accountID : "@accountID"
 	}, {
 		setaccountsession : {
-			url : '/NavResearch/dashboard/accountsession/:accountID',
+			url : '/navresearch/dashboard/accountsession/:accountID',
 			method : 'GET',
 			isArray : false
 		}

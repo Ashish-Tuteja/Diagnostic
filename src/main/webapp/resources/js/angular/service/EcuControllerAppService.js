@@ -1,7 +1,7 @@
 dashboard.factory('controllerservice', [ '$resource', function($resource) {
 	return $resource(':url', {},{
 		save : {
-			url : '/NavResearch/ecuController/add',
+			url : '/navresearch/ecuController/add',
 			method : 'POST',
 			isArray : false
 		}
@@ -11,7 +11,7 @@ dashboard.factory('controllerservice', [ '$resource', function($resource) {
 
 	
 dashboard.factory('controllerdeleteservice', [ '$resource', function($resource) {
-	return $resource('/NavResearch/ecuController/delete/:id',{id: "@id"},{
+	return $resource('/navresearch/ecuController/delete/:id',{id: "@id"},{
 		deleteEcu : {
 			method : 'DELETE',
 			isArray : false
@@ -38,7 +38,7 @@ dashboard.factory('getControllerService', [ '$resource', function($resource) {
 		controller : "@controller"
 	}, {
 		getControllerForEdit : {
-			url : '/NavResearch/ecuController/get/:controller',
+			url : '/navresearch/ecuController/get/:controller',
 			method : 'GET',
 			isArray : false
 		}
@@ -48,7 +48,7 @@ dashboard.factory('getControllerService', [ '$resource', function($resource) {
 dashboard.factory('carrierListService', [ '$resource', function($resource) {
 	return $resource(':url', {}, {
 		getList : {
-			url : '/NavResearch/ecuController/carrier/list',
+			url : '/navresearch/ecuController/carrier/list',
 			method : 'GET',
 			isArray : true
 		}
@@ -57,7 +57,7 @@ dashboard.factory('carrierListService', [ '$resource', function($resource) {
 dashboard.factory('controllertypeListService', [ '$resource', function($resource) {
 	return $resource(':url', {}, {
 		getList : {
-			url : '/NavResearch/ecuController/controllertype/list',
+			url : '/navresearch/ecuController/controllertype/list',
 			method : 'GET',
 			isArray : true
 		}
@@ -68,7 +68,7 @@ dashboard.factory('getControllersBySerach', [ '$resource', function($resource) {
 		searchterm : "@searchterm"
 	}, {
 		getList : {
-			url : '/NavResearch/ecuController/search/:searchterm',
+			url : '/navresearch/ecuController/search/:searchterm',
 			method : 'GET',
 			isArray : true
 		}

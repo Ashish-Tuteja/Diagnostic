@@ -125,7 +125,7 @@ public class ParametersDaoImpl extends AbstractDAOImpl<Parameters> implements
 				/*
 				 * Query.query(Criteria.where("parentAccountId").all(
 				 * parentAccountId))
-				 */new Query(), Parameters.class));
+				 */new Query().addCriteria(Criteria.where("controllerId").is(controllerId)), Parameters.class));
 		return entityPage;
 	}
 

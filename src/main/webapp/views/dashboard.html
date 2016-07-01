@@ -198,7 +198,7 @@ div#screen {
 		<ul class="pagination pagination-sm pull-right">
 			<li><a href="javascript:void(0)" ng-click="getUserLogINRange(1)">First</a></li>
 			<li><a href="javascript:void(0)" ng-click="previous()">Previous</a></li>
-			<li ng-repeat="a in range(pages) track by $index" ng-if="$index+1<5"
+			<li ng-repeat="a in range(pages) track by $index" ng-if="$index+1==pageNumber"
 				ng-class="{active: pageNumber==$index+1}"><a
 				href="javascript:void(0)" ng-click="getUserLogINRange($index+1)">{{$index+1}}</a></li>
 			<li><a href="javascript:void(0)" ng-click="next()">Next</a></li>
