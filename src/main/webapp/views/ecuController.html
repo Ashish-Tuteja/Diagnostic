@@ -62,7 +62,7 @@
 							</tr>
 						</thead>
 						<tbody ng-if="controllers!=0">
-							<tr ng-repeat="controller in controllers | filter : searchController | orderBy:propertyName:reverse">
+							<tr ng-repeat="controller in controllers | filter : searchController | orderBy:propertyName:reverse | startFrom:currentPage*pageSize | limitTo:pageSize">
 								<td>
 									<input type="checkbox" ng-click="clickCheck(controller.controllerId)"></td>
 								<td>{{ controller.make}}</td>
@@ -89,14 +89,13 @@
 							</span>
 					<ul class="pagination pagination-sm pull-right">
 						<li><a href="javascript:void(0)"
-							ng-click="getcontrollerINRange(1)">First</a></li>
-						<li><a href="javascript:void(0)" ng-click="previous()">Previous</a></li>
-						<li ng-repeat="a in range(pages) track by $index"
-							ng-if="$index+1==pageNumber" ng-class="{active: pageNumber==$index+1}"><a
-							href="javascript:void(0)" ng-click="getcontrollerINRange($index+1)">{{$index+1}}</a></li>
-						<li><a href="javascript:void(0)" ng-click="next()">Next</a></li>
+							ng-click="currentPage=0">First</a></li>
+						<li><a ng-class="{'disabled':currentPage == 0}"  href="javascript:void(0)"  ng-click="currentPage=currentPage-1">Previous</a></li>
+						<li ng-class="{active: true}"><a
+							href="javascript:void(0)" >{{currentPage+1}}</a></li>
+						<li><a ng-class="{'disabled':currentPage >= $root.pages - 1}" href="javascript:void(0)"  ng-click="currentPage=currentPage+1">Next</a></li>
 						<li><a href="javascript:void(0)"
-							ng-click="getcontrollerINRange(pages)">Last</a></li>
+							ng-click="currentPage = $root.pages-1">Last</a></li>
 					</ul>
 				</div>
 			</div>

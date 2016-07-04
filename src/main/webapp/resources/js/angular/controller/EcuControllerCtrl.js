@@ -10,6 +10,8 @@ dashboard.controller('EcuControllerCtrl', function($scope, $location, $rootScope
 	$rootScope.pageNumber = 1;
 	$scope.breadcrumbs = breadcrumbs;
 	$scope.save = {};
+	 $scope.pageSize = 20;
+	 $scope.currentPage = 0;
 	$scope.controllertypes = {};
 	$scope.carriers = {};
 	$scope.spinnerToggle=true;
@@ -40,11 +42,13 @@ dashboard.controller('EcuControllerCtrl', function($scope, $location, $rootScope
 		}, function(response) {
 			$scope.controllers = response.content;
 			$rootScope.responseList = response;
-			$rootScope.pages = response.totalPages;
+			$rootScope.pages = Math.ceil(response.numberOfElements/$scope.pageSize);
 			$scope.spinnerToggle=false;
 
 		});
 	}
+	
+	
 
 	//Display parameters for each controller
 	$scope.displayParameters = function(obj) {
@@ -216,7 +220,7 @@ dashboard.controller('EcuControllerCtrl', function($scope, $location, $rootScope
 
 	}, $scope.range = function(n) {
 		return new Array(n);
-	}, $scope.getcontrollerINRange = function(range) {
+	}/*, $scope.getcontrollerINRange = function(range) {
 		$rootScope.pageNumber = range;
 		controllerListService.getList({}, {
 			page : range
@@ -224,7 +228,7 @@ dashboard.controller('EcuControllerCtrl', function($scope, $location, $rootScope
 			$scope.controllers = response.content;
 			$rootScope.pages = response.totalPages;
 		});
-	}, $scope.$watch('searchController', function(newValue, oldValue) {
+	}*/, $scope.$watch('searchController', function(newValue, oldValue) {
 		if (String(newValue).length > 1 && newValue) {
 			getControllersBySerach.getList({}, {
 				searchterm : newValue
@@ -241,7 +245,7 @@ dashboard.controller('EcuControllerCtrl', function($scope, $location, $rootScope
 	$scope.close = function() {
 		$location.path("/controller");
 	}
-	$scope.previous = function() {
+/*	$scope.previous = function() {
 		if ($rootScope.pageNumber > 1) {
 			$rootScope.pageNumber = $rootScope.pageNumber - 1;
 			$scope.getcontrollerINRange($rootScope.pageNumber);
@@ -252,5 +256,12 @@ dashboard.controller('EcuControllerCtrl', function($scope, $location, $rootScope
 			$rootScope.pageNumber = $rootScope.pageNumber + 1;
 			$scope.getcontrollerINRange($rootScope.pageNumber);
 		}
-	}
+	}*/
+});
+
+dashboard.filter('startFrom', function() {
+    return function(input, start) {
+        start = +start; //parse to int
+        return input.slice(start);
+    }
 });
