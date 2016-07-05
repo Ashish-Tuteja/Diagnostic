@@ -10,7 +10,7 @@ dashboard.factory('parameterService', [ '$resource', function($resource) {
 dashboard.factory('parameterListService', [ '$resource', function($resource) {
 	return $resource(':url', {id : "@id",page : "@page"}, {
 		getList : {
-			url : '/navresearch/parameters/list/:id?page=:page&size=20',
+			url : '/navresearch/parameters/list/:id?page=:page',
 			method : 'GET',
 			isArray : false
 		}

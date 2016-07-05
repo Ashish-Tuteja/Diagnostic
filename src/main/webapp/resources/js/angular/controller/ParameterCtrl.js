@@ -11,7 +11,10 @@ dashboard.controller('ParameterCtrl', function($scope, $location, $rootScope,
 	$scope.save = {};
 	$scope.parametertypes = {};
 	$scope.carriers = {};
-	
+	//-------------
+	$scope.pageSize=20;
+	$scope.currentPage=0;
+	//------------
 	$scope.spinnerToggle=true;
 	$scope.propertyName = 'parameterDesc';
 	  $scope.reverse = false;
@@ -20,7 +23,6 @@ dashboard.controller('ParameterCtrl', function($scope, $location, $rootScope,
 	    $scope.reverse = ($scope.propertyName === propertyName) ? !$scope.reverse : false;
 	    $scope.propertyName = propertyName;
 	  };
-	
 	var checkList = [];
 	if ($rootScope.parameterDetail != null) {
 		$scope.buttonName = "Edit";
@@ -34,9 +36,8 @@ dashboard.controller('ParameterCtrl', function($scope, $location, $rootScope,
 		parameterListService.getList({id:$rootScope.contDetails.controllerId}, {page : 1}, function(response) {	
 			$scope.parameters = response.content;
 			$rootScope.responseList = response;
-			$rootScope.pages = response.totalPages;
+			$rootScope.pages = Math.ceil(response.numberOfElements/$scope.pageSize);
 			$scope.spinnerToggle=false;
-
 		});
 	}
 
@@ -107,13 +108,13 @@ dashboard.controller('ParameterCtrl', function($scope, $location, $rootScope,
 
 	}, $scope.range = function(n) {
 		return new Array(n);
-	}, $scope.getParameterINRange = function(range) {
+	},/* $scope.getParameterINRange = function(range) {
 		$rootScope.pageNumber = range;
 		parameterListService.getList({id:$rootScope.contDetails.controllerId}, {page : range}, function(response) {
 			$scope.parameters = response.content;
 			$rootScope.pages = response.totalPages;
 		});
-	}, $scope.$watch('searchParameter', function(newValue, oldValue) {
+	}*/$scope.$watch('searchParameter', function(newValue, oldValue) {
 		if (String(newValue).length > 1 && newValue) {
 			getParametersBySerach.getList({contId : $rootScope.contDetails.controllerId}, {
 				searchterm : newValue
@@ -130,7 +131,7 @@ dashboard.controller('ParameterCtrl', function($scope, $location, $rootScope,
 	$scope.close = function() {
 		$location.path("/controller/parameter");
 	}
-	$scope.previous = function() {
+	/*$scope.previous = function() {
 		if ($rootScope.pageNumber > 1) {
 			$rootScope.pageNumber = $rootScope.pageNumber - 1;
 			$scope.getParameterINRange($rootScope.pageNumber);
@@ -141,5 +142,5 @@ dashboard.controller('ParameterCtrl', function($scope, $location, $rootScope,
 			$rootScope.pageNumber = $rootScope.pageNumber + 1;
 			$scope.getParameterINRange($rootScope.pageNumber);
 		}
-	}
+	}*/
 });
