@@ -52,7 +52,8 @@ dashboard
 						});
 
 					}
-					if (String($location.path()).indexOf("/vehicle/reportinfo") != -1) {
+					if (String($location.path()).indexOf("/vehicle/reportinfo") != -1 
+							&& String($location.path()).indexOf("/vehiclereport") == -1) {
 						$rootScope.reportinfo = "";
 						loading("Fetching Tests...");
 						if (angular.isUndefined($cookieStore.get("deviceip"))) {

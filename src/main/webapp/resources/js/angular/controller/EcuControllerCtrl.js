@@ -262,6 +262,9 @@ dashboard.controller('EcuControllerCtrl', function($scope, $location, $rootScope
 dashboard.filter('startFrom', function() {
     return function(input, start) {
         start = +start; //parse to int
+        if(input==undefined){
+			return;
+	}
         return input.slice(start);
     }
 });
