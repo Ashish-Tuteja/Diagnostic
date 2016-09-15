@@ -14,14 +14,13 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import org.apache.http.client.ClientProtocolException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 
 public class Server {
-	
+
 	public static final int PORT = 1721;
-	private static final Logger LOGGER = LoggerFactory.getLogger(Server.class
-			.getName());
+	private static final Logger LOGGER = Logger.getLogger(Server.class);
+
 	byte[] buf = new byte[2048];
 	public static final String SYSTEM_REPORT = "System Report";
 	public static final String DYNAMIC_REPORT = "Dynamic Report";
@@ -31,6 +30,8 @@ public class Server {
 	public static final String DYNAMIC_RESULT_REPORT = "Dynamic Test Report";
 	public static final String ODOMETER_REPORT = "Odometer Report";
 	public static final String MODE6_REPORT = "Mode 6 Report";
+	public static final String MODE7_REPORT = "Mode 7 Report";
+	public static final String MODE8_REPORT = "Mode 8 Report";
 	public static final String DUMP = "Dump";
 
 	public static void main(String[] args) {
@@ -103,7 +104,7 @@ public class Server {
 						new InputStreamReader(clientSocket.getInputStream(),
 								"UTF-8"));
 				try {
-					
+
 					System.out.println("reading each string");
 					while ((line = reader.readLine()) != null) {
 						input = input + line;
@@ -120,7 +121,7 @@ public class Server {
 					clientSocket.close();
 				}
 
-				
+
 				System.out.println(" New packet recieved: " + time.toString());
 				System.out.println("============================="+ "Packet Size: " + input.length());
 				LOGGER.debug(" New packet recieved: " + time.toString());
@@ -132,10 +133,14 @@ public class Server {
 				LOGGER.debug("Payload: " + payload);
 
 				/**
-				 * 1 = VIN Registration 2 = Trouble Code Report 3 = Static Data
-				 * 4 = Dynamic Data Report 5 = Result from static test 6 =
-				 * Result from dynamic test 7 = Odometer in tenths of a
-				 * kilometer 8 = Unknown
+				 * 1 = VIN Registration
+				 * 2 = Trouble Code Report
+				 * 3 = Static Data
+				 * 4 = Dynamic Data Report
+				 * 5 = Result from static test
+				 * 6 = Result from dynamic test
+				 * 7 = Static CAN Message - Odometer in tenths of a kilometer
+				 * 8 = Dynamic CAN message
 				 **/
 				String[] packetList = payload.split(",");
 				LOGGER.debug("Code is :::: " + packetList[0]);
@@ -144,7 +149,7 @@ public class Server {
 					String vin = packetList[1].toString();
 					System.out.println("New VIN: " + vin);
 					LOGGER.debug("New VIN: " + vin);
-					String url = "http://54.165.27.164:8080/navresearch/vehicle/savevehicle";
+					String url = "http://localhost:8080/navresearch/vehicle/savevehicle";
 					String postjson = "{\"vin\":\"" + vin
 							+ "\",\"serverIP\":\"" + ip + "\"}";
 					sendPost(url, postjson);
@@ -164,8 +169,11 @@ public class Server {
 					LOGGER.debug("Dynamic Test Result response from test packet");
 					sendReport(packetList, DYNAMIC_REPORT, ip, packetType);
 				} else if ("7".equals(packetList[0])) {
-					LOGGER.debug("Odometer response");
-					sendReport(packetList, ODOMETER_REPORT, ip, packetType);
+					LOGGER.debug("Static CAN Message Response: " + packetList[3]);
+					sendReport(packetList, MODE7_REPORT, ip, packetType);
+				} else if ("8".equals(packetList[0])) {
+					LOGGER.debug("Dynamic CAN Message Response: " + packetList[3]);
+					sendReport(packetList, MODE8_REPORT, ip, packetType);
 				} else if ("9".equals(packetList[0])) {
 					LOGGER.debug("Mode 6 response");
 					sendReport(packetList, MODE6_REPORT, ip, packetType);
@@ -239,7 +247,7 @@ public class Server {
 			LOGGER.debug("Send data " + packetList[0]);
 
 			if (packetList.length >= 4) {
-				String url = "http://54.165.27.164:8080/navresearch/vehicle/setreport";
+				String url = "http://localhost:8080/navresearch/vehicle/setreport";
 				String postjson = "{\"reportname\":\"" + reportname
 						+ "\",\"serverIP\":\"" + ip + ""
 						+ "\",\"reportgroupId\":\"" + packetList[1].toString()

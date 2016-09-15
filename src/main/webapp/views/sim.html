@@ -1,0 +1,210 @@
+<style>
+	.inline {
+		display: inline;
+		margin: 10px 10px 10px 10px;
+	}
+
+	.message {
+		font-size: x-small;
+	}
+
+	.custom-row {
+		margin-left:-15px;
+		margin-right: -15px;
+		padding-top: 15px;
+		clear: both;
+		border-top : 1px solid #ddd;
+	}
+	.custom-row:first-child{
+		padding-top: 0px;
+		border-top: none;
+	}
+	
+	.custom-row:before, .custom-row:after {
+		clear: both;
+	}
+	.div-box{
+		background-color: #fbfbfb;
+	    border: 1px solid #ddd;
+	    padding: 15px;
+	}
+	.mt0 {
+		margin-top: 0 !important;
+	}
+	.mb20{
+		margin-bottom: 20px !important;
+	}
+	.borderTop{
+		border-top: 1px solid #ddd;
+		padding-top: 10px;
+	}
+</style>
+<div>
+	<ol class="ab-nav breadcrumb">
+		<li ng-repeat="breadcrumb in breadcrumbs.get() track by breadcrumb.path" ng-class="{ active: $last }">
+			<a ng-if="!$last" ng-href="#{{ breadcrumb.path }}" ng-bind="breadcrumb.label" class="margin-right-xs"></a>
+			<span ng-if="$last" ng-bind="breadcrumb.label"></span>
+		</li>
+	</ol>
+</div>
+<div ng-show="spinnerToggle" class="loader">
+	<div class="box box--foo">
+		<p>Fetching Results...</p>
+		<p>
+			<span class="spinner"></span>
+		</p>
+	</div>
+</div>
+<div class="col-xs-6 col-md-6 col-lg-6" ng-show="!spinnerToggle">
+	<div class="widget-body no-padding">
+		<h2 class="mt0">Sim Info</h2>
+		<div class="form-group custom-row">
+			<div class="col-md-3">Look Up</div>
+			<div class="col-md-6">
+				<input type="text" name="ids" ng-model="lookupId" class="form-control" />
+				<span class="message">** enter a cimble device id sim or msisdn to lookup</span>
+			</div>
+			<div class="col-md-3">
+				<button class="btn btn-primary" ng-click="findSim(lookupId)">Find Sim</button>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+			<div class="col-md-12 div-box">
+				<fieldset>
+					<section class="form-group">
+						<label for="sim" class="control-label">Sim</label>
+						<input type="text" name="sim" ng-model="simQuery.sim" class="form-control" id="sim" />
+					</section>
+					<section class="form-group">
+						<label for="msisdn" class="control-label">Msisdn</label>
+						<input type="text" name="msisdn" ng-model="simQuery.msisdn" class="form-control" id="msisdn" />
+					</section>
+					<hr />
+					<h2>Options</h2>
+					<div class="col-md-12 div-box">
+					<div class="custom-row">
+					<div class="col-md-4">
+						<h4>Basics</h4>					
+					</div>					
+					<div class="col-md-8">
+					
+						<button class="btn btn-primary btn-block mb20" ng-click="inquireSim()">Inquire SIM</button>
+						<button class="btn btn-primary btn-block mb20" ng-click="getNetworkStatus()">SIM Network Status</button>					
+					</div>
+					</div>
+					<div class="custom-row">
+					<div class="col-md-4">
+						<h4>Intermediate</h4>
+					</div>
+					<div class="col-md-8">
+						<button class="btn btn-primary btn-block mb20" ng-click="cancelLocation()">Cancel Location</button>	
+						<button class="btn btn-primary btn-block mb20" ng-click="queryHLR()">Query HLR</button>
+					</div>
+					</div>
+					<div class="custom-row">
+					<div class="col-md-4">
+						<h4>Advanced</h4>
+					</div>
+					<div class="col-md-8">
+						
+						<button class="btn btn-primary btn-block mb20" ng-click="activateSim()" ng-disabled="simResult.status=='Suspended' || simResult.status=='Active'">Activate SIM</button>
+						<button class="btn btn-primary btn-block mb20" ng-click="suspendSim()" ng-disabled="simResult.status=='Suspended'">Suspend SIM</button>
+						<button class="btn btn-primary btn-block mb20" ng-click="resumeSim()" ng-disabled=" simResult.status=='Active'">Resume SIM</button>
+					</div>
+					</div>					
+					</div>
+				</fieldset>
+			</div>
+		<!-- end widget content -->
+	</div>
+	<!-- end widget div -->
+</div>
+
+
+<div class="col-xs-6 col-md-6 col-lg-6" ng-show="!spinnerToggle">
+	<h2 class="mt0">Sim Results</h2>
+	<div class="div-box">
+		<div class="widget-body no-padding">
+			<section class="form-group">
+				<label>Status</label>
+				<input type="text" name="status" ng-model="simResult.status" class="form-control">
+			</section>		
+			<section class="form-group">
+				<label>Transaction Id</label>
+				<input type="text" name="transaction_id" ng-model="simResult.transactionId" class="form-control">
+			</section>			<section class="form-group">
+				<label>Suspend MRC</label>
+				<input type="text" name="device_id" ng-model="simResult.suspendMRC" class="form-control">
+			</section>
+			<section class="form-group">
+				<label>Price Plan Id</label>
+				<input type="text" name="device_id" ng-model="simResult.pricePlanId" class="form-control">
+			</section>
+			<section class="form-group">
+				<label>Ip Address</label>
+				<input type="text" name="device_id" ng-model="simResult.ipaddress" class="form-control">
+			</section>
+			<section class="form-group">
+				<label>Result</label>
+				<input type="text" name="ip_address" ng-model="simResult.result" class="form-control">
+			</section>
+			<section class="form-group">
+				<label>Description</label>
+				<input type="text" name="is_activated" ng-model="simResult.description" class="form-control">
+			</section>
+			<section class="form-group">
+				<label >Code</label>
+				<input type="text" name="date_created" ng-model="simResult.code" class="form-control">
+			</section>
+			<section class="form-group">
+				<label>Time</label>
+				<input type="text" name="time" ng-model="simResult.time" class="form-control">
+			</section>
+			<section class="form-group">
+				<label>SIM</label>
+				<input type="text" name="simId" ng-model="simQuery.sim"  class="form-control">
+
+			</section>
+			<section class="form-group">
+				<label>MSISDN</label>
+				<input type="text" name="msisdn" ng-model="simQuery.msisdn" class="form-control">
+			</section>
+			<div ng-show="queryHLRResult!=''">
+				<section class="form-group">
+					<label>Apn Names</label>
+					<input type="text" name="apnnames" ng-model="queryHLRResult.apnnames" class="form-control">
+				</section>
+				<section class="form-group">
+					<label>Apn Values</label>
+					<input type="text" name="apnvalues" ng-model="queryHLRResult.apnvalues" class="form-control">
+				</section>
+	
+				<section class="form-group">
+					<label>imei</label>
+					<input type="text" name="imei" ng-model="queryHLRResult.imei" class="form-control">
+				</section>
+				<section class="form-group">
+					<label>imsi</label>
+					<input type="text" name="imsi" ng-model="queryHLRResult.imsi" class="form-control">
+				</section>
+				<section class="form-group">
+					<label>Ms Status Info</label>
+					<input type="text" name="msstatusinfo" ng-model="queryHLRResult.msstatusinfo" class="form-control">
+				</section>
+				<!--
+				<section class="form-group">
+					<label>porthosInternalReference</label>
+					<input type="text" name="porthosInternalReference" ng-model="queryHLRResult.porthosInternalReference" class="form-control">
+				</section>
+				-->
+				<section class="form-group">
+					<label>SOC</label>
+					<input type="text" name="soc" ng-model="queryHLRResult.soc" class="form-control">
+				</section>
+			</div>
+			<section class="form-group borderTop">
+				<label>Network Status</label>
+				<input type="text" name="networkStatus" ng-model="networkResult" class="form-control">
+			</section>
+		</div>
+</div>

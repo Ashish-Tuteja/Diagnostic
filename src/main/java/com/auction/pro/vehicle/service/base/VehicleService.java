@@ -10,8 +10,10 @@ import org.springframework.data.domain.Pageable;
 
 import com.auction.pro.common.service.AbstractService;
 import com.auction.pro.vehicle.dto.VehicleDto;
+import com.auction.pro.vehicle.model.CanParameters;
 import com.auction.pro.vehicle.model.EcuControllers;
 import com.auction.pro.vehicle.model.GlobalParameters;
+import com.auction.pro.vehicle.model.Manufacturer;
 
 public interface VehicleService extends AbstractService<VehicleDto> {
 	
@@ -54,6 +56,10 @@ public interface VehicleService extends AbstractService<VehicleDto> {
 	
 
 	EcuControllers getvehicleECU(String make , String model , String year);
+	
+	List<CanParameters> getCanParameters(String manId);
+	
+	Manufacturer getManufacturerByMake(String make);
 
 	//Vehicle getDefault() throws Exception;
 

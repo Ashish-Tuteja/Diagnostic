@@ -138,12 +138,12 @@ public class ParametersDaoImpl extends AbstractDAOImpl<Parameters> implements
 		BasicDBObject query = new BasicDBObject();
 		query.put("controllerId", id);
 		DBCursor cursor = collection.find(query)
-				.sort(new BasicDBObject("parameterDescId", -1)).limit(1);
+				.sort(new BasicDBObject("parameterIndex", -1)).limit(1);
 		String value = null;
 		while (cursor.iterator().hasNext()) {
 			try {
 				// LOGGER.info("pppppppppppp"+String.valueOf(cursor.next().get("parameterDescId")));
-				value = String.valueOf(cursor.next().get("parameterDescId"));
+				value = String.valueOf(cursor.next().get("parameterIndex"));
 				break;
 			} catch (Exception e) {
 				e.printStackTrace();

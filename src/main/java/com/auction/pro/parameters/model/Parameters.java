@@ -40,6 +40,7 @@ public class Parameters extends BaseModel {
 	private String parameterDesc;
 	private String parameterIndex;
 	private String isUniqueToECU;
+	private String formula;
 
 	public List<String> getParentAccountId() {
 		return parentAccountId;
@@ -81,7 +82,7 @@ public class Parameters extends BaseModel {
 		this.parameterDesc = !StringUtils.isEmpty(parametersDto.getParameterDesc()) ? parametersDto.getParameterDesc() : "";
 		this.parameterIndex = !StringUtils.isEmpty(parametersDto.getParameterIndex()) ? parametersDto.getParameterIndex() : "";
 		this.isUniqueToECU = !StringUtils.isEmpty(parametersDto.getIsUniqueToECU()) ? parametersDto.getIsUniqueToECU() : "";
-		
+		this.formula = !StringUtils.isEmpty(parametersDto.getFormula()) ? parametersDto.getFormula() : "";
 	}
 
 	public String getTxId() {
@@ -274,6 +275,14 @@ public class Parameters extends BaseModel {
 
 	public void setParameterIndex(String parameterIndex) {
 		this.parameterIndex = parameterIndex;
+	}
+
+	public String getFormula() {
+		return formula;
+	}
+
+	public void setFormula(String formula) {
+		this.formula = formula;
 	}
 
 	public String getIsUniqueToECU() {

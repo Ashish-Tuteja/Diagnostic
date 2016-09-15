@@ -26,11 +26,13 @@ import com.auction.pro.common.dao.AbstractDAOImpl;
 import com.auction.pro.common.utils.CommonUtils;
 import com.auction.pro.vehicle.dao.base.VehicleDao;
 import com.auction.pro.vehicle.filter.VehicleFilter;
+import com.auction.pro.vehicle.model.CanParameters;
 import com.auction.pro.vehicle.model.Ecu;
 import com.auction.pro.vehicle.model.EcuController_backup;
 import com.auction.pro.vehicle.model.EcuControllers;
 import com.auction.pro.vehicle.model.GlobalParameter;
 import com.auction.pro.vehicle.model.GlobalParameters;
+import com.auction.pro.vehicle.model.Manufacturer;
 import com.auction.pro.vehicle.model.Vehicle;
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
@@ -238,8 +240,7 @@ public class VehicleDaoImpl extends AbstractDAOImpl<Vehicle> implements
 				new BasicDBObject().append("$ne", "")));
 		andObjs.add(new BasicDBObject().append("serviceId",
 				new BasicDBObject().append("$ne", "")));*/
-		andObjs.add(new BasicDBObject().append("wasError",
-				new BasicDBObject().append("$ne", "")));
+		andObjs.add(new BasicDBObject().append("wasError","FALSE"));
 		andObjs.add(new BasicDBObject().append("controllerId", controllerId));
 		BasicDBObject findOBJ = new BasicDBObject();
 		findOBJ.append("$and", andObjs);
@@ -493,8 +494,7 @@ public class VehicleDaoImpl extends AbstractDAOImpl<Vehicle> implements
 		for (GlobalParameters globalParameters : parameters) {
 			
 			BasicDBList and = new BasicDBList();
-			if (globalParameters.getWasError().length() == 5
-					&& globalParameters.getWasError() != null) {
+			if (globalParameters.getWasError() != null) {
 
 				and.add(new BasicDBObject().append("wasError",
 						globalParameters.getWasError()));
@@ -589,6 +589,24 @@ public class VehicleDaoImpl extends AbstractDAOImpl<Vehicle> implements
 						.where("model").is(model), Criteria
 						.where("year").is(year));
 		return mongoTemplate.findOne(Query.query(and), EcuControllers.class);
+
+	}
+	
+	public List<CanParameters> getCanParameters(String manId) {
+		
+		
+		// TODO Auto-generated method stub
+		Criteria and = new Criteria().andOperator(
+				Criteria.where("manufacturerId").is(manId));
+		return mongoTemplate.find(Query.query(and), CanParameters.class);
+
+	}
+	
+	public Manufacturer getManufacturerByMake(String make) {
+		// TODO Auto-generated method stub
+		Criteria and = new Criteria().andOperator(
+				Criteria.where("make").is(make));
+		return mongoTemplate.findOne(Query.query(and), Manufacturer.class);
 
 	}
 	

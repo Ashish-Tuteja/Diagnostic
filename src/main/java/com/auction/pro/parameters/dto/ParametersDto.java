@@ -36,6 +36,7 @@ public class ParametersDto extends BaseDTO {
 	private String parameterDesc;
 	private String parameterIndex;
 	private String isUniqueToECU;
+	private String formula;
 
 	public ParametersDto() {
 		// TODO Auto-generated constructor stub
@@ -68,6 +69,7 @@ public class ParametersDto extends BaseDTO {
 			this.units = entity.getUnits();
 			this.extendedId = entity.getExtendedId();
 			this.rxId = entity.getRxId();
+			this.formula = entity.getFormula();
 			this.serviceId = entity.getServiceId();
 			this.parameterDesc = entity.getParameterDesc();
 			this.parameterIndex = entity.getParameterIndex();
@@ -273,6 +275,14 @@ public class ParametersDto extends BaseDTO {
 
 	public String getParameterIndex() {
 		return parameterIndex;
+	}
+
+	public String getFormula() {
+		return formula;
+	}
+
+	public void setFormula(String formula) {
+		this.formula = formula;
 	}
 
 	public void setParameterIndex(String parameterIndex) {

@@ -37,6 +37,7 @@ public class GlobalParameters extends BaseModel {
 	private String supportedByECU;
 	private String wasError;
 	private String errorDesc;
+	private String formula;
 	private int length;
 	private int parameterDescId; //Unique for each parameter
 	private static int parameterSequence=1;
@@ -165,6 +166,7 @@ public class GlobalParameters extends BaseModel {
 		setSupportedByECU(obj.getSupportedByECU());
 		setWasError(obj.getWasError());
 		setErrorDesc(obj.getErrorDesc());
+		setFormula(obj.getFormula());
 		setLength(obj.getLength());
 		setParameterDescId(obj.getParameterDescId()); //Unique for each parameter
 	}
@@ -277,7 +279,13 @@ public class GlobalParameters extends BaseModel {
 		return parameterDescId;
 	}
 
-	
+	public String getFormula() {
+		return formula;
+	}
+
+	public void setFormula(String formula) {
+		this.formula = formula;
+	}
 
 	public static GlobalParameters setGlobalparameters(List<String> csvData) {
 		// TODO Auto-generated method stub
@@ -360,7 +368,9 @@ public class GlobalParameters extends BaseModel {
 		globalParameters
 				.setErrorDesc(csvData.size() > 22 && !StringUtils.isEmpty(csvData.get(22)) ? csvData
 						.get(22) : "");
-
+		globalParameters
+		.setFormula(csvData.size() > 23 && !StringUtils.isEmpty(csvData.get(23)) ? csvData
+				.get(23) : "");
 //		globalParameters.setVehicleControllerId(vehicleControllerID);
 		globalParameters.setParameterDescId(parameterSequence);
 		parameterSequence ++;
@@ -475,6 +485,10 @@ public class GlobalParameters extends BaseModel {
 		globalParameters.setErrorDesc(!StringUtils.isEmpty(String
 				.valueOf(jsonObject.get("errorDesc"))) ? String
 				.valueOf(jsonObject.get("errorDesc")) : "");
+		
+		globalParameters.setFormula(!StringUtils.isEmpty(String
+				.valueOf(jsonObject.get("formula"))) ? String
+				.valueOf(jsonObject.get("formula")) : "");
 
 	    globalParameters.setParameterDescId(jsonObject
 				.getInt("parameterDescId"));

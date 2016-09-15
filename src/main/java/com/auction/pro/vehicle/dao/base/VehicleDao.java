@@ -8,11 +8,13 @@ import org.springframework.data.domain.Pageable;
 
 import com.auction.pro.common.dao.AbstractDAO;
 import com.auction.pro.vehicle.filter.VehicleFilter;
+import com.auction.pro.vehicle.model.CanParameters;
 import com.auction.pro.vehicle.model.Ecu;
 import com.auction.pro.vehicle.model.EcuController_backup;
 import com.auction.pro.vehicle.model.EcuControllers;
 import com.auction.pro.vehicle.model.GlobalParameter;
 import com.auction.pro.vehicle.model.GlobalParameters;
+import com.auction.pro.vehicle.model.Manufacturer;
 import com.auction.pro.vehicle.model.Vehicle;
 
 public interface VehicleDao extends AbstractDAO<Vehicle> {
@@ -58,7 +60,11 @@ public interface VehicleDao extends AbstractDAO<Vehicle> {
 
 	EcuControllers getvehicleECU(String make , String model , String year);
 	
-
+	List<CanParameters> getCanParameters(String manId);
+	
+	Manufacturer getManufacturerByMake(String make);
+	
+	
 	//Vehicle findDefaultVehicle() throws Exception;
 
 	

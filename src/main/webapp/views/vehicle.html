@@ -42,7 +42,7 @@ input[readonly] {
 	<div ng-show="spinnerToggle" class="loader"></div>
 	<div ng-show="!spinnerToggle" class="input-group margin-bottom-10">
 		<input type="text" class="  search-query form-control"
-			placeholder="Search Vehicles" ng-model="searchVehicle"> <span
+			placeholder="Search for VIN" ng-model="searchVehicle"> <span
 			class="input-group-addon"> <i class="fa fa-search"></i>
 		</span>
 		<div class="jarviswidget-ctrls" role="menu">
@@ -78,13 +78,13 @@ input[readonly] {
 						width="100%" style="border-color: #c8c8c8">
 						<thead>
 							<tr style="background-color: #ddd">
-								<th data-hide="phone,tablet">VIN</th>
-								<th data-hide="phone,tablet">Make</th>
-								<th data-hide="phone,tablet">Model</th>
-								<th data-hide="phone,tablet">Year</th>
+								<th data-hide="phone,tablet" >VIN</th>
+								<th data-hide="phone,tablet" ng-click="updateSort('make')">Make&nbsp;&nbsp;<i x-ng-class="sortClasses['make']" aria-hidden="true" ></i></th>
+								<th data-hide="phone,tablet" ng-click="updateSort('model')">Model&nbsp;&nbsp;<i x-ng-class="sortClasses['model']" aria-hidden="true" ></i></th>
+								<th data-hide="phone,tablet" ng-click="updateSort('year')">Year&nbsp;&nbsp;<i x-ng-class="sortClasses['year']" aria-hidden="true" ></i></th>
 								<th data-hide="phone,tablet">Driverline</th>
 								<th data-hide="phone,tablet">Test Count</th>
-								<th data-hide="phone,tablet">Last Test Request</th>
+								<th data-hide="phone,tablet" ng-click="updateSort('timestamp')">Last Test Request&nbsp;&nbsp;<i x-ng-class="sortClasses['timestamp']" aria-hidden="true" ></i></th>
 								<th>Actions</th>
 							</tr>
 						</thead>

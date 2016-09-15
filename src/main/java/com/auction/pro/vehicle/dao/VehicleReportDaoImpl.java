@@ -24,6 +24,7 @@ import org.springframework.stereotype.Repository;
 import com.auction.pro.common.constants.MongoConstant;
 import com.auction.pro.common.dao.AbstractDAOImpl;
 import com.auction.pro.vehicle.dao.base.VehicleReportDao;
+import com.auction.pro.vehicle.model.CanParameters;
 import com.auction.pro.vehicle.model.VehicleReport;
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
@@ -49,101 +50,113 @@ implements VehicleReportDao, MongoConstant {
 	public Map<String, Object> findbyGroupId(String groupid) throws Exception {
 		// TODO Auto-generated method stub
 		Map<String, Object> out = new LinkedHashMap<String, Object>();
-		try{
-		List<Map<String, Object>> listReport = new ArrayList<Map<String, Object>>();
-		Map<String,String[]> details = new HashMap<String,String[]>();
-		Query query = new Query();
-		DBCollection vehicleColl = mongoTemplate.getCollection(VEHICLE);
-		query.addCriteria(Criteria.where("reportgroupId").is(groupid));
-		List<VehicleReport> vehicleReports = mongoTemplate.find(query,
-				VehicleReport.class);
-		Collections.sort(vehicleReports);
-		String[] timestamp = new String[vehicleReports.size()];
-		Integer[] packetType = new Integer[vehicleReports.size()];
-		int i = 0;
-		for (VehicleReport vehicleReport : vehicleReports) {
-			listReport.add(vehicleReport.getReport());
-			packetType[i] = vehicleReport.getPacketType();
-			timestamp[i++] = vehicleReport.getReportType() + ","
-					+ vehicleReport.getTimeStamp();
+		try {
+			String make = null;
+			List<Map<String, Object>> listReport = new ArrayList<Map<String, Object>>();
+			Map<String,String[]> details = new HashMap<String,String[]>();
+			Map<String,String[]> canDetails = new HashMap<String,String[]>();
+			Query query = new Query();
+			DBCollection vehicleColl = mongoTemplate.getCollection(VEHICLE);
+			query.addCriteria(Criteria.where("reportgroupId").is(groupid));
+			List<VehicleReport> vehicleReports = mongoTemplate.find(query,
+					VehicleReport.class);
+			Collections.sort(vehicleReports);
+			String[] timestamp = new String[vehicleReports.size()];
+			Integer[] packetType = new Integer[vehicleReports.size()];
+			int i = 0;
+			for (VehicleReport vehicleReport : vehicleReports) {
+				listReport.add(vehicleReport.getReport());
+				packetType[i] = vehicleReport.getPacketType();
+				timestamp[i++] = vehicleReport.getReportType() + ","
+						+ vehicleReport.getTimeStamp();
+			}
 
-		}
+			Query cQuery = new Query();
+			List<CanParameters> canReports = mongoTemplate.find(cQuery,
+					CanParameters.class);
 
-		DBCursor cur = vehicleColl.find(new BasicDBObject("reportgroupIds", groupid));
-		if(cur.hasNext())
-		{
-			for (DBObject dbObject : cur) {
-				BasicDBObject whereFields = new BasicDBObject();
-				whereFields.put("make", dbObject.get("make"));
-				whereFields.put("model", dbObject.get("model"));
-				whereFields.put("year", dbObject.get("year"));
+			for(CanParameters canReport: canReports){
+				String canArray[] =  {
+					canReport.getMessageId(),
+					canReport.getDescription()
+				};
+				canDetails.put(canReport.getFunctionId(), canArray);
+			}
 
-				DBCollection ecuControllerColl = mongoTemplate.getCollection(CONTROLLER_ECU);
-				DBCursor cur1 = ecuControllerColl.find(whereFields);
+			DBCursor cur = vehicleColl.find(new BasicDBObject("reportgroupIds", groupid));
+			if(cur.hasNext()) {
+				for (DBObject dbObject : cur) {
+					BasicDBObject whereFields = new BasicDBObject();
+					whereFields.put("make", dbObject.get("make"));
+					whereFields.put("model", dbObject.get("model"));
+					whereFields.put("year", dbObject.get("year"));
 
-				if(cur1.hasNext())
-				{
-					for (DBObject dbObject2 : cur1) {
+					// fetch the vehicle make for handling odometer
+					make = dbObject.get("make").toString();
 
-						DBCollection parameterTestColl = mongoTemplate.getCollection(GLOBAL_PARAMETERS);
+					DBCollection ecuControllerColl = mongoTemplate.getCollection(CONTROLLER_ECU);
+					DBCursor cur1 = ecuControllerColl.find(whereFields);
 
-						DBCursor cur2 = parameterTestColl.find(new BasicDBObject("controllerId", dbObject2.get("controllerId")));
+					if(cur1.hasNext()) {
+						for (DBObject dbObject2 : cur1) {
 
-						if(cur2.hasNext())
-						{
-							for (DBObject dbObject3 : cur2) {
-								if(listReport.size() != 0)
-								{
-									for (Map a : listReport) {
-										Iterator it = a.entrySet().iterator();
-										while (it.hasNext()) {
-											Map.Entry pair = (Map.Entry)it.next();
-											Object reportObj = pair.getValue();
-											String splitArr[] = reportObj.toString().split(";");
-											for (String s : splitArr) {
-												String parameterIndex = s.split(":")[0];
-												if(parameterIndex.equalsIgnoreCase(dbObject3.get("parameterIndex").toString()))
-												{
-													String arr[] = {dbObject3.get("parameterDesc").toString(),dbObject3.get("parameterId").toString()};
-													details.put(parameterIndex, arr);
+							DBCollection parameterTestColl = mongoTemplate.getCollection(GLOBAL_PARAMETERS);
+							BasicDBObject condition = new BasicDBObject();
+							condition.append("controllerId", dbObject2.get("controllerId"));
+							condition.append("wasError", "FALSE");
+							DBCursor cur2 = parameterTestColl.find(condition);
 
-												}
+							if(cur2.hasNext()) {
+								for (DBObject dbObject3 : cur2) {
+									if ( listReport.size() != 0 ) {
+										for (Map a : listReport) {
+											Iterator it = a.entrySet().iterator();
+											while (it.hasNext()) {
+												Map.Entry pair = (Map.Entry)it.next();
+												Object reportObj = pair.getValue();
+												String splitArr[] = reportObj.toString().split(";");
 
+												for (String s : splitArr) {
+													String parameterDescIdByTestString = s.split(":")[0];
+
+													if(parameterDescIdByTestString.equalsIgnoreCase(
+															dbObject3.get("parameterDescId").toString())) {
+
+														String arr[] = {
+															dbObject3.get("parameterDesc").toString(),
+															dbObject3.get("parameterId").toString(),
+															String.valueOf(dbObject3.get("formula")),
+															String.valueOf(dbObject3.get("units").toString()),
+															String.valueOf(dbObject3.get("valueOOx")),
+															String.valueOf(dbObject3.get("valueOFF"))
+														};
+														details.put(parameterDescIdByTestString, arr);
+													} // end if
+												} // end report split loop
 											}
-
-										}
-
-
-
-									}
+										} // end report loop
+									} // end if
 								}
-
 							}
 						}
-
-
 					}
 				}
-
 			}
-		}
 
-		//pid 
+			//pid
+			out.put("canDetails", canDetails);
+			out.put("json", details);
+			out.put("timestamp", timestamp);
+			out.put("reports", listReport);
+			out.put("packetType", packetType);
+			out.put("make", make);
 
-		out.put("json", details);
-		out.put("timestamp", timestamp);
-		out.put("reports", listReport);
-		out.put("packetType", packetType);
-		}
-		
-		catch(Exception e)
-		{
+		} catch(Exception e) {
 			LOGGER.error("No values found for map");
 			e.printStackTrace();
 		}
 
 		//find pid , paramdesc
-
 		return out;
 	}
 

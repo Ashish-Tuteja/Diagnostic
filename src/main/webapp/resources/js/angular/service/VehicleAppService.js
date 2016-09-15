@@ -13,10 +13,11 @@ dashboard.factory('vehicleservice', [ '$resource', function($resource) {
 } ]);
 dashboard.factory('vehicleListService', [ '$resource', function($resource) {
 	return $resource(':url', {
-		page : "@page"
+		page : "@page",
+		sortCriteria : "@sortCriteria" 
 	}, {
 		getList : {
-			url : '/navresearch/vehicle/list?page=:page&size=20',
+			url : '/navresearch/vehicle/list?page=:page&size=20&sortFilter=:sortCriteria',
 			method : 'GET',
 			isArray : false
 		}
@@ -204,3 +205,10 @@ dashboard
 					return $http
 							.get('/navresearch/resources/js/angular/i18n/dynamic_static_reports.json');
 				});
+dashboard
+.factory(
+		'translationServiceMode6',
+		function($http) {
+			return $http
+					.get('/navresearch/resources/js/angular/i18n/mode_6_description.json');
+		});

@@ -54,7 +54,7 @@ public class Client {
 			// set output stream
 			OutputStream outToServer = client.getOutputStream();
 			DataOutputStream out = new DataOutputStream(outToServer);
-			out.write("1,JN1BV7AR9EM696781".getBytes());
+			out.write("1,JN8AZ1MW1EW533613".getBytes());
 			out.flush();
 			// client.close();
 		} catch (IOException e) {

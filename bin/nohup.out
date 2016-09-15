@@ -1,0 +1,149 @@
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+
+client not connected yet
+connect to client    1
+Got a client connection:  2Thu May 05 15:39:27 IST 2016
+Connection IP: 127.0.0.1
+reading each string
+1,1GCRCREC7EZ372931
+ New packet recieved: 2016-05-05 15:39:27.642
+=============================Packet Size: 19
+Payload: 1,1GCRCREC7EZ372931
+New VIN: 1GCRCREC7EZ372931
+response = 1
+connect to client    1
+Got a client connection:  2Thu May 05 16:17:18 IST 2016
+Connection IP: 127.0.0.1
+reading each string
+1,1GCRCREC7EZ372931
+ New packet recieved: 2016-05-05 16:17:18.582
+=============================Packet Size: 19
+Payload: 1,1GCRCREC7EZ372931
+New VIN: 1GCRCREC7EZ372931
+response = 1
+connect to client    1
+Got a client connection:  2Thu May 05 16:17:38 IST 2016
+Connection IP: 127.0.0.1
+reading each string
+1,1GCRCREC7EZ372931
+ New packet recieved: 2016-05-05 16:17:38.387
+=============================Packet Size: 19
+Payload: 1,1GCRCREC7EZ372931
+New VIN: 1GCRCREC7EZ372931
+response = 1
+connect to client    1
+Got a client connection:  2Thu May 05 16:20:45 IST 2016
+Connection IP: 127.0.0.1
+reading each string
+1,JN1BV7AR9EM696781
+ New packet recieved: 2016-05-05 16:20:45.576
+=============================Packet Size: 19
+Payload: 1,JN1BV7AR9EM696781
+New VIN: JN1BV7AR9EM696781
+response = 1
+connect to client    1
+Got a client connection:  2Thu May 05 16:37:30 IST 2016
+Connection IP: 127.0.0.1
+reading each string
+1,1GCRCREC7EZ372931
+ New packet recieved: 2016-05-05 16:37:30.288
+=============================Packet Size: 19
+Payload: 1,1GCRCREC7EZ372931
+New VIN: 1GCRCREC7EZ372931
+response = 1
+connect to client    1
+Got a client connection:  2Thu May 05 16:41:11 IST 2016
+Connection IP: 127.0.0.1
+reading each string
+1,1GCRCREC7EZ372931
+ New packet recieved: 2016-05-05 16:41:11.269
+=============================Packet Size: 19
+Payload: 1,1GCRCREC7EZ372931
+New VIN: 1GCRCREC7EZ372931
+response = 1
+connect to client    1
+Got a client connection:  2Thu May 05 16:45:00 IST 2016
+Connection IP: 127.0.0.1
+reading each string
+1,1GCRCREC7EZ372931
+ New packet recieved: 2016-05-05 16:45:00.788
+=============================Packet Size: 19
+Payload: 1,1GCRCREC7EZ372931
+New VIN: 1GCRCREC7EZ372931
+response = 1
+connect to client    1
+Got a client connection:  2Thu May 05 16:53:38 IST 2016
+Connection IP: 127.0.0.1
+reading each string
+1,1GCRCREC7EZ372931
+ New packet recieved: 2016-05-05 16:53:38.934
+=============================Packet Size: 19
+Payload: 1,1GCRCREC7EZ372931
+New VIN: 1GCRCREC7EZ372931
+response = 1
+======================
+
+
+
+
+
+kjkfjrwbflrkegne;ltgm
+==============================
+
+
+
+
+
+
+connect to client    1
+Got a client connection:  2Thu May 05 16:55:08 IST 2016
+Connection IP: 127.0.0.1
+reading each string
+1,1GCRCREC7EZ372931
+ New packet recieved: 2016-05-05 16:55:08.25
+=============================Packet Size: 19
+Payload: 1,1GCRCREC7EZ372931
+New VIN: 1GCRCREC7EZ372931
+response = 1
+connect to client    1
+Got a client connection:  2Thu May 05 17:01:47 IST 2016
+Connection IP: 127.0.0.1
+reading each string
+1,1GCRCREC7EZ372931
+ New packet recieved: 2016-05-05 17:01:47.71
+=============================Packet Size: 19
+Payload: 1,1GCRCREC7EZ372931
+New VIN: 1GCRCREC7EZ372931
+response = 1
+connect to client    1
+Got a client connection:  2Thu May 05 17:04:19 IST 2016
+Connection IP: 127.0.0.1
+reading each string
+1,1GCRCREC7EZ372931
+ New packet recieved: 2016-05-05 17:04:19.019
+=============================Packet Size: 19
+Payload: 1,1GCRCREC7EZ372931
+New VIN: 1GCRCREC7EZ372931
+response = 1
+connect to client    1
+Got a client connection:  2Thu May 05 17:10:55 IST 2016
+Connection IP: 127.0.0.1
+reading each string
+1,JN1BV7AR9EM696781
+ New packet recieved: 2016-05-05 17:10:55.186
+=============================Packet Size: 19
+Payload: 1,JN1BV7AR9EM696781
+New VIN: JN1BV7AR9EM696781
+response = 1
+connect to client    1
+Got a client connection:  2Thu May 05 17:13:26 IST 2016
+Connection IP: 127.0.0.1
+reading each string
+1,JN1BV7AR9EM696781
+ New packet recieved: 2016-05-05 17:13:26.569
+=============================Packet Size: 19
+Payload: 1,JN1BV7AR9EM696781
+New VIN: JN1BV7AR9EM696781
+response = 1

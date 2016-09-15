@@ -83,7 +83,122 @@ dashboard.factory('applyScale', function() {
 					return "";
 			}
 		},
-    	scaleForMode1 : function(rawValue,parameterId) {
+		getOBDStandardVehicleConforms: function(value) {
+			if(value < 34){
+				switch(value) {
+				case 1:
+					return "OBD-II as defined by the CARB";
+					break;
+				case 2:
+					return "OBD as defined by the EPA";
+					break;
+				case 3:
+					return "OBD and OBD-II";
+					break;
+				case 4:
+					return "OBD-I";
+					break;
+				case 5:
+					return "Not OBD compliant";
+					break;
+				case 6:
+					return "EOBD (Europe)";
+					break;
+				case 7:
+					return "EOBD and OBD-II";
+					break;
+				case 8:
+					return "EOBD and OBD";
+					break;
+				case 9:
+					return "EOBD, OBD and OBD II";
+					break;
+				case 10:
+					return "JOBD (Japan)";
+					break;
+				case 11:
+					return "JOBD and OBD II";
+					break;
+				case 12:
+					return "JOBD and EOBD";
+					break;
+				case 13:
+					return "JOBD, EOBD, and OBD II";
+					break;
+				case 14:
+					return "Reserved";
+					break;
+				case 15:
+					return "Reserved";
+					break;
+				case 16:
+					return "Reserved";
+					break;
+				case 17:
+					return "Engine Manufacturer Diagnostics (EMD)";
+					break;
+				case 18:
+					return "Engine Manufacturer Diagnostics Enhanced (EMD+)";
+					break;
+				case 19:
+					return "Heavy Duty On-Board Diagnostics (Child/Partial) (HD OBD-C)";
+					break;
+				case 20:
+					return "Heavy Duty On-Board Diagnostics (HD OBD)";
+					break;
+				case 21:
+					return "World Wide Harmonized OBD (WWH OBD)";
+					break;
+				case 22:
+					return "Reserved";
+					break;
+				case 23:
+					return "Heavy Duty Euro OBD Stage I without NOx control (HD EOBD-I)";
+					break;
+				case 24:
+					return "Heavy Duty Euro OBD Stage I with NOx control (HD EOBD-I N)";
+					break;
+				case 25:
+					return "Heavy Duty Euro OBD Stage II without NOx control (HD EOBD-II)";
+					break;
+				case 26:
+					return "Heavy Duty Euro OBD Stage II with NOx control (HD EOBD-II N)";
+					break;
+				case 27:
+					return "Reserved";
+					break;
+				case 28:
+					return "Brazil OBD Phase 1 (OBDBr-1)";
+					break;
+				case 29:
+					return "Brazil OBD Phase 2 (OBDBr-2)";
+					break;
+				case 30:
+					return "Korean OBD (KOBD)";
+					break;
+				case 31:
+					return "India OBD I (IOBD I)";
+					break;
+				case 32:
+					return "India OBD II (IOBD II)";
+					break;
+				case 33:
+					return "Heavy Duty Euro OBD Stage VI (HD EOBD-IV)";
+					break;
+				default:
+					return "";
+				}
+				
+			}
+			else if (value >=34 && value <=251){
+				return "Reserved";
+			}
+			else{
+				return "Not available for assignment (SAE J1939 special meaning)";
+			}
+			
+		}
+		,scaleForMode1 : function(rawValue,parameterId) {
 
     		var initialValue = rawValue;
 			var rawValueSize = rawValue.toString().split('').length;
@@ -204,10 +319,10 @@ dashboard.factory('applyScale', function() {
 				// Oxygen Sensor 8 (Short term fuel trim)
 				return ((1.28*B)-100).toFixed(2);
 				break;
-			/**
 			case '28':
 				// 	OBD standards this vehicle conforms to
-			 case '29':
+				return this.getOBDStandardVehicleConforms(A);
+			/** case '29':
 			 	// Oxygen sensors present (in 4 banks)
         		return ;
         		break;

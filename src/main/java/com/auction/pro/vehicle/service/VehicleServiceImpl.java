@@ -28,12 +28,14 @@ import com.auction.pro.vehicle.dao.base.VehicleDao;
 import com.auction.pro.vehicle.dao.base.VehicleReportDao;
 import com.auction.pro.vehicle.dto.VehicleDto;
 import com.auction.pro.vehicle.filter.VehicleFilter;
+import com.auction.pro.vehicle.model.CanParameters;
 import com.auction.pro.vehicle.model.DeviceVehicleMap;
 import com.auction.pro.vehicle.model.Ecu;
 import com.auction.pro.vehicle.model.EcuController_backup;
 import com.auction.pro.vehicle.model.EcuControllers;
 import com.auction.pro.vehicle.model.GlobalParameter;
 import com.auction.pro.vehicle.model.GlobalParameters;
+import com.auction.pro.vehicle.model.Manufacturer;
 import com.auction.pro.vehicle.model.Vehicle;
 import com.auction.pro.vehicle.model.VehicleReport;
 import com.auction.pro.vehicle.service.base.VehicleService;
@@ -539,6 +541,16 @@ public class VehicleServiceImpl extends
 	public EcuControllers getvehicleECU(String make , String model , String year) {
 		// TODO Auto-generated method stub
 		return vehicleDao.getvehicleECU(make , model , year);
+	}
+
+	public List<CanParameters> getCanParameters(String manId) {
+		// TODO Auto-generated method stub
+		return vehicleDao.getCanParameters(manId);
+	}
+	
+	public Manufacturer getManufacturerByMake(String make) {
+		// TODO Auto-generated method stub
+		return vehicleDao.getManufacturerByMake(make);
 	}
 
 	public void setControllerEcu(EcuControllers controllerParameters)

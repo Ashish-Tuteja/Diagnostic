@@ -1,6 +1,9 @@
 package com.auction.pro.vehicle.controller;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -11,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,6 +29,7 @@ import com.auction.pro.account.service.base.AccountService;
 import com.auction.pro.common.controller.AbstractController;
 import com.auction.pro.common.service.base.DatauploadService;
 import com.auction.pro.common.utils.PagedRequest;
+import com.auction.pro.common.utils.PagedResponse;
 import com.auction.pro.device.dto.DeviceDto;
 import com.auction.pro.device.service.base.DeviceService;
 import com.auction.pro.queue.Producer;
@@ -87,6 +92,63 @@ public class VehicleController extends AbstractController {
 	public @ResponseBody Page<VehicleDto> getListofVehicles(
 			PagedRequest pageable, HttpServletRequest request) {
 		try {
+			String sortStrings[]=pageable.getSort().toString().split(":");
+			String sortProp=sortStrings[0];
+			String sortOrder=sortStrings[1].trim();
+			int size=pageable.getSize();
+			int page = pageable.getPage();
+			
+			if(sortProp.equals("timestamp")){
+				pageable.setSort(null);
+				pageable.setSize(Integer.MAX_VALUE);
+				pageable.setPage(1);
+				List<VehicleDto> vehicleList1,vehicleList2;
+				Page<VehicleDto> pageList= vehicleService
+						.findAllPage(
+								pageable,
+								request.getSession(false).getAttribute("accountId") != null ? request
+										.getSession(false)
+										.getAttribute("accountId").toString()
+										: accountService.findByUserId(
+												currentUserNameByPrincipal()
+														.getId()).getId());
+				if(pageList.getTotalElements()!=0){
+				vehicleList1=pageList.getContent();
+				
+				vehicleList2=new ArrayList<VehicleDto>(vehicleList1);
+				if(vehicleList2!=null){
+					if(sortOrder.equals("ASC")){
+						Collections.sort(vehicleList2,new Comparator<VehicleDto>() {
+							public int compare(VehicleDto vDto1,VehicleDto vDto2){
+								return vDto1.getTimestamp().getTime()>vDto2.getTimestamp().getTime()?1:-1;
+							}
+						});
+					}else{
+						Collections.sort(vehicleList2,new Comparator<VehicleDto>() {
+							public int compare(VehicleDto vDto1,VehicleDto vDto2){
+								return vDto1.getTimestamp().getTime()<vDto2.getTimestamp().getTime()?1:-1;
+							}
+						});
+					}
+					
+				}
+				
+				pageable.setSize(size);
+				pageable.setPage(page);
+				pageable.setSort(new Sort(sortOrder, sortProp));
+				Page<VehicleDto> vehicles;
+				if(page<=0 || pageList.getTotalElements()<size){
+					vehicles=new PagedResponse<VehicleDto>(vehicleList2.subList(0,(int)pageList.getTotalElements()), pageable, pageList.getTotalElements());
+				}else if(page==pageList.getTotalPages()){
+					vehicles=new PagedResponse<VehicleDto>(vehicleList2.subList((page-1)*size, vehicleList2.size()), pageable, pageList.getTotalElements());
+				}else{
+					vehicles=new PagedResponse<VehicleDto>(vehicleList2.subList((page-1)*size, page*size), pageable, pageList.getTotalElements());
+				}
+				return vehicles;
+				}
+				return pageList;
+			}
+			
 			return vehicleService
 					.findAllPage(
 							pageable,

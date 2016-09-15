@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.lang.BooleanUtils;
-import org.apache.commons.lang.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -69,38 +67,39 @@ public class VehicleDto extends BaseDTO {
 				.getReportgroupIds().size() : 0;
 	}
 
-	public VehicleDto(JSONObject json) throws JSONException {
+	public VehicleDto(JSONObject json, String vin) throws JSONException {
 		// TODO Auto-generated constructor stub
-		JSONObject vehicleJSON = null;
-		if (json.get("vehicle") instanceof JSONArray) {
+		/*if (json.get("vehicle") instanceof JSONArray) {
 			vehicleJSON = ((JSONArray) json.get("vehicle")).getJSONObject(0);
 		} else {
 			vehicleJSON = json.getJSONObject("vehicle");
-		}
-		if (vehicleJSON == null) {
+		}*/
+		if (json == null) {
 			System.out.println("Response JSON not parse");
 		} else {
-			this.vehicleId = (vehicleJSON.has("id")) ? vehicleJSON.get(
+			this.vin = vin;
+			this.vehicleId = (json.getJSONObject("make").has("id")) ? json.getJSONObject("make").get(
 					"id").toString() : CommonUtils.generateUUID();
-			this.model = (vehicleJSON.has("model")) ? vehicleJSON.get("model")
+			this.model = (json.getJSONObject("model").has("name")) ? json.getJSONObject("model").get("name")
 					.toString() : "";
-			this.vin = (json.has("VIN")) ? json
-							.get("VIN").toString() : "";
-			this.driverline = (vehicleJSON.has("driveline")) ? vehicleJSON
-					.get("driveline").toString() : "";
-			this.body = (vehicleJSON.has("body")) ? vehicleJSON.get("body")
+			this.driverline = (json.has("drivenWheels")) ? json
+					.get("drivenWheels").toString() : "";
+					System.out.println(this.driverline);
+			this.body = (json.getJSONObject("categories").has("vehicleStyle")) ? json.getJSONObject("categories").get("vehicleStyle")
 					.toString() : "";
-			this.engine = (vehicleJSON.has("engine")) ? vehicleJSON.get(
-					"engine").toString() : "";
-			this.trim = (vehicleJSON.has("trim")) ? vehicleJSON.get("trim")
+			this.engine = (json.getJSONObject("engine").has("name")) ? json.getJSONObject("engine").get(
+					"name").toString() : "";
+			this.trim = (((JSONArray) json.get("years")).getJSONObject(0).getJSONArray("styles").getJSONObject(0)
+					.has("trim")) ? ((JSONArray) json.get("years")).getJSONObject(0).getJSONArray("styles").getJSONObject(0)
+							.get("trim").toString() : "";
+							System.out.println(this.trim);
+			this.year = (((JSONArray) json.get("years")).getJSONObject(0).has("year")) ? ((JSONArray) json.get("years")).getJSONObject(0).get("year")
 					.toString() : "";
-			this.year = (vehicleJSON.has("year")) ? vehicleJSON.get("year")
+			this.make = (json.getJSONObject("make").has("name")) ? json.getJSONObject("make").get("name")
 					.toString() : "";
-			this.make = (vehicleJSON.has("make")) ? vehicleJSON.get("make")
-					.toString() : "";
-			this.status = BooleanUtils.toBoolean(json.get("Valid").toString());
+//			this.status = BooleanUtils.toBoolean(json.get("Valid").toString());
 		}
-
+		
 	}
 
 	public String getVin() {

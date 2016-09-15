@@ -20,36 +20,15 @@ $(".multi-year").select2({ placeholder: "Year"});
 						style="background-color: #fbfbfb; border: 1px solid #ddd; padding: 15px;">
 						<fieldset>
 							<section>
-							<input type="text" name="controllername" placeholder="controller Name"
-									ng-model="save.controller.controllerName" class="form-control" required>
-
+								<select name="controllername" placeholder="Controller Name"
+								ng-options="name as name for name in controllerNames"	ng-model="save.controller.controllerName" class="form-control">
+								<option disabled value="">Controller Name</option>
+								</select>
 							</section>
 							<br>
-							<!-- <section>
-							<input type="text" name="controllerid" placeholder="Controller ID"
-									ng-model="save.controller.controllerId" class="form-control" required>
-
-							</section>
-							<br> -->
-							<section>
-								<input type="text" name="make" placeholder="Make"
-									ng-model="save.controller.make" class="form-control">
-
-							</section>
-							<br>
-							<section>
-								<input type="text" name="model" placeholder="Model"
-									ng-model="save.controller.model" class="form-control">
-
-							</section>
-							<br>
-							<section ng-show="showSingleYear">
-								<input type="text" name="year" placeholder="Year"
-									ng-model="save.controller.year" class="form-control">
-
-							</section>
-							<section ng-show="!showSingleYear">
-							<select class="multi-year" ng-model="save.controller.year" multiple="multiple">
+							<section >
+							<select class="form-control" ng-model="save.controller.year" ng-change="findMakes(save.controller.year)">
+								<option disabled value="">Year</option>
 								<option value="2008">2008</option>
 								<option value="2009">2009</option>
 								<option value="2010">2010</option>
@@ -68,10 +47,33 @@ $(".multi-year").select2({ placeholder: "Year"});
 							</select>
 							</section>
 							<br>
+							<section>
+								<select name="make" placeholder="Make" ng-disabled="!save.controller.year" ng-change="getModels(save.controller.make)" ng-init="save.controller.make" 
+								 ng-model="save.controller.make" class="form-control"> 
+								<option disabled value="">Make</option>
+								<option ng-repeat="make in makes" ng-selected="make.name==save.controller.make" value={{make.name}}>{{make.name}}</option>
+								</select>
+							</section>
+							<br>
+							<section >
+							<select name="model" placeholder="Model" ng-disabled="!save.controller.make"  
+									ng-model="save.controller.model" class="form-control">
+								<option disabled value="">Model</option>
+								<option ng-repeat="model in models" ng-selected="model.name==save.controller.model" value={{model.name}}>{{model.name}}</option>
+							</select>
+							</section>
+							<br>
+<!-- 							<section ng-show="showSingleYear"> -->
+<!-- 								<input type="text" name="year" placeholder="Year" -->
+<!-- 									ng-model="save.controller.year" class="form-control"> -->
+
+<!-- 							</section> -->
+							
+							<br>
 									<span 	class="file-input-add btn btn-primary pull-left btn-file"> Browse 
 									<input	type="file"	onchange="angular.element(this).scope().uploadFileForOne(this.files)">
 							</span>
-							<button class="btn btn-primary pull-right" ng-click="register()">Save</button>
+							<button class="btn btn-primary pull-right" ng-disabled="!save.controller.make" ng-disabled="!save.controller.model" ng-click="register()">Save</button>
 							<button ng-click="close()" class="btn btn-secondary pull-right">Cancel</button>
 
 						</fieldset>

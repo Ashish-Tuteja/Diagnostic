@@ -74,3 +74,12 @@ dashboard.factory('getControllersBySerach', [ '$resource', function($resource) {
 		}
 	});
 } ]);
+dashboard.factory('getMakesByYearService', [ '$resource', function($resource) {
+	return $resource(':url', {year: "@year"}, {
+		getMakes : {
+			url : '/navresearch/ecuController/makes/list/:year',
+			method : 'GET',
+			isArray : true
+		}
+	});
+} ]);

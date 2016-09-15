@@ -24,7 +24,7 @@ import com.auction.pro.email.EmailManager;
 import com.auction.pro.user.service.base.UserService;
 
 @Controller
-@RequestMapping("/account")
+@RequestMapping("/account") 
 public class AccountController extends AbstractController {
 	@Autowired
 	AccountService service;

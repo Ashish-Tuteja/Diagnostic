@@ -44,7 +44,14 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.15/angular-cookies.min.js"></script>
 	
 <script src="<c:url value='/resources/js/libs/angular/truncate.js'></c:url>"></script>
-	
+
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-animate.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-sanitize.js"></script>
+    <script type="text/javascript"
+	src="<c:url value='/resources/js/ui-bootstrap-0.11.0.min.js'></c:url>"></script>
+    <script type="text/javascript"
+	src="<c:url value='/resources/js/ui-bootstrap-tpls-0.11.0.min.js'></c:url>"></script>
+
 <!-- Switch Buttons JS and CSS-->
 <link rel="stylesheet"
 	href="<c:url value='/resources/css/angular-material.css'></c:url>">
@@ -98,6 +105,11 @@
 <script
 	src="<c:url value='/resources/js/angular/service/ParameterAppService.js'></c:url>"></script>
 
+<!-- Sim -->
+<script
+	src="<c:url value='/resources/js/angular/service/SimAppService.js'></c:url>"></script>
+<script
+	src="<c:url value='/resources/js/angular/controller/SimCtrl.js'></c:url>"></script>
 <!-- Vehicle -->
 <script
 	src="<c:url value='/resources/js/angular/controller/VehicleCtrl.js'></c:url>"></script>
@@ -170,6 +182,8 @@
 <!--custom.css -->
 <link rel="stylesheet"
 	href="<c:url value='/resources/css/datepicker.min.css'></c:url>">
+<link rel="stylesheet"
+	href="<c:url value='/resources/css/bootstrap.min.css'></c:url>">
 <link rel="stylesheet"
 	href="<c:url value='/resources/css/datepicker3.min.css'></c:url>">
 <script

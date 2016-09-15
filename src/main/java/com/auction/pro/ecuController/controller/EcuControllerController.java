@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.auction.pro.account.dto.AccountDto;
 import com.auction.pro.account.service.base.AccountService;
 import com.auction.pro.common.controller.AbstractController;
+import com.auction.pro.common.utils.CommonUtils;
 import com.auction.pro.common.utils.PagedRequest;
 import com.auction.pro.ecuController.dto.EcuControllerDto;
 import com.auction.pro.ecuController.service.base.EcuControllerService;
@@ -99,6 +101,29 @@ public class EcuControllerController extends AbstractController {
 			LOGGER.error("Problem occured in deleting controller for " + id);
 		}
 
+	}
+	
+	@RequestMapping(value = "/makes/list/{year}", method = RequestMethod.GET)
+	protected @ResponseBody String getMakes(@PathVariable String year) {
+		// TODO: handle exception
+		JSONObject ListOfMakes = new JSONObject(); 
+		try {
+			LOGGER.info("Extracting makes for ::" + year);
+//			ecuControllerService.delete(id);
+			String url = "http://api.edmunds.com/api/vehicle/v2/makes?fmt=json&year="
+					+ year
+					+ "&api_key=t2jjf6ptb2nrhfbvygnyyjhf";
+			ListOfMakes = CommonUtils.readJsonFromUrl(url);
+			
+			return ListOfMakes.getString("makes");
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+			LOGGER.error("Problem occured in extarcting makes for " + year);
+			return null;
+		}
+		
 	}
 
 	// List all controllers

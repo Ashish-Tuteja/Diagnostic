@@ -1,10 +1,10 @@
 /**
- * 
+ *
  */
 dashboard.controller('EcuControllerCtrl', function($scope, $location, $rootScope,
 		controllerservice, controllerListService, carrierListService,
 		controllertypeListService, getControllerService, getControllersBySerach,controllerdeleteservice,parametersDeleteService,
-		 ctrlOptions, $routeParams, $window, breadcrumbs, $route,
+		 ctrlOptions, $routeParams, $window, breadcrumbs, $route,getMakesByYearService,$filter,
 		$cookieStore,vehicleupload) {
 	$scope.showModal = false;
 	$rootScope.pageNumber = 1;
@@ -21,17 +21,29 @@ dashboard.controller('EcuControllerCtrl', function($scope, $location, $rootScope
 	 var oneFormData = new FormData();
 	 $scope.propertyName = 'make';
 	  $scope.reverse = false;
+//	  $scope.makes=["Accura","Audi","BMW","Buick","Cadillac","Chevrolet","Chrysler","Dodge","Fiat","Ford","GMC",
+//	                "Honda","Hummer","Hyundai","Infiniti","Jeep","Kia","Lexus","Lincoln","Mazda","Mercedes-Benz",
+//	                "Mercury","Mini","Mitsubishi","Nissan","Porsche","Ram","Saab","Scion","Subaru",
+//	                "Toyota","Volkswagen","Volvo"];
 
+
+
+	  $scope.controllerNames=["ABS - EBCM","Chassis","Enhanced Powertrain","Power Steering","SRS","Suspension","TPMS","Traction Control - Differential","Transmission"];
 	  $scope.sortBy = function(propertyName) {
 	    $scope.reverse = ($scope.propertyName === propertyName) ? !$scope.reverse : false;
 	    $scope.propertyName = propertyName;
 	  };
 	if ($rootScope.controllerDetail != null) {
-		$scope.showSingleYear = true;
+//		$scope.showSingleYear = true;
 		$scope.buttonName = "Edit";
+		getMakesByYearService.getMakes({year:$rootScope.controllerDetail.year},function(response) {
+			console.log(response);
+			$scope.makes=angular.copy(response);
+			$scope.getModels($rootScope.controllerDetail.make);
+		});
 		$scope.save.controller = $rootScope.controllerDetail;
 	} else {
-		$scope.showSingleYear = false;
+//		$scope.showSingleYear = false;
 		$scope.buttonName = "Save";
 	}
 	if (ctrlOptions.showcontrollers) {
@@ -47,15 +59,15 @@ dashboard.controller('EcuControllerCtrl', function($scope, $location, $rootScope
 
 		});
 	}
-	
-	
+
+
 
 	//Display parameters for each controller
 	$scope.displayParameters = function(obj) {
 		$rootScope.contDetails = obj;
-		$location.path("/controller/parameter");    
+		$location.path("/controller/parameter");
 	};
-		
+
 	// controllertypes
 	/*controllertypeListService.getList(function(response) {
 		$scope.controllertypes = response;
@@ -72,6 +84,20 @@ dashboard.controller('EcuControllerCtrl', function($scope, $location, $rootScope
 		// $scope.showModal = !$scope.showModal;
 		$location.path("/controller/add");
 	};
+
+	$scope.findMakes = function(year){
+		getMakesByYearService.getMakes({year:year},function(response) {
+			$scope.makes=response;
+			$scope.save.controller.make ="";
+			$scope.save.controller.model="";
+		});
+	}
+	$scope.getModels = function(makeName){
+		var make = $filter("filter")($scope.makes, {
+			name: makeName
+		});
+		$scope.models = make[0].models;
+	}
 
 	$scope.editcontroller = function(obj) {
 		$rootScope.controllerDetail = obj;
@@ -99,11 +125,11 @@ dashboard.controller('EcuControllerCtrl', function($scope, $location, $rootScope
 					"success");
 
 		});
-	
+
 	}
-	
-	
-	
+
+
+
 	$scope.clickCheck = function(id){
 		if(checkList.indexOf(id) < 0)
 			{
@@ -114,13 +140,13 @@ dashboard.controller('EcuControllerCtrl', function($scope, $location, $rootScope
 			checkList.pop(id);
 			}
 		console.log(checkList);
-		
+
 	 }
-	
-	
+
+
 	 $scope.uploadFile = function(files) {
 		 $scope.generateObJ = "Global Parameters";
-		 
+
          var formData = new FormData();
          if (files.length == 0) {
            showmessage("Info!", "Please select a file", "info");
@@ -129,7 +155,7 @@ dashboard.controller('EcuControllerCtrl', function($scope, $location, $rootScope
          var uploadUrl = "";
          formData.append("file", files[0]);
          if (String($scope.generateObJ) == "Global Parameters") {
-             
+
              uploadUrl = "/navresearch/vehicle/upload/globalparameters?data="
                      + String($scope.generateObJ);
              vehicleupload.uploadGlobalParameters(uploadUrl, formData,files[0].name,checkList);
@@ -139,22 +165,22 @@ dashboard.controller('EcuControllerCtrl', function($scope, $location, $rootScope
 
        }
 	 $scope.uploadFileForOne = function(files) {
-		 
-         
+
+
          if (files.length == 0) {
            showmessage("Info!", "Please select a file", "info");
            return;
          }
          oneFormData.append("file", files[0]);
              fileNameOne = files[0].name;
-            
+
              $scope.browse = true;
              showmessage("File Uploaded!", "Click save",
 				"success");
-             
-             
+
+
        }
-	 
+
 	 $scope.generateUUID = function(){
 		    var d = new Date().getTime();
 		    var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -164,19 +190,16 @@ dashboard.controller('EcuControllerCtrl', function($scope, $location, $rootScope
 		    });
 		    return uuid;
 		};
-	 
+
 	$scope.register = function() {
 		delete $scope.save.controller.$$hashKey;
 		if(!$scope.save.controller.id){
-			
-			angular.forEach($scope.save.controller.year, function(value) {
-		  console.log(value);
+
 		  var controllerUUID = $scope.generateUUID();
 		  console.log(controllerUUID);
 		  controllerList.push(controllerUUID);
-		  
-		});
-		
+
+
 		var newField = {"id": "","controllerId":controllerList.toString()};
 		angular.extend($scope.save.controller, newField);
 		}
@@ -202,20 +225,20 @@ dashboard.controller('EcuControllerCtrl', function($scope, $location, $rootScope
 						$location.path("/controller");
 						showmessage("Success!", "Controller create successfully",
 								"success");
-						
-						
-						
+
+
+
 					}
 
 				} else {
 					showmessage("Error!", "Controller already exists", "error");
 				}
 			});
-			
-			
-			
-			
-		
+
+
+
+
+
 
 
 	}, $scope.range = function(n) {

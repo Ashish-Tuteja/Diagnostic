@@ -1,13 +1,14 @@
 dashboard
 		.controller(
 				'VehicleCtrl',
-				function($scope, $location, vehicleservice, vehicleListService,applyScale,
-						getVehicleService, vehicleDeviceListService,
-						getVehiclesBySerach, getReportByGroupId,
-						getReportsbyID, getReportsbyIP,
+				function($scope, $location, vehicleservice, vehicleListService,
+						applyScale, getVehicleService,
+						vehicleDeviceListService, getVehiclesBySerach,
+						getReportByGroupId, getReportsbyID, getReportsbyIP,
 						translationServiceDynamicStaticTest,
+						translationServiceMode6,
 						translationServiceDynamicStatic, ctrlOptions,
-						$rootScope, $routeParams, breadcrumbs, $location,
+						$rootScope, $routeParams, breadcrumbs, $location,$modal,
 						$cookieStore, $http) {
 					$scope.dynamicReports = [];
 					$scope.dynamicReportsTimestamp = [];
@@ -17,14 +18,29 @@ dashboard
 					$scope.staticReportpacketType = [];
 					$scope.troubleReports = [];
 					$scope.troubleReportsTimestamp = [];
+					$scope.troubleReportpacketType = [];
 					$scope.mode6Reports = [];
 					$scope.mode6ReportsTimestamp = [];
 					$scope.mode6reportpacketType = [];
+					$scope.mode7Reports = [];
+					$scope.mode7ReportsTimestamp = [];
+					$scope.mode7reportpacketType = [];
+					$scope.mode8Reports = [];
+					$scope.mode8ReportsTimestamp = [];
+					$scope.mode8reportpacketType = [];
 					$scope.systemReports = [];
 					$scope.systemReportsTimestamp = [];
 					$scope.spinnerToggle = true;
 					$scope.showModal = false;
 					$rootScope.pageNumber = 1;
+					$scope.sortCriteria = "timestamp DESC";
+
+					$scope.sortClasses = {
+						"make" : "fa fa-sort",
+						"model" : "fa fa-sort",
+						"year" : "fa fa-sort",
+						"timestamp" : "fa fa-sort-desc"
+					};
 					if (String($location.path()).indexOf("vehiclereport") != -1) {
 						breadcrumbs.options = {
 							"ReportInfo" : $cookieStore.get('groupid')
@@ -52,8 +68,9 @@ dashboard
 						});
 
 					}
-					if (String($location.path()).indexOf("/vehicle/reportinfo") != -1 
-							&& String($location.path()).indexOf("/vehiclereport") == -1) {
+					if (String($location.path()).indexOf("/vehicle/reportinfo") != -1
+							&& String($location.path()).indexOf(
+									"/vehiclereport") == -1) {
 						$rootScope.reportinfo = "";
 						loading("Fetching Tests...");
 						if (angular.isUndefined($cookieStore.get("deviceip"))) {
@@ -91,7 +108,8 @@ dashboard
 						$scope.buttonName = "Save";
 						if (String($location.path()).indexOf("vehiclereport") == -1) {
 							vehicleListService.getList({}, {
-								page : 1
+								page : 1,
+								sortCriteria : $scope.sortCriteria
 							}, function(response) {
 								$scope.vehicles = response.content;
 								$rootScope.responseList = response;
@@ -101,15 +119,48 @@ dashboard
 						}
 					}
 
+					$scope.toggleSortDirection = function(sortField, direction) {
+						$scope.sortClasses = {
+							"make" : "fa fa-sort",
+							"model" : "fa fa-sort",
+							"year" : "fa fa-sort",
+							"timestamp" : "fa fa-sort"
+						};
+						if (direction.indexOf("desc") != -1) {
+							$scope.sortCriteria = sortField + " ASC";
+							$scope.sortClasses[sortField] = "fa fa-sort-asc";
+						} else if (direction.indexOf("asc") != -1) {
+							$scope.sortCriteria = sortField + " DESC";
+							$scope.sortClasses[sortField] = "fa fa-sort-desc";
+						} else {
+							$scope.sortCriteria = sortField + " " + "ASC";
+							$scope.sortClasses[sortField] = "fa fa-sort-asc";
+						}
+
+						vehicleListService.getList({}, {
+							page : $rootScope.pageNumber,
+							sortCriteria : $scope.sortCriteria
+						}, function(response) {
+							$scope.vehicles = response.content;
+							$rootScope.responseList = response;
+							$rootScope.pages = response.totalPages;
+							$scope.spinnerToggle = false;
+						});
+					}
+					$scope.updateSort = function(sortField) {
+						$scope.toggleSortDirection(sortField,
+								$scope.sortClasses[sortField]);
+					}
+
 					// Generate Dynamic Reports
 					$scope.setDynamicReports = function(system_array) {
 						var temp = new Array();
 						for (var i = 0; i < system_array.length; i++) {
-							var check = system_array[i].split(":");
+/*							var check = system_array[i].split(":");
 							if (check[1] != 0 || check[2] != 0 || check[3] != 0
 									|| check[4] != 0) {
-								temp.push(system_array[i].split(":"));
-							}
+							}*/
+							temp.push(system_array[i].split(":"));
 
 						}
 						$scope.dynamicReports.push(temp);
@@ -119,10 +170,10 @@ dashboard
 					$scope.setStaticReports = function(system_array) {
 						var temp = new Array();
 						for (var i = 0; i < system_array.length; i++) {
-							var check = system_array[i].split(":");
+							/*var check = system_array[i].split(":");
 							if (check[1] != 0 || check[2] != 0) {
-								temp.push(system_array[i].split(":"));
-							}
+							}*/
+							temp.push(system_array[i].split(":"));
 
 						}
 						$scope.staticReports.push(temp);
@@ -132,12 +183,11 @@ dashboard
 					$scope.setTroubleReports = function(system_array) {
 						var temp = new Array();
 						for (var i = 0; i < system_array.length; i++) {
-							var check = system_array[i].split(":");
+							/*var check = system_array[i].split(":");
 							if (check[1] != 0 || check[2] != 0 || check[3] != 0
 									|| check[4] != 0) {
-								temp.push(system_array[i].split(":"));
-
-							}
+							}*/
+							temp.push(system_array[i].split(":"));
 
 						}
 						$scope.troubleReports.push(temp);
@@ -147,16 +197,46 @@ dashboard
 					$scope.setMode6Reports = function(system_array) {
 						var temp = new Array();
 						for (var i = 0; i < system_array.length; i++) {
-							var check = system_array[i].split(":");
+							/*var check = system_array[i].split(":");
 							if (check[1] != 0 || check[2] != 0 || check[3] != 0
 									|| check[4] != 0 || check[5] != 0
 									|| check[6] != 0) {
-								temp.push(system_array[i].split(":"));
-							}
+							}*/
+							temp.push(system_array[i].split(":"));
 
 						}
 						$scope.mode6Reports.push(temp);
 					}
+					// Generate Mode 7 Reports
+					$scope.setMode7Reports = function(system_array) {
+						var temp = new Array();
+						for (var i = 0; i < system_array.length; i++) {
+							/*var check = system_array[i].split(":");
+							if (check[1] != 0 || check[2] != 0 || check[3] != 0
+									|| check[4] != 0 || check[5] != 0
+									|| check[6] != 0) {
+							}*/
+							temp.push(system_array[i].split(":"));
+
+						}
+						$scope.mode7Reports.push(temp);
+					}
+
+					// Generate Mode 8 Reports
+					$scope.setMode8Reports = function(system_array) {
+						var temp = new Array();
+						for (var i = 0; i < system_array.length; i++) {
+							/*var check = system_array[i].split(":");
+							if (check[1] != 0 || check[2] != 0 || check[3] != 0
+									|| check[4] != 0 || check[5] != 0
+									|| check[6] != 0) {
+							}*/
+							temp.push(system_array[i].split(":"));
+
+						}
+						$scope.mode8Reports.push(temp);
+					}
+
 					$scope.hi = function(obj) {
 						console.log(obj);
 					}
@@ -165,11 +245,11 @@ dashboard
 					$scope.setSystemReports = function(system_array) {
 						var temp = new Array();
 						for (var i = 0; i < system_array.length; i++) {
-							var check = system_array[i].split(":");
+							/*var check = system_array[i].split(":");
 							if (check[1] != 0 || check[2] != 0 || check[3] != 0
 									|| check[4] != 0) {
-								temp.push(system_array[i].split(":"));
-							}
+							}*/
+							temp.push(system_array[i].split(":"));
 
 						}
 						$scope.systemReports.push(temp);
@@ -183,17 +263,26 @@ dashboard
 						$scope.staticReports = [];
 						$scope.troubleReports = [];
 						$scope.mode6Reports = [];
+						$scope.mode7Reports = [];
+						$scope.mode8Reports = [];
 						$scope.systemReports = [];
 						loading("Fetching Reports...");
 						translationServiceDynamicStaticTest.success(function(
 								data) {
 							$scope.testtranslation = data['description'];
 							$scope.testunits = data['units'];
+							
+						});
+						translationServiceMode6.success(function(data) {
+							$scope.monitorId = data['monitorId'];
+							$scope.testId = data['testId'];
+							$scope.UsIdunits = data['units'];
 						});
 
 						translationServiceDynamicStatic.success(function(data) {
 							$scope.translation = data['description'];
 							$scope.units = data['units'];
+							$scope.minMax = data['min_max'];
 						});
 						getReportByGroupId
 								.get(
@@ -219,9 +308,14 @@ dashboard
 											$scope.descDetails = JSON
 													.parse(JSON
 															.stringify(response))["json"];
+											$scope.canDetails = JSON.parse(JSON
+													.stringify(response))["canDetails"];
 
 											$scope.rawData = JSON.parse(JSON
 													.stringify(response))["reports"];
+
+											$scope.vehicleMake =  JSON.parse(JSON
+													.stringify(response))["make"];
 
 											for (k = 0; k < timestamp.length; k++) {
 
@@ -263,7 +357,8 @@ dashboard
 													$scope.troubleReportsTimestamp
 															.push(timestamp[k]
 																	.split(',')[1]);
-
+													$scope.troubleReportpacketType
+													.push(packetType[k]);
 													var system_array = JSON
 															.parse(JSON
 																	.stringify(response))["reports"][k]["Trouble Code"]
@@ -300,6 +395,38 @@ dashboard
 
 													$scope
 															.setMode6Reports(system_array)
+
+												} else if (timestamp[k]
+														.indexOf("Mode 7 Report") != -1) {
+													$scope.mode7ReportsTimestamp
+															.push(timestamp[k]
+																	.split(',')[1]);
+													$scope.mode7reportpacketType
+															.push(packetType[k]);
+
+													var system_array = JSON
+															.parse(JSON
+																	.stringify(response))["reports"][k]["Mode 7 Report"]
+															.split(';');
+
+													$scope
+															.setMode7Reports(system_array);
+
+												} else if (timestamp[k]
+														.indexOf("Mode 8 Report") != -1) {
+													$scope.mode8ReportsTimestamp
+															.push(timestamp[k]
+																	.split(',')[1]);
+													$scope.mode8reportpacketType
+															.push(packetType[k]);
+
+													var system_array = JSON
+															.parse(JSON
+																	.stringify(response))["reports"][k]["Mode 8 Report"]
+															.split(';');
+
+													$scope
+															.setMode8Reports(system_array);
 
 												}
 											}
@@ -383,7 +510,8 @@ dashboard
 							$scope.getVehicleINRange = function(range) {
 								$rootScope.pageNumber = range;
 								vehicleListService.getList({}, {
-									page : range
+									page : range,
+									sortCriteria : $scope.sortCriteria
 								}, function(response) {
 									$scope.vehicles = response.content;
 									$rootScope.pages = response.totalPages;
@@ -484,13 +612,40 @@ dashboard
 						}
 
 					}
+					$scope.translateMonitorId = function(report) {
+						if ($scope.monitorId[report.split('x')[1].toUpperCase()] != null) {
+							return $scope.monitorId[report.split('x')[1].toUpperCase()];
+						} else {
+							return report;
+						}
+
+
+					}
+
+					$scope.translateTestId = function(report) {
+						if ($scope.testId[report.split('x')[1].toUpperCase()] != null) {
+							return $scope.testId[report.split('x')[1].toUpperCase()];
+						} else {
+							return report;
+						}
+
+
+					}
+
+					$scope.getUnitByUsId = function(UsId){
+						if ($scope.UsIdunits[UsId.split('x')[1].toUpperCase()] != null) {
+							return $scope.UsIdunits[UsId.split('x')[1].toUpperCase()];
+						} else {
+							return;
+						}
+					}
 
 					$scope.getParameterIdfromDB = function(report) {
 						if (!angular.isUndefined($scope.descDetails[report])) {
 							var desc = $scope.descDetails[report][1];
 							return desc;
 						} else {
-							return 0;
+							return report + "  No Id from DB";
 						}
 					}
 
@@ -499,14 +654,182 @@ dashboard
 							var desc = $scope.descDetails[report][0];
 							return desc;
 						} else {
-							return 0;
+							return report+" No Description from DB";
+						}
+					}
+					
+					$scope.validateDynamicPacketType6 = function(parameterDescId,rawValue,testCount){
+						var scaled = $scope.scaleValue(parameterDescId,rawValue);
+						
+						if(testCount > 0){
+							
+						
+							if (!angular.isUndefined($scope.descDetails[parameterDescId])) {
+							
+									if(scaled >= $scope.descDetails[parameterDescId][4] &&
+											scaled<= $scope.descDetails[parameterDescId][5]){
+										return 'P';
+									} else{
+										return 'F';
+									}
+							} else {
+								return " No result from DB";
+							}
+						}else{
+							return 'F';
+						} 
+							
+					}
+					
+					$scope.validateDynamicPacketType4 = function(parameterDescId,scaledValue,testCount){
+						
+						if(testCount > 0){
+							
+							if (!angular.isUndefined($scope.minMax[parameterDescId])) {
+							
+									if(scaledValue >= parseInt($scope.minMax[parameterDescId][0], 10) &&
+											scaledValue<= parseInt($scope.minMax[parameterDescId][1], 10)){
+										return 'P';
+									} else{
+										return 'F';
+									}
+							} else {
+								return " No result from DB";
+							}
+						}else{
+							return 'F';
+						} 
+							
+						
+					}
+					$scope.scaleValue=function(parameterDescId,rawValue){
+						if (!angular.isUndefined($scope.descDetails[parameterDescId])) {
+							var scaledValue="";
+							var formula=$scope.descDetails[parameterDescId][2];
+
+							try{
+								var found=formula.search("rawValue")>=0;
+								if(found){
+									formula.replace("rawValue",rawValue);
+
+									var index=formula.indexOf('+');
+									if(index!=-1){
+										formula=formula.slice(0,index)+" - 0 + "+formula.slice(index+1,formula.length);
+									}
+									scaledValue=eval(formula);
+									try{
+										scaledValue= typeof(scaledValue)==='number' && Math.round(scaledValue)!=scaledValue?scaledValue.toFixed(2):scaledValue;
+									}catch (err) {
+										 console.log('error scaling rawValue');
+									}
+								}else{
+									throw "Formula not compatible with given format";
+								}
+							}catch(e){
+								scaledValue=rawValue;
+							}
+							return scaledValue;
+						} else {
+							return rawValue;
+						}
+					}
+					
+					$scope.applyScalingFromDB = function(parameterDescId,rawValue) {
+						if (!angular.isUndefined($scope.descDetails[parameterDescId])) {
+							var scaledValue="";
+							var formula=$scope.descDetails[parameterDescId][2];
+
+							try{
+								var found=formula.search("rawValue")>=0;
+								if(found){
+									formula.replace("rawValue",rawValue);
+
+									var index=formula.indexOf('+');
+									if(index!=-1){
+										formula=formula.slice(0,index)+" - 0 + "+formula.slice(index+1,formula.length);
+									}
+									scaledValue=eval(formula);
+									try{
+										scaledValue= typeof(scaledValue)==='number' && Math.round(scaledValue)!=scaledValue?scaledValue.toFixed(2):scaledValue;
+									}catch (err) {
+										 console.log('error scaling rawValue');
+									}
+								}else{
+									throw "Formula not compatible with given format";
+								}
+							}catch(e){
+								scaledValue=rawValue;
+							}
+
+
+							var formulaUnit = scaledValue + " "+$scope.descDetails[parameterDescId][3];
+							return formulaUnit;
+						} else {
+							return rawValue;
+						}
+					}
+
+					$scope.getCanDescfromDB = function(report) {
+						if (!angular.isUndefined($scope.canDetails[report])) {
+							var desc = $scope.canDetails[report][1];
+							return desc;
+						} else {
+							return "No desc returned";
+						}
+					}
+					$scope.getCanMessagefromDB = function(report) {
+						if (!angular.isUndefined($scope.canDetails[report])) {
+							var message = $scope.canDetails[report][0];
+							return message;
+						} else {
+							return "No messageId returned";
 						}
 					}
 
 					$scope.applyScalingMode1 = function(rawValue, parameterId) {
+						if(rawValue =='0'){
+							return 0;
+						}
+						
 
 						return applyScale.scaleForMode1(rawValue, parameterId);
 
+					}
+
+					
+					$scope.showMonitorStatus = function(rawValue, parameterId){
+						
+						$scope.previewModal(rawValue, parameterId);
+						
+						
+					}
+					$scope.scalingCanStatic = function(rawValue, param, scaledValue) {
+						if($scope.getCanDescfromDB(param) == 'Odometer') {
+							// each manufacturer uses different methods to calculate milage
+							if ( $scope.vehicleMake == 'GMC' ||
+										$scope.vehicleMake == 'Chevrolet' ||
+										$scope.vehicleMake == 'Buick' ||
+										$scope.vehicleMake == 'Cadillac' ||
+										$scope.vehicleMake == 'GM' ) {
+								//GM reports odometer in 1/64 of a Kilometers.
+								return ((rawValue*0.015625)*0.62137).toFixed(1);
+							} else if ($scope.vehicleMake == 'Hyundai' ||
+										$scope.vehicleMake == 'Kia' ||
+										$scope.vehicleMake == 'Chrysler' ||
+										$scope.vehicleMake == 'Dodge' ||
+										$scope.vehicleMake == 'Plymouth' ||
+										$scope.vehicleMake == 'Jeep' ) {
+								// Hyundai/Kia uses a different scale
+								return (rawValue*0.062137).toFixed(1);
+							} else if ($scope.vehicleMake == 'Honda' ||
+										$scope.vehicleMake == 'Acura') {
+								// Hyundai/Kia uses a different scale
+								return (rawValue*0.621371192237334).toFixed(1);
+							} else {
+								return (rawValue*0.62137).toFixed(1);
+							}
+						}
+						return rawValue;
 					}
 
 					$scope.changeToHex = function(report) {
@@ -516,6 +839,9 @@ dashboard
 
 					$scope.applyScaling = function(rawValue, parameterId) {
 
+						if(rawValue =='0'){
+							return 0;
+						}
 						switch (parameterId) {
 						case '5':
 							return rawValue - 40;
@@ -553,4 +879,55 @@ dashboard
 
 					}
 
+					var ModalDialogController=function($scope,$modalInstance,data){
+						
+						
+						var rawValue = data[0];
+						var rawValueSize = rawValue.toString().split('').length;
+						switch(rawValueSize)
+						{
+						case 1:
+							 rawValue = '000'+rawValue.toString()
+							break;
+						case 2:
+							 rawValue = '00'+rawValue.toString()
+							break;
+						case 3:
+							 rawValue = '0'+rawValue.toString()
+							break;
+						}
+
+//						console.log("rawValueSize: "+rawValue)
+
+						var A = rawValue & 0xff;
+						var B = (rawValue >> 8) & 0xff;
+						var C = (rawValue >> 16) & 0xff;
+						var D = (rawValue >> 24)  & 0xff;
+						
+						
+						$scope.A=A;
+						$scope.B=B;
+						$scope.C=C;
+						$scope.D=D;
+						
+						$scope.close=function(){
+							$modalInstance.close();
+						}
+						
+						
+						
+					};
+					$scope.previewModal = function(rawValue, parameterId) {
+
+									var data = [rawValue, parameterId] ;
+					                                var modalInstance =  $modal.open({
+					                          	templateUrl: 'views/modalPid01.html',
+					                                    controller: ModalDialogController,
+										resolve:   {data : function() {
+                                              							      return data;
+                                            							    }	
+										}
+					                                   });
+					                            }
+					
 				});

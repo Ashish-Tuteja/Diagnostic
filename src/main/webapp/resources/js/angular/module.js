@@ -13,7 +13,7 @@ app.config(function($routeProvider, $locationProvider) {
 var dashboard = angular
 		.module(
 				'dashboard',
-				[ 'ngRoute', 'ngResource', 'ngMaterial', 'ng-breadcrumbs',
+				[ 'ngRoute', 'ngResource', 'ngMaterial', 'ng-breadcrumbs','ui.bootstrap',
 						'ngCookies' ]).constant("IMPORT_OPTION", [ {
 			'value' : '0',
 			'option' : 'Global Parameters'
@@ -219,6 +219,13 @@ dashboard.config(function($routeProvider, $locationProvider) {
 				};
 			}
 		}
+	})
+	
+	.when('/sim', {
+		controller : 'SimCtrl',
+		templateUrl : 'views/sim.html',
+		label : 'Sims'
+		
 	}).otherwise({
 		redirectTo : '/'
 	});

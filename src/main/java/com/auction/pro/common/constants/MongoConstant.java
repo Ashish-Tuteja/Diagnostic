@@ -12,4 +12,6 @@ public interface MongoConstant {
 	String GLOBAL_ECU = "ecu_controller";
 	String CONTROLLER_ECU = "ecu_controllers";
 	String PARAMETER_DESCRIPTION = "parameter_description";
+	String CAN_PARAMETERS = "can_parameter_tests";
+	String Device_Sim="device_sim";	
 }
