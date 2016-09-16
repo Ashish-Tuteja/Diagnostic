@@ -327,10 +327,10 @@
 													 getParameterDescfromDB(reports[$index-2])!=0">{{applyScalingFromDB(reports[$index-2],reports[$index-1])}}
 													</span>
 
-													<span ng-if="$index==2 && reports[$index-2]!=1  && staticReportpacketType[$parent.$parent.$index]==3">{{applyScalingMode1(reports[$index-1],reports[$index-2])}}
+													<span ng-if="$index==2 && (reports[$index-2]!=1 && reports[$index-2]!=19 && reports[$index-2]!=29) && staticReportpacketType[$parent.$parent.$index]==3">{{applyScalingMode1(reports[$index-1],reports[$index-2])}}
 													{{translateUnit(reports[$index-2],$parent.$parent.$parent.$index,"static")}}</span>
 													
-													<a></a><span ng-if="$index==2  && reports[$index-2]==1 && staticReportpacketType[$parent.$parent.$index]==3"
+													<a><span ng-if="$index==2  && (reports[$index-2]==1 || reports[$index-2]==19 || reports[$index-2]==29) && staticReportpacketType[$parent.$parent.$index]==3"
 													 ng-click="showMonitorStatus(reports[$index-1],reports[$index-2])">click</span></a>
 													
 													</td>

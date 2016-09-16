@@ -878,10 +878,9 @@ dashboard
 						}
 
 					}
-
+$scope.bankData=[];
+$scope.pidTitle='';				
 					var ModalDialogController=function($scope,$modalInstance,data){
-						
-						
 						var rawValue = data[0];
 						var rawValueSize = rawValue.toString().split('').length;
 						switch(rawValueSize)
@@ -897,7 +896,7 @@ dashboard
 							break;
 						}
 
-//						console.log("rawValueSize: "+rawValue)
+						console.log("rawValueBinary: "+rawValue.toString(2));
 
 						var A = rawValue & 0xff;
 						var B = (rawValue >> 8) & 0xff;
@@ -905,11 +904,49 @@ dashboard
 						var D = (rawValue >> 24)  & 0xff;
 						
 						
-						$scope.A=A;
-						$scope.B=B;
-						$scope.C=C;
-						$scope.D=D;
+						$scope.A="00000000".substring(A.toString(2).length)+A.toString(2);
+						$scope.B="00000000".substring(B.toString(2).length)+B.toString(2);
+						$scope.C="00000000".substring(C.toString(2).length)+C.toString(2);
+						$scope.D="00000000".substring(D.toString(2).length)+D.toString(2);
+						$scope.pid=data[1];
+						var i=0;
+						var bankNo=0;
+						var sensorNo=0;
+						$scope.bankData=[];
+						if(data[1]==1){
+							$scope.pidTitle='Monitor status since DTCs cleared';
+						}else if(data[1]==19){
+							$scope.pidTitle='Oxygen sensors present (in 2 banks)';
+							for(i=0;i<$scope.A.length;i++){
+								if(i<4){
+									bankNo=1;
+								}else{
+									bankNo=2;
+								}
+								sensorNo=i%4 + 1;
+								console.log("bank :: "+bankNo +" sensor ::  "+sensorNo+" value : "+$scope.A[7-i]+" bitposition : "+(7-i));
+								$scope.bankData.push({'bank' : bankNo,'sensor' : sensorNo,'value' : $scope.A[7-i],'bitposition' : (7-i)});
+							}
+						}else if(data[1]==29){	
+							$scope.pidTitle='Oxygen sensors present (in 4 banks)';
+							bankNo=0;
+							sensorNo=1;
+							for(i=0;i<$scope.A.length;i++){
+								if(i%2==0){
+									bankNo++;
+									sensorNo=1;
+								}else{
+									sensorNo++;
+								}
+								$scope.bankData.push({'bank' : bankNo,'sensor' : sensorNo ,'value' : $scope.A[7-i],'bitposition' : (7-i)});
+							}
+						}
+						console.log("length of A :: "+$scope.A.length);
 						
+						console.log("length :: "+$scope.bankData.length);
+						angular.forEach($scope.bankData,function(data){
+							console.log("bank :: "+data.bank +" sensor ::  "+data.sensor+" value : "+data.value+" bitPosition : "+data.bitposition );
+						});
 						$scope.close=function(){
 							$modalInstance.close();
 						}
@@ -921,7 +958,7 @@ dashboard
 
 									var data = [rawValue, parameterId] ;
 					                                var modalInstance =  $modal.open({
-					                          	templateUrl: 'views/modalPid01.html',
+					                                	templateUrl: 'views/modalPid01.html',
 					                                    controller: ModalDialogController,
 										resolve:   {data : function() {
                                               							      return data;

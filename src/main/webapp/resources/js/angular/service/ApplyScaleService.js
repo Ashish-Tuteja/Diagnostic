@@ -299,8 +299,7 @@ dashboard.factory('applyScale', function() {
         		break;
 			case '19':
 				// Oxygen sensors present (in 2 banks)
-        		return '';
-        		break;
+				break;
 			case '20':
 				// Oxygen Sensor 1 (Short term fuel trim)
       		case '21':

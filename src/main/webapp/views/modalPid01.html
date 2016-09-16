@@ -1,42 +1,67 @@
+<style>
+	.bGddd{
+		background-color: #ddd;
+	}
+
+	.
+</style>
 <div class="modal-content">
     <div class="modal-header">
-        <h4 class="modal-title">Modal</h4>
+        <h4 class="modal-title">{{pidTitle}}</h4>
     </div>
-    <div class="modal-body" style="overflow: auto;">
-        <div class="row">
-            <div class="col-sm-3">
-                <label>A</label>
-            </div>
-            <div class="col-sm-9">
-                <p >{{A}}</p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-3">
-                <label>B</label>
-            </div>
-            <div class="col-sm-9">
-                <p>{{B}}</p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-3">
-                <label>C</label>
-            </div>
-            <div class="col-sm-9">
-                <p>{{B}}</p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-3">
-                <label>D</label>
-            </div>
-            <div class="col-sm-9">
-                <p>{{D}}</p>
-            </div>
-        </div>
+    
+   <div class="modal-body" style="overflow: auto;">
+  					 <div class="table-responsive" ng-show="pid==1">
+						<table width ="100%">
+							<tr class="bGddd">
+								<th>Bit</th>
+								<th>Name</th>
+								<th>Definition</th>
+								<th>value</th>
+							<tbody>
+								<tr>
+									<td>A7</td>
+									<td>MIL/CEL</td>
+									<td>{{A[0] == 0 ? 'OFF' : 'ON'}}</td>
+									<td>{{A[0]}}</td>
+								</tr>
+								<tr>
+									<td>A0-A6</td>
+									<td>DTC_CNT</td>
+									<td>no of 1</td>
+									<td>{{A.substring(1,8)}}</td>
+								</tr>
+								<tr>
+									<td>B7</td>
+									<td>RESERVED</td>
+									<td>{{B[0]}}</td>
+									<td>{{B[0]}}</td>
+								</tr>
+								<tr>
+									<td>B3</td>
+									<td></td>
+									<td>{{B[4] == 0 ? 'Spark ignition monitors supported' : 'Compression ignition monitors supported'}}</td>
+									<td>{{B[4]}}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+    				<div class="table-responsive"  ng-show="pid==19 || pid==29">
+						<table width ="100%">
+							<tr class="bGddd">
+								<th>Bank</th>
+								<th>Sensor</th>
+								<th>value</th>
+							<tbody>
+								<tr ng-repeat="data in bankData">
+									<td>{{data.bank}}</td>
+									<td>{{data.sensor}}</td>
+									<td>{{data.value}}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
     </div>
-
     <div class="modal-footer">
         <button type="button" class="btn btn-default" ng-click="close()">Cancel</button>
     </div>
